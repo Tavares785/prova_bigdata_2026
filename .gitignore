@@ -1,0 +1,46 @@
+# ============================================================
+# .gitignore da prova prática de Big Data na AWS
+# ============================================================
+
+# --- Artefatos do Terraform (nunca versionar) ---
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.tfplan
+
+# Arquivos de variáveis com valores reais (usar apenas *.example)
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# --- Credenciais AWS do Learner Lab (NUNCA versionar) ---
+# As credenciais temporárias (Access Key, Secret Key e aws_session_token)
+# expiram a cada sessão e não devem ser commitadas. Reforça Req 11.4.
+.aws/
+credentials
+*.pem
+*.credentials
+aws_credentials*
+.env
+.env.*
+
+# --- Python / PySpark (teste local) ---
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+venv/
+.venv/
+*.egg-info/
+
+# --- Spark local ---
+derby.log
+metastore_db/
+spark-warehouse/

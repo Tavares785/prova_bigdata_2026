@@ -1,0 +1,18 @@
+# terraform.tfvars.example — infra (prova)
+#
+# Copie para terraform.tfvars e ajuste:
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# ⚠️ NUNCA versione credenciais. As credenciais temporárias do Learner Lab
+#    (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY / AWS_SESSION_TOKEN) vêm de
+#    variáveis de ambiente ou ~/.aws/credentials — nunca deste arquivo.
+#    terraform.tfvars está no .gitignore — não o commite.
+#
+# Este exemplo cobre apenas a camada raw (PRONTA). Ao construir a sua infra,
+# adicione aqui os valores das variáveis que VOCÊ declarar.
+
+# Região obrigatória do Learner Lab.
+regiao = "us-east-1"
+
+# Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
+bucket_raw_nome = "prova-bigdata-raw-SEURA"
