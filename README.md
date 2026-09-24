@@ -478,9 +478,9 @@ terraform destroy
 
 1. **Fork** do repositório do professor.
 2. Crie uma **branch** no padrão **`prova-SEURA`** (substitua `SEURA` pelo seu RA — ex.: `prova-2500123`).
-3. Coloque seus arquivos em uma **pasta identificada pelo seu RA** (ex.: `prova/entregas/<RA>/`),
+3. Coloque seus arquivos em uma **pasta identificada pelo seu RA** (ex.: `/entregas/<RA>/`),
    coerente com a convenção usada nos labs.
-4. Faça **commit + push** e abra um **Pull Request** para a `main` do repositório original.
+4. Faça **commit + push** e abra um **Pull Request** para a `master` do repositório original.
 5. Antes de abrir o PR, percorra o **`CHECKLIST.md`**.
 
 ### Correção

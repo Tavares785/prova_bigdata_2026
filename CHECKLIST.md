@@ -79,5 +79,5 @@ Cada item indica o requisito correspondente da prova.
 - [ ] **Branch no padrão `prova-SEURA`** criada a partir do seu fork. — _Requisito 12.3_
 - [ ] **Arquivos do aluno em `entregas/<RA>/`** (uma pasta identificada pelo seu RA na raiz
   do repositório). — _Requisito 12.5_
-- [ ] **Pull Request aberta** para a `main` do repositório original, com os entregáveis e as
+- [ ] **Pull Request aberta** para a `master` do repositório original, com os entregáveis e as
   evidências de execução (prints do `terraform apply` e das consultas Athena). — _Requisitos 12.1, 12.2_

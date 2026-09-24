@@ -1,0 +1,86 @@
+# CI da prova de Big Data — valida a entrega do aluno.
+#
+# Roda em cada push/PR e cobre duas frentes:
+#   1) local-tests  -> executa os testes de propriedade (PySpark + Hypothesis).
+#      Enquanto a normalização estiver incompleta, os testes FALHAM — é o
+#      feedback automático de "ainda não terminou". Quando o aluno completa a
+#      lógica corretamente, o job fica verde.
+#   2) terraform    -> confere formatação e validade dos arquivos .tf da infra
+#      (init com -backend=false, sem precisar de credenciais AWS).
+#
+# Obs.: os testes rodam com uma SparkSession LOCAL (sem AWS), então o CI não
+# precisa de credenciais do Learner Lab.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+# Cancela execuções antigas da mesma ref quando um novo push chega.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  local-tests:
+    name: Testes locais (PySpark + Hypothesis)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # PySpark 3.5.1 exige uma JVM. Java 21 espelha o Dockerfile do local-test.
+      - name: Configurar Java 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      # Python 3.10 espelha a imagem base do Dockerfile (python:3.10-slim).
+      - name: Configurar Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+          cache-dependency-path: local-test/requirements.txt
+
+      - name: Instalar dependências
+        working-directory: local-test
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Rodar pytest
+        working-directory: local-test
+        run: pytest -v --tb=short
+
+  terraform:
+    name: Terraform (fmt + validate)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.16.1"
+
+      - name: Checar formatação (terraform fmt)
+        working-directory: infra
+        run: terraform fmt -check -recursive
+
+      # -backend=false: valida a configuração sem inicializar o backend local
+      # nem exigir credenciais/estado. Baixa apenas os plugins do provider.
+      - name: Inicializar (sem backend)
+        working-directory: infra
+        run: terraform init -backend=false -input=false
+
+      - name: Validar configuração
+        working-directory: infra
+        run: terraform validate
