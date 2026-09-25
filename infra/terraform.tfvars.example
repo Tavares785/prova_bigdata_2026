@@ -16,3 +16,19 @@ regiao = "us-east-1"
 
 # Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
 bucket_raw_nome = "prova-bigdata-raw-SEURA"
+
+# --- Camada gold / Glue / Athena / DynamoDB ---
+
+# ARN da LabRole: aws iam get-role --role-name LabRole --query Role.Arn --output text
+labrole_arn = "arn:aws:iam::123456789012:role/LabRole"
+
+# Nomes GLOBALMENTE únicos (troque SEURA pelo seu RA).
+bucket_gold_nome       = "prova-bigdata-gold-SEURA"
+bucket_resultados_nome = "prova-bigdata-athena-SEURA"
+
+# Tags de custo (opcional: estes já são os valores padrão).
+tags = {
+  Projeto    = "prova-bigdata"
+  Disciplina = "big-data"
+  Ambiente   = "lab"
+}
