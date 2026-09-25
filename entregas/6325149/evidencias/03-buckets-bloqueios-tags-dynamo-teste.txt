@@ -1,0 +1,88 @@
+== prova-bigdata-raw-6325149
+{
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": true,
+    "RestrictPublicBuckets": true
+}
+
+aws: [ERROR]: An error occurred (NoSuchTagSet) when calling the GetBucketTagging operation: The TagSet does not exist
+== prova-bigdata-gold-6325149
+{
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": true,
+    "RestrictPublicBuckets": true
+}
+[
+    {
+        "Key": "Ambiente",
+        "Value": "lab"
+    },
+    {
+        "Key": "Disciplina",
+        "Value": "big-data"
+    },
+    {
+        "Key": "Projeto",
+        "Value": "prova-bigdata"
+    }
+]
+== prova-bigdata-athena-6325149
+{
+    "BlockPublicAcls": true,
+    "IgnorePublicAcls": true,
+    "BlockPublicPolicy": true,
+    "RestrictPublicBuckets": true
+}
+[
+    {
+        "Key": "Ambiente",
+        "Value": "lab"
+    },
+    {
+        "Key": "Disciplina",
+        "Value": "big-data"
+    },
+    {
+        "Key": "Projeto",
+        "Value": "prova-bigdata"
+    }
+]
+== dynamodb tags
+{
+    "Tags": [
+        {
+            "Key": "Disciplina",
+            "Value": "big-data"
+        },
+        {
+            "Key": "Ambiente",
+            "Value": "lab"
+        },
+        {
+            "Key": "Projeto",
+            "Value": "prova-bigdata"
+        }
+    ]
+}
+== glue job tags
+{
+    "Tags": {
+        "Ambiente": "lab",
+        "Disciplina": "big-data",
+        "Projeto": "prova-bigdata"
+    }
+}
+== T14 put-item manual
+{
+    "Item": {
+        "execution_id": {
+            "S": "teste-manual"
+        },
+        "status": {
+            "S": "TESTE"
+        }
+    }
+}
+item de teste removido

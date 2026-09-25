@@ -1,0 +1,17 @@
+== s3 (buckets prova-bigdata)
+nenhum
+== glue jobs
+(fim)
+== glue databases
+(fim)
+== glue crawlers
+(fim)
+== athena workgroups
+primary
+== dynamodb tables
+(fim)
+== cloudwatch log groups /aws-glue
+/aws-glue/jobs/error	/aws-glue/jobs/logs-v2
+(fim)
+== cloudwatch log groups /aws-glue (após limpeza dos logs criados pelos runs desta prova)
+(fim)
