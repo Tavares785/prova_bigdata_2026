@@ -1,0 +1,58 @@
+terraform_data.bucket["resultados"]: Creating...
+terraform_data.bucket["gold"]: Creating...
+terraform_data.bucket_raw: Creating...
+terraform_data.bucket_raw: Provisioning with 'local-exec'...
+terraform_data.bucket["gold"]: Provisioning with 'local-exec'...
+terraform_data.bucket["resultados"]: Provisioning with 'local-exec'...
+terraform_data.bucket_raw (local-exec): Executing: ["/bin/sh" "-c" "set -e\naws s3api create-bucket --bucket \"prova-bigdata-raw-6325149\" --region \"us-east-1\" 2>/dev/null || true\naws s3api put-public-access-block --bucket \"prova-bigdata-raw-6325149\" \\\n  --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true\naws s3 cp \"./../dataset/pedidos_desnormalizado.csv\" \\\n  \"s3://prova-bigdata-raw-6325149/pedidos/pedidos_desnormalizado.csv\" --content-type text/csv\n"]
+terraform_data.bucket["gold"] (local-exec): Executing: ["/bin/sh" "-c" "set -e\naws s3api create-bucket --bucket \"prova-bigdata-gold-6325149\" --region \"us-east-1\"\naws s3api put-public-access-block --bucket \"prova-bigdata-gold-6325149\" \\\n  --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true\naws s3api put-bucket-tagging --bucket \"prova-bigdata-gold-6325149\" --tagging \"$TAGGING\"\n"]
+terraform_data.bucket["resultados"] (local-exec): Executing: ["/bin/sh" "-c" "set -e\naws s3api create-bucket --bucket \"prova-bigdata-athena-6325149\" --region \"us-east-1\"\naws s3api put-public-access-block --bucket \"prova-bigdata-athena-6325149\" \\\n  --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true\naws s3api put-bucket-tagging --bucket \"prova-bigdata-athena-6325149\" --tagging \"$TAGGING\"\n"]
+aws_glue_catalog_database.prova: Creating...
+aws_dynamodb_table.execucoes: Creating...
+terraform_data.bucket["resultados"] (local-exec): {
+terraform_data.bucket["resultados"] (local-exec):     "Location": "/prova-bigdata-athena-6325149",
+terraform_data.bucket["resultados"] (local-exec):     "BucketArn": "arn:aws:s3:::prova-bigdata-athena-6325149"
+terraform_data.bucket["resultados"] (local-exec): }
+terraform_data.bucket_raw (local-exec): {
+terraform_data.bucket_raw (local-exec):     "Location": "/prova-bigdata-raw-6325149",
+terraform_data.bucket_raw (local-exec):     "BucketArn": "arn:aws:s3:::prova-bigdata-raw-6325149"
+terraform_data.bucket_raw (local-exec): }
+terraform_data.bucket["gold"] (local-exec): {
+terraform_data.bucket["gold"] (local-exec):     "Location": "/prova-bigdata-gold-6325149",
+terraform_data.bucket["gold"] (local-exec):     "BucketArn": "arn:aws:s3:::prova-bigdata-gold-6325149"
+terraform_data.bucket["gold"] (local-exec): }
+aws_glue_catalog_database.prova: Creation complete after 2s [id=<conta>:prova_bigdata]
+aws_glue_catalog_table.dim["dim_produto"]: Creating...
+aws_glue_catalog_table.fato_pedidos: Creating...
+aws_glue_catalog_table.dim["dim_cliente"]: Creating...
+aws_glue_catalog_table.fato_pedidos: Creation complete after 1s [id=<conta>:prova_bigdata:fato_pedidos]
+aws_glue_catalog_table.dim["dim_cliente"]: Creation complete after 1s [id=<conta>:prova_bigdata:dim_cliente]
+aws_glue_catalog_table.dim["dim_produto"]: Creation complete after 1s [id=<conta>:prova_bigdata:dim_produto]
+terraform_data.bucket_raw (local-exec): Completed 10.0 KiB/10.0 KiB (15.7 KiB/s) with 1 file(s) remaining
+terraform_data.bucket_raw (local-exec): upload: ../dataset/pedidos_desnormalizado.csv to s3://prova-bigdata-raw-6325149/pedidos/pedidos_desnormalizado.csv
+terraform_data.bucket_raw: Creation complete after 7s [id=f8ba9a4a-ba80-0a90-dff0-6db8e48a4b3a]
+terraform_data.bucket["gold"]: Creation complete after 7s [id=01903554-fccc-1135-3df9-6690363e1e2c]
+terraform_data.bucket["resultados"]: Creation complete after 7s [id=934aba7e-d262-2c7c-c707-9c01bab803ee]
+terraform_data.upload_script: Creating...
+aws_athena_workgroup.prova: Creating...
+terraform_data.upload_script: Provisioning with 'local-exec'...
+terraform_data.upload_script (local-exec): Executing: ["/bin/sh" "-c" "aws s3 cp \"./../glue-job/normaliza_pedidos.py\" \"s3://prova-bigdata-gold-6325149/scripts/normaliza_pedidos.py\""]
+aws_athena_workgroup.prova: Creation complete after 1s [id=prova-bigdata]
+terraform_data.upload_script (local-exec): Completed 13.4 KiB/13.4 KiB (19.2 KiB/s) with 1 file(s) remaining
+terraform_data.upload_script (local-exec): upload: ../glue-job/normaliza_pedidos.py to s3://prova-bigdata-gold-6325149/scripts/normaliza_pedidos.py
+terraform_data.upload_script: Creation complete after 3s [id=73196b73-7061-a839-681d-e21105a4c009]
+aws_dynamodb_table.execucoes: Creation complete after 9s [id=execucoes]
+aws_glue_job.normaliza: Creating...
+aws_glue_job.normaliza: Creation complete after 1s [id=normaliza-pedidos]
+
+Apply complete! Resources: 11 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+athena_workgroup = "prova-bigdata"
+bucket_gold = "prova-bigdata-gold-6325149"
+bucket_raw = "prova-bigdata-raw-6325149"
+dynamodb_tabela = "execucoes"
+glue_database = "prova_bigdata"
+glue_job_nome = "normaliza-pedidos"
+labrole_arn = "arn:aws:iam::<conta>:role/LabRole"

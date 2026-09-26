@@ -1,0 +1,71 @@
+aws_glue_catalog_table.fato_pedidos: Destroying... [id=<conta>:prova_bigdata:fato_pedidos]
+aws_athena_workgroup.prova: Destroying... [id=prova-bigdata]
+aws_glue_catalog_table.dim["dim_cliente"]: Destroying... [id=<conta>:prova_bigdata:dim_cliente]
+aws_glue_job.normaliza: Destroying... [id=normaliza-pedidos]
+aws_glue_catalog_table.dim["dim_produto"]: Destroying... [id=<conta>:prova_bigdata:dim_produto]
+aws_glue_job.normaliza: Destruction complete after 1s
+terraform_data.upload_script: Destroying... [id=73196b73-7061-a839-681d-e21105a4c009]
+terraform_data.bucket_raw: Destroying... [id=f8ba9a4a-ba80-0a90-dff0-6db8e48a4b3a]
+terraform_data.upload_script: Destruction complete after 0s
+terraform_data.bucket_raw: Provisioning with 'local-exec'...
+aws_dynamodb_table.execucoes: Destroying... [id=execucoes]
+terraform_data.bucket_raw (local-exec): Executing: ["/bin/sh" "-c" "aws s3 rb s3://prova-bigdata-raw-6325149 --force || true"]
+aws_glue_catalog_table.fato_pedidos: Destruction complete after 1s
+aws_athena_workgroup.prova: Destruction complete after 1s
+terraform_data.bucket["resultados"]: Destroying... [id=934aba7e-d262-2c7c-c707-9c01bab803ee]
+terraform_data.bucket["gold"]: Destroying... [id=01903554-fccc-1135-3df9-6690363e1e2c]
+terraform_data.bucket["resultados"]: Provisioning with 'local-exec'...
+terraform_data.bucket["resultados"] (local-exec): Executing: ["/bin/sh" "-c" "aws s3 rb s3://prova-bigdata-athena-6325149 --force"]
+terraform_data.bucket["gold"]: Provisioning with 'local-exec'...
+terraform_data.bucket["gold"] (local-exec): Executing: ["/bin/sh" "-c" "aws s3 rb s3://prova-bigdata-gold-6325149 --force"]
+aws_glue_catalog_table.dim["dim_cliente"]: Destruction complete after 1s
+aws_glue_catalog_table.dim["dim_produto"]: Destruction complete after 1s
+aws_glue_catalog_database.prova: Destroying... [id=<conta>:prova_bigdata]
+aws_glue_catalog_database.prova: Destruction complete after 1s
+terraform_data.bucket_raw (local-exec): delete: s3://prova-bigdata-raw-6325149/pedidos/pedidos_desnormalizado.csv
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/0edb001c-88f2-4c3e-a928-9bd0e733281c.csv
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/0edb001c-88f2-4c3e-a928-9bd0e733281c.csv.metadata
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/dim_cliente/part-00000-9d5be4e1-b9d7-46df-85e8-f9d2517c49f9-c000.snappy.parquet
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/b91f8a4e-d58b-4bd2-aabd-5d736c858a3d.csv.metadata
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/c9f0d2ee-6717-402c-a294-440eedae4761.csv
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/c9f0d2ee-6717-402c-a294-440eedae4761.csv.metadata
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/cf97adb4-e59c-457f-a635-02c9cb7dbcc8.csv.metadata
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/cf97adb4-e59c-457f-a635-02c9cb7dbcc8.csv
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/77d28168-c3e5-4a03-88d3-fdad3e3011d8.csv
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/77d28168-c3e5-4a03-88d3-fdad3e3011d8.csv.metadata
+terraform_data.bucket["resultados"] (local-exec): delete: s3://prova-bigdata-athena-6325149/b91f8a4e-d58b-4bd2-aabd-5d736c858a3d.csv
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-06/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/dim_produto/part-00000-137f0f8d-0033-42a5-87a5-4de3096b7718-c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-11/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-09/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-08/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-13/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-12/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-07/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-05/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-10/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket_raw (local-exec): remove_bucket: prova-bigdata-raw-6325149
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-14/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-17/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-20/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-16/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-19/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-21/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-22/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-15/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-23/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-18/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-24/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-25/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-27/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-28/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/fato_pedidos/data_pedido=2026-01-26/part-00000-01a9a8d7-136d-4ee6-9d90-5f9363ae01b7.c000.snappy.parquet
+terraform_data.bucket["gold"] (local-exec): delete: s3://prova-bigdata-gold-6325149/scripts/normaliza_pedidos.py
+terraform_data.bucket_raw: Destruction complete after 5s
+terraform_data.bucket["resultados"] (local-exec): remove_bucket: prova-bigdata-athena-6325149
+terraform_data.bucket["resultados"]: Destruction complete after 5s
+terraform_data.bucket["gold"] (local-exec): remove_bucket: prova-bigdata-gold-6325149
+terraform_data.bucket["gold"]: Destruction complete after 5s
+aws_dynamodb_table.execucoes: Destruction complete after 8s
+
+Apply complete! Resources: 0 added, 0 changed, 11 destroyed.

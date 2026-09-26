@@ -1,0 +1,58 @@
+=== Consulta 1 - Faturamento por categoria (SUCCEEDED)
+SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento FROM fato_pedidos f JOIN dim_produto p ON f.produto_id = p.produto_id GROUP BY p.categoria ORDER BY faturamento DESC
+categoria | faturamento
+Eletronicos | 30334.1
+Moveis | 13485.0
+Calcados | 5698.1
+Eletrodomesticos | 4921.0
+Livros | 2876.8
+Acessorios | 2338.2
+Vestuario | 2145.7
+
+=== Consulta 2 - Top 5 clientes por gasto (SUCCEEDED)
+SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total FROM fato_pedidos f JOIN dim_cliente c ON f.cliente_id = c.cliente_id GROUP BY c.cliente_nome ORDER BY gasto_total DESC LIMIT 5
+cliente_nome | gasto_total
+Carla Nunes | 6955.2
+Diego Alves | 6464.7
+Henrique Melo | 6114.4
+Ana Souza | 5793.3
+Elaine Rocha | 5284.3
+
+=== Consulta 3 - Pedidos e faturamento por dia (SUCCEEDED)
+SELECT data_pedido, COUNT(*) AS qtd_pedidos, ROUND(SUM(valor_total), 2) AS faturamento_dia FROM fato_pedidos GROUP BY data_pedido ORDER BY data_pedido
+data_pedido | qtd_pedidos | faturamento_dia
+2026-01-05 | 5 | 1499.0
+2026-01-06 | 4 | 948.1
+2026-01-07 | 4 | 1798.3
+2026-01-08 | 4 | 2947.7
+2026-01-09 | 4 | 1167.1
+2026-01-10 | 4 | 3106.7
+2026-01-11 | 4 | 2898.2
+2026-01-12 | 5 | 1218.2
+2026-01-13 | 4 | 5196.8
+2026-01-14 | 4 | 1476.6
+2026-01-15 | 4 | 1838.2
+2026-01-16 | 4 | 5446.4
+2026-01-17 | 4 | 937.4
+2026-01-18 | 5 | 3856.3
+2026-01-19 | 4 | 3318.2
+2026-01-20 | 4 | 2156.8
+2026-01-21 | 5 | 2947.5
+2026-01-22 | 5 | 2375.3
+2026-01-23 | 5 | 1448.3
+2026-01-24 | 6 | 6645.7
+2026-01-25 | 3 | 849.5
+2026-01-26 | 4 | 1866.5
+2026-01-27 | 4 | 2478.4
+2026-01-28 | 4 | 3377.7
+
+=== Consulta 4 - Orfaos fato -> dim_produto (SUCCEEDED)
+SELECT COUNT(*) AS orfaos FROM fato_pedidos f LEFT JOIN dim_produto p ON f.produto_id = p.produto_id WHERE p.produto_id IS NULL
+orfaos
+0
+
+=== Extra CA3 - totais do fato (SUCCEEDED)
+SELECT COUNT(*) AS linhas, SUM(valor_total) AS soma, COUNT(DISTINCT data_pedido) AS datas FROM fato_pedidos
+linhas | soma | datas
+103 | 61798.<conta> | 24
+

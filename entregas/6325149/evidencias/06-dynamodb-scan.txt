@@ -1,0 +1,48 @@
+== dynamodb scan
+{
+    "Items": [
+        {
+            "data_hora": {
+                "S": "2026-09-25T23:16:28+00:00"
+            },
+            "dataset": {
+                "S": "pedidos_desnormalizado"
+            },
+            "execution_id": {
+                "S": "3f374893-bce4-4136-b000-69c3bef7a8e4"
+            },
+            "linhas_gravadas": {
+                "N": "103"
+            },
+            "status": {
+                "S": "SUCESSO"
+            },
+            "linhas_lidas": {
+                "N": "110"
+            }
+        },
+        {
+            "data_hora": {
+                "S": "2026-09-25T23:31:22+00:00"
+            },
+            "dataset": {
+                "S": "pedidos_desnormalizado"
+            },
+            "execution_id": {
+                "S": "5f064b8e-b569-432f-b3f7-1ca3a975617a"
+            },
+            "linhas_gravadas": {
+                "N": "103"
+            },
+            "status": {
+                "S": "SUCESSO"
+            },
+            "linhas_lidas": {
+                "N": "110"
+            }
+        }
+    ],
+    "Count": 2,
+    "ScannedCount": 2,
+    "ConsumedCapacity": null
+}
