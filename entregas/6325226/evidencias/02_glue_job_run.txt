@@ -1,0 +1,18 @@
+Glue Job normaliza-pedidos — execução
+
+$ aws glue start-job-run --job-name normaliza-pedidos
+JobRunId: jr_f8d894b9aa36f80e8695a58a68754f10667347d5c56a6da7a1fb70dcc476df94
+
+$ aws glue get-job-run --job-name normaliza-pedidos --run-id <JobRunId>
+-------------------------------------------------------
+|                      GetJobRun                      |
++----------------+------------------------------------+
+|  Erro          |  None                              |
+|  Estado        |  SUCCEEDED                         |
+|  Fim           |  2026-09-25T22:50:36.327000-03:00  |
+|  GlueVersion   |  4.0                               |
+|  Inicio        |  2026-09-25T22:48:21.356000-03:00  |
+|  TempoSegundos |  124                               |
+|  WorkerType    |  G.1X                              |
+|  Workers       |  2                                 |
++----------------+------------------------------------+

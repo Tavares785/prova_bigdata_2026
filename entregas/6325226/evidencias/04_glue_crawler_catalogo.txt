@@ -1,0 +1,23 @@
+Glue Crawler + Data Catalog
+
+$ aws glue start-crawler --name crawler-prova-bigdata-gold
+---------------------------------------------------------------
+|                         GetCrawler                          |
++---------------------+---------+----------+------------------+
+|      Database       | Estado  |  Role    | UltimaExecucao   |
++---------------------+---------+----------+------------------+
+|  prova_bigdata_gold |  READY  |  LabRole |  SUCCEEDED       |
++---------------------+---------+----------+------------------+
+
+$ aws glue get-tables --database-name prova_bigdata_gold
+---------------------------------------------------------------------------------------------
+|                                         GetTables                                         |
++---------+-------------------------------------------------+--------------+----------------+
+| Formato |                      Local                      |  Particao    |    Tabela      |
++---------+-------------------------------------------------+--------------+----------------+
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_cliente/   |  None        |  dim_cliente   |
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_produto/   |  None        |  dim_produto   |
+|  parquet|  s3://prova-bigdata-gold-6325226/fato_pedidos/  |  data_pedido |  fato_pedidos  |
++---------+-------------------------------------------------+--------------+----------------+
+
+Partições registradas em fato_pedidos: 24

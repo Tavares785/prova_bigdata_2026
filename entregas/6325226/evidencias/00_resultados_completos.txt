@@ -1,0 +1,701 @@
+==============================================================================
+ PROVA PRÁTICA DE BIG DATA NA AWS — UNIFAAT — RA 6325226
+ Resultados completos da execução no AWS Academy Learner Lab (us-east-1)
+==============================================================================
+
+RESUMO
+  - terraform apply ........ 8 recursos criados (raw + gold), 0 erros
+  - Glue Job ............... normaliza-pedidos: SUCCEEDED em 124 s (Glue 4.0, G.1X x2)
+  - Linhas ................. lidas do raw = 110 | gravadas na fato = 103 (7 inválidas descartadas)
+  - Gold (Parquet) ......... fato_pedidos particionada em 24 datas + dim_cliente (16) + dim_produto (8)
+  - Crawler ................ SUCCEEDED: 3 tabelas no database prova_bigdata_gold, 24 partições
+  - DynamoDB ............... 1 item em execucoes com status = SUCESSO
+  - Athena ................. 4 consultas de referência SUCCEEDED
+      Consulta 1: 7 categorias, soma = 61798.9 = SUM(valor_total) da fato
+      Consulta 2: top 5 em ordem decrescente (Carla Nunes = 6955.2)
+      Consulta 3: 24 linhas (1 por partição), SUM(qtd_pedidos) = 103
+      Consulta 4: orfaos = 0
+  - Segurança .............. buckets raw e gold com os 4 bloqueios de acesso público;
+                             Glue Job e Crawler usam a LabRole (nenhuma role criada)
+
+
+==============================================================================
+ 00_resultados_completos.txt
+==============================================================================
+
+
+
+==============================================================================
+ 01_terraform_apply.txt
+==============================================================================
+
+terraform apply — infra/ (raw + gold) — 2026-09-26T01:53:54Z
+
+terraform_data.bucket_gold: Creating...
+terraform_data.bucket_raw: Creating...
+terraform_data.bucket_gold: Provisioning with 'local-exec'...
+terraform_data.bucket_raw: Provisioning with 'local-exec'...
+terraform_data.bucket_raw (local-exec): Executing: ["/bin/sh" "-c" "set -e\naws s3api create-bucket --bucket \"prova-bigdata-raw-6325226\" --region \"us-east-1\" 2>/dev/null || true\naws s3api put-public-access-block --bucket \"prova-bigdata-raw-6325226\" \\\n  --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true\naws s3 cp \"./../dataset/pedidos_desnormalizado.csv\" \\\n  \"s3://prova-bigdata-raw-6325226/pedidos/pedidos_desnormalizado.csv\" --content-type text/csv\n"]
+terraform_data.bucket_gold (local-exec): Executing: ["/bin/sh" "-c" "set -e\naws s3api create-bucket --bucket \"prova-bigdata-gold-6325226\" --region \"us-east-1\" 2>/dev/null || true\naws s3api put-public-access-block --bucket \"prova-bigdata-gold-6325226\" \\\n  --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true\n"]
+aws_glue_catalog_database.gold: Creating...
+aws_athena_workgroup.prova: Creating...
+aws_dynamodb_table.execucoes: Creating...
+terraform_data.bucket_gold (local-exec): {
+terraform_data.bucket_gold (local-exec):     "Location": "/prova-bigdata-gold-6325226",
+terraform_data.bucket_gold (local-exec):     "BucketArn": "arn:aws:s3:::prova-bigdata-gold-6325226"
+terraform_data.bucket_gold (local-exec): }
+terraform_data.bucket_raw (local-exec): {
+terraform_data.bucket_raw (local-exec):     "Location": "/prova-bigdata-raw-6325226",
+terraform_data.bucket_raw (local-exec):     "BucketArn": "arn:aws:s3:::prova-bigdata-raw-6325226"
+terraform_data.bucket_raw (local-exec): }
+aws_athena_workgroup.prova: Creation complete after 1s [id=prova-bigdata]
+aws_glue_catalog_database.gold: Creation complete after 1s [id=968685597832:prova_bigdata_gold]
+terraform_data.bucket_gold: Creation complete after 4s [id=39408f14-35b1-13ce-cc85-94b244afc89d]
+aws_s3_object.script: Creating...
+aws_glue_crawler.gold: Creating...
+aws_glue_crawler.gold: Creation complete after 1s [id=crawler-prova-bigdata-gold]
+aws_s3_object.script: Creation complete after 1s [id=scripts/normaliza_pedidos.py]
+terraform_data.bucket_raw (local-exec): Completed 10.0 KiB/10.0 KiB (14.0 KiB/s) with 1 file(s) remaining
+terraform_data.bucket_raw (local-exec): upload: ../dataset/pedidos_desnormalizado.csv to s3://prova-bigdata-raw-6325226/pedidos/pedidos_desnormalizado.csv
+terraform_data.bucket_raw: Creation complete after 6s [id=190dcfa9-3e37-13c0-0b23-5b95bb37da4d]
+aws_dynamodb_table.execucoes: Still creating... [00m10s elapsed]
+aws_dynamodb_table.execucoes: Creation complete after 15s [id=execucoes]
+aws_glue_job.normaliza_pedidos: Creating...
+aws_glue_job.normaliza_pedidos: Creation complete after 1s [id=normaliza-pedidos]
+
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+athena_workgroup = "prova-bigdata"
+bucket_gold_nome = "prova-bigdata-gold-6325226"
+dynamodb_tabela = "execucoes"
+glue_crawler_nome = "crawler-prova-bigdata-gold"
+glue_database = "prova_bigdata_gold"
+glue_job_nome = "normaliza-pedidos"
+labrole_arn = "arn:aws:iam::968685597832:role/LabRole"
+
+
+==============================================================================
+ 02_glue_job_run.txt
+==============================================================================
+
+Glue Job normaliza-pedidos — execução
+
+$ aws glue start-job-run --job-name normaliza-pedidos
+JobRunId: jr_f8d894b9aa36f80e8695a58a68754f10667347d5c56a6da7a1fb70dcc476df94
+
+$ aws glue get-job-run --job-name normaliza-pedidos --run-id <JobRunId>
+-------------------------------------------------------
+|                      GetJobRun                      |
++----------------+------------------------------------+
+|  Erro          |  None                              |
+|  Estado        |  SUCCEEDED                         |
+|  Fim           |  2026-09-25T22:50:36.327000-03:00  |
+|  GlueVersion   |  4.0                               |
+|  Inicio        |  2026-09-25T22:48:21.356000-03:00  |
+|  TempoSegundos |  124                               |
+|  WorkerType    |  G.1X                              |
+|  Workers       |  2                                 |
++----------------+------------------------------------+
+
+
+==============================================================================
+ 03_s3_gold_particionado.txt
+==============================================================================
+
+Gold no S3 — Parquet particionado
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/
+                           PRE athena-results/
+                           PRE dim_cliente/
+                           PRE dim_produto/
+                           PRE fato_pedidos/
+                           PRE scripts/
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/fato_pedidos/   (partições: 24)
+                           PRE data_pedido=2026-01-05/
+                           PRE data_pedido=2026-01-06/
+                           PRE data_pedido=2026-01-07/
+                           PRE data_pedido=2026-01-08/
+                           PRE data_pedido=2026-01-09/
+                           PRE data_pedido=2026-01-10/
+                           PRE data_pedido=2026-01-11/
+                           PRE data_pedido=2026-01-12/
+                           PRE data_pedido=2026-01-13/
+                           PRE data_pedido=2026-01-14/
+                           PRE data_pedido=2026-01-15/
+                           PRE data_pedido=2026-01-16/
+                           PRE data_pedido=2026-01-17/
+                           PRE data_pedido=2026-01-18/
+                           PRE data_pedido=2026-01-19/
+                           PRE data_pedido=2026-01-20/
+                           PRE data_pedido=2026-01-21/
+                           PRE data_pedido=2026-01-22/
+                           PRE data_pedido=2026-01-23/
+                           PRE data_pedido=2026-01-24/
+                           PRE data_pedido=2026-01-25/
+                           PRE data_pedido=2026-01-26/
+                           PRE data_pedido=2026-01-27/
+                           PRE data_pedido=2026-01-28/
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/ --recursive (somente .parquet)
+2026-09-25 22:50:22       1378 dim_cliente/part-00000-8a014ac1-6ea4-4cd8-901c-064facac794d-c000.snappy.parquet
+2026-09-25 22:50:23       1308 dim_produto/part-00000-44df7c7f-21fc-4bbe-9029-a8f682f526e9-c000.snappy.parquet
+2026-09-25 22:50:16       2014 fato_pedidos/data_pedido=2026-01-05/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:16       1874 fato_pedidos/data_pedido=2026-01-06/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1899 fato_pedidos/data_pedido=2026-01-07/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1900 fato_pedidos/data_pedido=2026-01-08/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1933 fato_pedidos/data_pedido=2026-01-09/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1958 fato_pedidos/data_pedido=2026-01-10/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1991 fato_pedidos/data_pedido=2026-01-11/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       2033 fato_pedidos/data_pedido=2026-01-12/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1992 fato_pedidos/data_pedido=2026-01-13/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1963 fato_pedidos/data_pedido=2026-01-14/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1875 fato_pedidos/data_pedido=2026-01-15/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1873 fato_pedidos/data_pedido=2026-01-16/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1965 fato_pedidos/data_pedido=2026-01-17/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       2003 fato_pedidos/data_pedido=2026-01-18/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1873 fato_pedidos/data_pedido=2026-01-19/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1991 fato_pedidos/data_pedido=2026-01-20/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2025 fato_pedidos/data_pedido=2026-01-21/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2054 fato_pedidos/data_pedido=2026-01-22/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2053 fato_pedidos/data_pedido=2026-01-23/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2067 fato_pedidos/data_pedido=2026-01-24/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1866 fato_pedidos/data_pedido=2026-01-25/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1932 fato_pedidos/data_pedido=2026-01-26/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1901 fato_pedidos/data_pedido=2026-01-27/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1895 fato_pedidos/data_pedido=2026-01-28/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+
+
+==============================================================================
+ 04_glue_crawler_catalogo.txt
+==============================================================================
+
+Glue Crawler + Data Catalog
+
+$ aws glue start-crawler --name crawler-prova-bigdata-gold
+---------------------------------------------------------------
+|                         GetCrawler                          |
++---------------------+---------+----------+------------------+
+|      Database       | Estado  |  Role    | UltimaExecucao   |
++---------------------+---------+----------+------------------+
+|  prova_bigdata_gold |  READY  |  LabRole |  SUCCEEDED       |
++---------------------+---------+----------+------------------+
+
+$ aws glue get-tables --database-name prova_bigdata_gold
+---------------------------------------------------------------------------------------------
+|                                         GetTables                                         |
++---------+-------------------------------------------------+--------------+----------------+
+| Formato |                      Local                      |  Particao    |    Tabela      |
++---------+-------------------------------------------------+--------------+----------------+
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_cliente/   |  None        |  dim_cliente   |
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_produto/   |  None        |  dim_produto   |
+|  parquet|  s3://prova-bigdata-gold-6325226/fato_pedidos/  |  data_pedido |  fato_pedidos  |
++---------+-------------------------------------------------+--------------+----------------+
+
+Partições registradas em fato_pedidos: 24
+
+
+==============================================================================
+ 05_dynamodb_item.txt
+==============================================================================
+
+DynamoDB — tabela execucoes (catálogo de metadados)
+
+$ aws dynamodb describe-table --table-name execucoes
+-----------------------------------------------------------
+|                      DescribeTable                      |
++------------------+----------------+--------+------------+
+|      Billing     |     Chave      | Itens  |  Tabela    |
++------------------+----------------+--------+------------+
+|  PAY_PER_REQUEST |  execution_id  |  0     |  execucoes |
++------------------+----------------+--------+------------+
+
+(Obs.: o ItemCount do describe-table é atualizado pela AWS a cada ~6 horas;
+ o scan abaixo mostra o item gravado pela execução do Glue Job.)
+
+$ aws dynamodb scan --table-name execucoes
+[
+    {
+        "dataset": {
+            "S": "pedidos_desnormalizado"
+        },
+        "data_hora": {
+            "S": "2026-09-26T01:50:22.912875+00:00"
+        },
+        "execution_id": {
+            "S": "normaliza-pedidos-spark-application-1790387351470"
+        },
+        "linhas_gravadas": {
+            "N": "103"
+        },
+        "linhas_lidas": {
+            "N": "110"
+        },
+        "status": {
+            "S": "SUCESSO"
+        }
+    }
+]
+
+
+==============================================================================
+ 06_athena_consulta1_faturamento_por_categoria.txt
+==============================================================================
+
+Athena — consulta1_faturamento_por_categoria
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: 4f6ce8d5-ea85-4d45-9bf9-5bb2fa622342
+Estado: SUCCEEDED | Dados lidos: 4379 bytes | Tempo: 1364 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/4f6ce8d5-ea85-4d45-9bf9-5bb2fa622342.csv
+
+SQL:
+SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento
+FROM fato_pedidos f
+JOIN dim_produto p ON f.produto_id = p.produto_id
+GROUP BY p.categoria
+ORDER BY faturamento DESC;
+
+Resultado:
++------------------+-------------+
+| categoria        | faturamento |
++------------------+-------------+
+| Eletronicos      | 30334.1     |
+| Moveis           | 13485.0     |
+| Calcados         | 5698.1      |
+| Eletrodomesticos | 4921.0      |
+| Livros           | 2876.8      |
+| Acessorios       | 2338.2      |
+| Vestuario        | 2145.7      |
++------------------+-------------+
+(7 linha(s))
+
+
+==============================================================================
+ 07_athena_consulta2_top5_clientes.txt
+==============================================================================
+
+Athena — consulta2_top5_clientes
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: e9c9353b-2ca7-4698-b5ea-479ebcd1e7a1
+Estado: SUCCEEDED | Dados lidos: 3858 bytes | Tempo: 1279 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/e9c9353b-2ca7-4698-b5ea-479ebcd1e7a1.csv
+
+SQL:
+SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total
+FROM fato_pedidos f
+JOIN dim_cliente c ON f.cliente_id = c.cliente_id
+GROUP BY c.cliente_nome
+ORDER BY gasto_total DESC
+LIMIT 5;
+
+Resultado:
++---------------+-------------+
+| cliente_nome  | gasto_total |
++---------------+-------------+
+| Carla Nunes   | 6955.2      |
+| Diego Alves   | 6464.7      |
+| Henrique Melo | 6114.4      |
+| Ana Souza     | 5793.3      |
+| Elaine Rocha  | 5284.3      |
++---------------+-------------+
+(5 linha(s))
+
+
+==============================================================================
+ 08_athena_consulta3_pedidos_por_dia.txt
+==============================================================================
+
+Athena — consulta3_pedidos_por_dia
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: 64d4e97e-fccb-4c5f-b534-2b90757277e6
+Estado: SUCCEEDED | Dados lidos: 1651 bytes | Tempo: 914 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/64d4e97e-fccb-4c5f-b534-2b90757277e6.csv
+
+SQL:
+SELECT data_pedido, COUNT(*) AS qtd_pedidos, ROUND(SUM(valor_total), 2) AS faturamento_dia
+FROM fato_pedidos
+GROUP BY data_pedido
+ORDER BY data_pedido;
+
+Resultado:
++-------------+-------------+-----------------+
+| data_pedido | qtd_pedidos | faturamento_dia |
++-------------+-------------+-----------------+
+| 2026-01-05  | 5           | 1499.0          |
+| 2026-01-06  | 4           | 948.1           |
+| 2026-01-07  | 4           | 1798.3          |
+| 2026-01-08  | 4           | 2947.7          |
+| 2026-01-09  | 4           | 1167.1          |
+| 2026-01-10  | 4           | 3106.7          |
+| 2026-01-11  | 4           | 2898.2          |
+| 2026-01-12  | 5           | 1218.2          |
+| 2026-01-13  | 4           | 5196.8          |
+| 2026-01-14  | 4           | 1476.6          |
+| 2026-01-15  | 4           | 1838.2          |
+| 2026-01-16  | 4           | 5446.4          |
+| 2026-01-17  | 4           | 937.4           |
+| 2026-01-18  | 5           | 3856.3          |
+| 2026-01-19  | 4           | 3318.2          |
+| 2026-01-20  | 4           | 2156.8          |
+| 2026-01-21  | 5           | 2947.5          |
+| 2026-01-22  | 5           | 2375.3          |
+| 2026-01-23  | 5           | 1448.3          |
+| 2026-01-24  | 6           | 6645.7          |
+| 2026-01-25  | 3           | 849.5           |
+| 2026-01-26  | 4           | 1866.5          |
+| 2026-01-27  | 4           | 2478.4          |
+| 2026-01-28  | 4           | 3377.7          |
++-------------+-------------+-----------------+
+(24 linha(s))
+
+
+==============================================================================
+ 09_athena_consulta4_integridade_orfaos.txt
+==============================================================================
+
+Athena — consulta4_integridade_orfaos
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: e0c6582b-4368-49ed-8dd4-2be94bf59da2
+Estado: SUCCEEDED | Dados lidos: 1868 bytes | Tempo: 1012 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/e0c6582b-4368-49ed-8dd4-2be94bf59da2.csv
+
+SQL:
+SELECT COUNT(*) AS orfaos
+FROM fato_pedidos f
+LEFT JOIN dim_produto p ON f.produto_id = p.produto_id
+WHERE p.produto_id IS NULL;
+
+Resultado:
++--------+
+| orfaos |
++--------+
+| 0      |
++--------+
+(1 linha(s))
+
+
+==============================================================================
+ 10_athena_conferencia_totais.txt
+==============================================================================
+
+Athena — conferencia_totais
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: 43b5215d-84ff-4aac-9002-254f2897df87
+Estado: SUCCEEDED | Dados lidos: 1651 bytes | Tempo: 914 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/43b5215d-84ff-4aac-9002-254f2897df87.csv
+
+SQL:
+SELECT COUNT(*) AS linhas_fato, ROUND(SUM(valor_total), 2) AS faturamento_total
+FROM fato_pedidos;
+
+Resultado:
++-------------+-------------------+
+| linhas_fato | faturamento_total |
++-------------+-------------------+
+| 103         | 61798.9           |
++-------------+-------------------+
+(1 linha(s))
+
+
+==============================================================================
+ 11_terraform_state_output.txt
+==============================================================================
+
+Terraform — estado e outputs (infra/)
+
+$ terraform state list
+data.aws_iam_role.labrole
+aws_athena_workgroup.prova
+aws_dynamodb_table.execucoes
+aws_glue_catalog_database.gold
+aws_glue_crawler.gold
+aws_glue_job.normaliza_pedidos
+aws_s3_object.script
+terraform_data.bucket_gold
+terraform_data.bucket_raw
+
+$ terraform output
+athena_workgroup = "prova-bigdata"
+bucket_gold_nome = "prova-bigdata-gold-6325226"
+dynamodb_tabela = "execucoes"
+glue_crawler_nome = "crawler-prova-bigdata-gold"
+glue_database = "prova_bigdata_gold"
+glue_job_nome = "normaliza-pedidos"
+labrole_arn = "arn:aws:iam::968685597832:role/LabRole"
+
+
+==============================================================================
+ 12_s3_raw_e_bloqueio_publico.txt
+==============================================================================
+
+Bucket raw — camada de origem (privado)
+
+$ aws s3 ls s3://prova-bigdata-raw-6325226/ --recursive
+2026-09-25 22:46:51      10198 pedidos/pedidos_desnormalizado.csv
+
+$ aws s3api get-public-access-block --bucket prova-bigdata-raw-6325226
+-------------------------------------
+|       GetPublicAccessBlock        |
++-----------------------------------+
+|| PublicAccessBlockConfiguration  ||
+|+-------------------------+-------+|
+||  BlockPublicAcls        |  True ||
+||  BlockPublicPolicy      |  True ||
+||  IgnorePublicAcls       |  True ||
+||  RestrictPublicBuckets  |  True ||
+|+-------------------------+-------+|
+
+$ aws s3api get-public-access-block --bucket prova-bigdata-gold-6325226
+-------------------------------------
+|       GetPublicAccessBlock        |
++-----------------------------------+
+|| PublicAccessBlockConfiguration  ||
+|+-------------------------+-------+|
+||  BlockPublicAcls        |  True ||
+||  BlockPublicPolicy      |  True ||
+||  IgnorePublicAcls       |  True ||
+||  RestrictPublicBuckets  |  True ||
+|+-------------------------+-------+|
+
+
+==============================================================================
+ 13_terminal_web_learner_lab.txt
+==============================================================================
+
+Sessão no terminal web do AWS Academy Learner Lab (Vocareum) — conta 968685597832
+Terminal: eee_W_6915372@runweb252318 | Região: us-east-1
+(Horários do terminal web em -07:00 / Pacífico; 18:48 -07:00 = 22:48 -03:00 = 01:48 UTC)
+
+Observação: as consultas 3 e a listagem de partições foram cortadas pelo paginador
+do terminal; as linhas que faltavam foram completadas com o MESMO comando de leitura
+(mesmo QueryExecutionId / mesmo bucket), sem executar nada novo no Athena.
+
+==============================================================================
+$ export AWS_DEFAULT_REGION=us-east-1
+$ aws sts get-caller-identity
+{
+    "UserId": "AROA6DCRJGSELTOXU6CN3:user5367760=weslley_lucas_souza_alves",
+    "Account": "968685597832",
+    "Arn": "arn:aws:sts::968685597832:assumed-role/voclabs/user5367760=weslley_lucas_souza_alves"
+}
+
+==============================================================================
+ATHENA — Consulta 1: faturamento por categoria
+$ athena "SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento FROM fato_pedidos f JOIN dim_produto p ON f.produto_id = p.produto_id GROUP BY p.categoria ORDER BY faturamento DESC"
+Estado: SUCCEEDED  |  QueryExecutionId: 56a70f7d-5e11-46f1-89fa-dca9a594f5c5
+
+categoria         faturamento
+Eletronicos       30334.1
+Moveis            13485.0
+Calcados          5698.1
+Eletrodomesticos  4921.0
+Livros            2876.8
+Acessorios        2338.2
+Vestuario         2145.7
+
+==============================================================================
+ATHENA — Consulta 2: top 5 clientes
+$ athena "SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total FROM fato_pedidos f JOIN dim_cliente c ON f.cliente_id = c.cliente_id GROUP BY c.cliente_nome ORDER BY gasto_total DESC LIMIT 5"
+Estado: SUCCEEDED  |  QueryExecutionId: 0ddc491a-e4b0-4c2c-b714-1b5705fcda7d
+
+cliente_nome   gasto_total
+Carla Nunes    6955.2
+Diego Alves    6464.7
+Henrique Melo  6114.4
+Ana Souza      5793.3
+Elaine Rocha   5284.3
+
+==============================================================================
+ATHENA — Consulta 3: pedidos e faturamento por dia (partição)
+$ athena "SELECT data_pedido, COUNT(*) AS qtd_pedidos, ROUND(SUM(valor_total), 2) AS faturamento_dia FROM fato_pedidos GROUP BY data_pedido ORDER BY data_pedido"
+Estado: SUCCEEDED  |  QueryExecutionId: ce4f805f-ab19-4463-9b58-f2a24c0b1322
+
+$ aws athena get-query-results --query-execution-id ce4f805f-ab19-4463-9b58-f2a24c0b1322 --output text --query 'ResultSet.Rows[*].Data[*].VarCharValue' | column -t
+data_pedido  qtd_pedidos  faturamento_dia
+2026-01-05   5            1499.0
+2026-01-06   4            948.1
+2026-01-07   4            1798.3
+2026-01-08   4            2947.7
+2026-01-09   4            1167.1
+2026-01-10   4            3106.7
+2026-01-11   4            2898.2
+2026-01-12   5            1218.2
+2026-01-13   4            5196.8
+2026-01-14   4            1476.6
+2026-01-15   4            1838.2
+2026-01-16   4            5446.4
+2026-01-17   4            937.4
+2026-01-18   5            3856.3
+2026-01-19   4            3318.2
+2026-01-20   4            2156.8
+2026-01-21   5            2947.5
+2026-01-22   5            2375.3
+2026-01-23   5            1448.3
+2026-01-24   6            6645.7
+2026-01-25   3            849.5
+2026-01-26   4            1866.5
+2026-01-27   4            2478.4
+2026-01-28   4            3377.7
+(24 linhas; SUM(qtd_pedidos) = 103)
+
+==============================================================================
+ATHENA — Consulta 4: integridade (órfãos)
+$ athena "SELECT COUNT(*) AS orfaos FROM fato_pedidos f LEFT JOIN dim_produto p ON f.produto_id = p.produto_id WHERE p.produto_id IS NULL"
+Estado: SUCCEEDED  |  QueryExecutionId: ba1071ed-9134-44aa-8e56-c7e7e66711a7
+
+orfaos
+0
+
+==============================================================================
+GLUE JOB
+$ aws glue get-job-runs --job-name normaliza-pedidos --max-items 1 --query 'JobRuns[0].{...}' --output table
+-----------------------------------------------------
+|                    GetJobRuns                     |
++--------------+------------------------------------+
+|  Estado      |  SUCCEEDED                         |
+|  Fim         |  2026-09-25T18:50:36.327000-07:00  |
+|  GlueVersion |  4.0                               |
+|  Inicio      |  2026-09-25T18:48:21.356000-07:00  |
+|  Job         |  normaliza-pedidos                 |
+|  Segundos    |  124                               |
+|  Tipo        |  G.1X                              |
+|  Workers     |  2                                 |
++--------------+------------------------------------+
+
+==============================================================================
+GLUE CRAWLER + DATA CATALOG
+$ aws glue get-crawler --name crawler-prova-bigdata-gold --query 'Crawler.{...}' --output table
+----------------------------------------------------------------------------------
+|                                   GetCrawler                                   |
++-----------------------------+----------------------+---------+-----------------+
+|           Crawler           |      Database        | Estado  | UltimaExecucao  |
++-----------------------------+----------------------+---------+-----------------+
+|  crawler-prova-bigdata-gold |  prova_bigdata_gold  |  READY  |  SUCCEEDED      |
++-----------------------------+----------------------+---------+-----------------+
+
+$ aws glue get-tables --database-name prova_bigdata_gold --query 'TableList[].{...}' --output table
+---------------------------------------------------------------------------------------------
+|                                         GetTables                                         |
++---------+-------------------------------------------------+--------------+----------------+
+| Formato |                      Local                      |  Particao    |    Tabela      |
++---------+-------------------------------------------------+--------------+----------------+
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_cliente/   |  None        |  dim_cliente   |
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_produto/   |  None        |  dim_produto   |
+|  parquet|  s3://prova-bigdata-gold-6325226/fato_pedidos/  |  data_pedido |  fato_pedidos  |
++---------+-------------------------------------------------+--------------+----------------+
+
+$ echo "Partições em fato_pedidos: $(aws glue get-partitions --database-name prova_bigdata_gold --table-name fato_pedidos --query 'length(Partitions)')"
+Partições em fato_pedidos: 24
+
+==============================================================================
+DYNAMODB
+$ aws dynamodb describe-table --table-name execucoes --query 'Table.{...}' --output table
+--------------------------------------------------
+|                  DescribeTable                 |
++-----------------+----------------+-------------+
+|     Billing     |     Chave      |   Tabela    |
++-----------------+----------------+-------------+
+|  PAY_PER_REQUEST|  execution_id  |  execucoes  |
++-----------------+----------------+-------------+
+
+$ aws dynamodb scan --table-name execucoes --output table --query 'Items[].{...}'
++----------------------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+|             data_hora            |         dataset         |                    execution_id                     | linhas_gravadas  | linhas_lidas  |  status   |
++----------------------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+|  2026-09-26T01:50:22.912875+00:00|  pedidos_desnormalizado |  normaliza-pedidos-spark-application-1790387351470  |  103             |  110          |  SUCESSO  |
++----------------------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+
+==============================================================================
+S3 — bucket raw
+$ aws s3 ls s3://prova-bigdata-raw-6325226/ --recursive
+2026-09-25 18:46:51      10198 pedidos/pedidos_desnormalizado.csv
+
+==============================================================================
+S3 — bucket gold
+$ aws s3 ls s3://prova-bigdata-gold-6325226/
+                           PRE athena-results/
+                           PRE dim_cliente/
+                           PRE dim_produto/
+                           PRE fato_pedidos/
+                           PRE scripts/
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/fato_pedidos/
+                           PRE data_pedido=2026-01-05/
+                           PRE data_pedido=2026-01-06/
+                           PRE data_pedido=2026-01-07/
+                           PRE data_pedido=2026-01-08/
+                           PRE data_pedido=2026-01-09/
+                           PRE data_pedido=2026-01-10/
+                           PRE data_pedido=2026-01-11/
+                           PRE data_pedido=2026-01-12/
+                           PRE data_pedido=2026-01-13/
+                           PRE data_pedido=2026-01-14/
+                           PRE data_pedido=2026-01-15/
+                           PRE data_pedido=2026-01-16/
+                           PRE data_pedido=2026-01-17/
+                           PRE data_pedido=2026-01-18/
+                           PRE data_pedido=2026-01-19/
+                           PRE data_pedido=2026-01-20/
+                           PRE data_pedido=2026-01-21/
+                           PRE data_pedido=2026-01-22/
+                           PRE data_pedido=2026-01-23/
+                           PRE data_pedido=2026-01-24/
+                           PRE data_pedido=2026-01-25/
+                           PRE data_pedido=2026-01-26/
+                           PRE data_pedido=2026-01-27/
+                           PRE data_pedido=2026-01-28/
+(24 partições)
+
+
+==============================================================================
+ 14_terraform_destroy.txt
+==============================================================================
+
+terraform destroy — limpeza final (infra/) — 2026-09-26T02:32:20Z
+
+$ terraform destroy
+terraform_data.bucket_raw: Destroying... [id=190dcfa9-3e37-13c0-0b23-5b95bb37da4d]
+aws_athena_workgroup.prova: Destroying... [id=prova-bigdata]
+aws_glue_crawler.gold: Destroying... [id=crawler-prova-bigdata-gold]
+aws_glue_job.normaliza_pedidos: Destroying... [id=normaliza-pedidos]
+aws_glue_crawler.gold: Destruction complete after 0s
+aws_glue_catalog_database.gold: Destroying... [id=968685597832:prova_bigdata_gold]
+aws_glue_job.normaliza_pedidos: Destruction complete after 0s
+aws_dynamodb_table.execucoes: Destroying... [id=execucoes]
+aws_s3_object.script: Destroying... [id=scripts/normaliza_pedidos.py]
+aws_athena_workgroup.prova: Destruction complete after 0s
+aws_glue_catalog_database.gold: Destruction complete after 1s
+aws_s3_object.script: Destruction complete after 1s
+terraform_data.bucket_raw (local-exec): delete: s3://prova-bigdata-raw-6325226/pedidos/pedidos_desnormalizado.csv
+terraform_data.bucket_gold: Destroying... [id=39408f14-35b1-13ce-cc85-94b244afc89d]
+terraform_data.bucket_raw (local-exec): remove_bucket: prova-bigdata-raw-6325226
+terraform_data.bucket_raw: Destruction complete after 4s
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/0ddc491a-e4b0-4c2c-b714-1b5705fcda7d.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/433f0e14-2423-41b0-910b-55c30d3399a8.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/43b5215d-84ff-4aac-9002-254f2897df87.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/56a70f7d-5e11-46f1-89fa-dca9a594f5c5.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/4f6ce8d5-ea85-4d45-9bf9-5bb2fa622342.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/64d4e97e-fccb-4c5f-b534-2b90757277e6.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/ce4f805f-ab19-4463-9b58-f2a24c0b1322.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/ba1071ed-9134-44aa-8e56-c7e7e66711a7.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/e0c6582b-4368-49ed-8dd4-2be94bf59da2.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/e9c9353b-2ca7-4698-b5ea-479ebcd1e7a1.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/dim_cliente/part-00000-8a014ac1-6ea4-4cd8-901c-064facac794d-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/dim_produto/part-00000-44df7c7f-21fc-4bbe-9029-a8f682f526e9-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/fato_pedidos/data_pedido=2026-01-05/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): remove_bucket: prova-bigdata-gold-6325226
+terraform_data.bucket_gold: Destruction complete after 4s
+aws_dynamodb_table.execucoes: Destruction complete after 8s
+Destroy complete! Resources: 8 destroyed.
+   (... demais objetos do gold removidos pelo --force ...)
+
+Verificação pós-destroy na conta 968685597832 (us-east-1):
+$ aws s3 ls | grep prova-bigdata            -> 0 bucket(s)
+$ aws glue list-jobs                         -> 0 job(s)
+$ aws glue list-crawlers                     -> 0 crawler(s)
+$ aws glue get-databases (prova_bigdata_gold) -> 0 database(s)
+$ aws dynamodb list-tables                   -> 0 tabela(s)
+$ aws athena list-work-groups                -> primary (só o padrão da conta)
+$ terraform state list | wc -l               -> 0 recurso(s)

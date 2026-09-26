@@ -1,0 +1,17 @@
+Athena — conferencia_totais
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: 43b5215d-84ff-4aac-9002-254f2897df87
+Estado: SUCCEEDED | Dados lidos: 1651 bytes | Tempo: 914 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/43b5215d-84ff-4aac-9002-254f2897df87.csv
+
+SQL:
+SELECT COUNT(*) AS linhas_fato, ROUND(SUM(valor_total), 2) AS faturamento_total
+FROM fato_pedidos;
+
+Resultado:
++-------------+-------------------+
+| linhas_fato | faturamento_total |
++-------------+-------------------+
+| 103         | 61798.9           |
++-------------+-------------------+
+(1 linha(s))

@@ -1,0 +1,28 @@
+Bucket raw — camada de origem (privado)
+
+$ aws s3 ls s3://prova-bigdata-raw-6325226/ --recursive
+2026-09-25 22:46:51      10198 pedidos/pedidos_desnormalizado.csv
+
+$ aws s3api get-public-access-block --bucket prova-bigdata-raw-6325226
+-------------------------------------
+|       GetPublicAccessBlock        |
++-----------------------------------+
+|| PublicAccessBlockConfiguration  ||
+|+-------------------------+-------+|
+||  BlockPublicAcls        |  True ||
+||  BlockPublicPolicy      |  True ||
+||  IgnorePublicAcls       |  True ||
+||  RestrictPublicBuckets  |  True ||
+|+-------------------------+-------+|
+
+$ aws s3api get-public-access-block --bucket prova-bigdata-gold-6325226
+-------------------------------------
+|       GetPublicAccessBlock        |
++-----------------------------------+
+|| PublicAccessBlockConfiguration  ||
+|+-------------------------+-------+|
+||  BlockPublicAcls        |  True ||
+||  BlockPublicPolicy      |  True ||
+||  IgnorePublicAcls       |  True ||
+||  RestrictPublicBuckets  |  True ||
+|+-------------------------+-------+|

@@ -1,0 +1,19 @@
+Athena — consulta4_integridade_orfaos
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: e0c6582b-4368-49ed-8dd4-2be94bf59da2
+Estado: SUCCEEDED | Dados lidos: 1868 bytes | Tempo: 1012 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/e0c6582b-4368-49ed-8dd4-2be94bf59da2.csv
+
+SQL:
+SELECT COUNT(*) AS orfaos
+FROM fato_pedidos f
+LEFT JOIN dim_produto p ON f.produto_id = p.produto_id
+WHERE p.produto_id IS NULL;
+
+Resultado:
++--------+
+| orfaos |
++--------+
+| 0      |
++--------+
+(1 linha(s))
