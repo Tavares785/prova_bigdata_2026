@@ -1,0 +1,15 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform.tfvars
+*.auto.tfvars
+.env
+.env.*
+__pycache__/
+.pytest_cache/
+.hypothesis/
+.venv/
+gold-local/
+*.pyc
+.DS_Store

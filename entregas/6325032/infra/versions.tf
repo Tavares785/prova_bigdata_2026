@@ -1,5 +1,4 @@
-# versions.tf — infra (prova)
-# PRONTO — não alterar.
+# PRONTO — não alterar (conforme arquivo original do professor).
 #
 # IMPORTANTE (AWS Academy Learner Lab): provider aws FIXADO em 5.31.0. Versões
 # mais novas fazem, no refresh de S3, chamadas (ex.: GetBucketObjectLockConfiguration)

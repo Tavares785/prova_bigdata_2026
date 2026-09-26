@@ -1,0 +1,20 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-8.2.2, pluggy-1.6.0 -- /usr/local/bin/python
+cachedir: .pytest_cache
+hypothesis profile 'default' -> database=DirectoryBasedExampleDatabase(PosixPath('/prova/.hypothesis/examples'))
+rootdir: /prova
+plugins: hypothesis-6.112.1
+collecting ... collected 10 items
+
+tests/test_normalizacao.py::test_dataset_real_contagens_somas_e_integridade PASSED [ 10%]
+tests/test_normalizacao.py::test_nulos_espacos_quantidades_e_dimensao_desconhecida PASSED [ 20%]
+tests/test_normalizacao.py::test_deduplicacao_estavel_e_cadastro_completo PASSED [ 30%]
+tests/test_normalizacao.py::test_entrada_vazia PASSED                    [ 40%]
+tests/test_normalizacao.py::test_parquet_roundtrip_particoes_e_reexecucao PASSED [ 50%]
+tests/test_normalizacao.py::test_metadados_timezone_tipos_e_validacoes PASSED [ 60%]
+tests/test_normalizacao.py::test_dynamo_sem_acessar_aws PASSED           [ 70%]
+tests/test_normalizacao.py::test_falha_preserva_contagens_e_excecao_original[False] PASSED [ 80%]
+tests/test_normalizacao.py::test_falha_preserva_contagens_e_excecao_original[True] PASSED [ 90%]
+tests/test_normalizacao.py::test_propriedade_descarte PASSED             [100%]
+
+============================= 10 passed in 53.77s ==============================

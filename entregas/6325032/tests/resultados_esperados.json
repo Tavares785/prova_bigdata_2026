@@ -1,0 +1,186 @@
+{
+  "origem": "Calculo local; nao e evidencia de execucao no Athena",
+  "linhas_lidas": 110,
+  "linhas_gravadas": 103,
+  "dim_cliente": 16,
+  "dim_produto": 8,
+  "particoes": 24,
+  "faturamento_total": "61798.90",
+  "consulta_1": [
+    {
+      "categoria": "Eletronicos",
+      "faturamento": "30334.10"
+    },
+    {
+      "categoria": "Moveis",
+      "faturamento": "13485.00"
+    },
+    {
+      "categoria": "Calcados",
+      "faturamento": "5698.10"
+    },
+    {
+      "categoria": "Eletrodomesticos",
+      "faturamento": "4921.00"
+    },
+    {
+      "categoria": "Livros",
+      "faturamento": "2876.80"
+    },
+    {
+      "categoria": "Acessorios",
+      "faturamento": "2338.20"
+    },
+    {
+      "categoria": "Vestuario",
+      "faturamento": "2145.70"
+    }
+  ],
+  "consulta_2": [
+    {
+      "cliente_nome": "Carla Nunes",
+      "gasto_total": "6955.20"
+    },
+    {
+      "cliente_nome": "Diego Alves",
+      "gasto_total": "6464.70"
+    },
+    {
+      "cliente_nome": "Henrique Melo",
+      "gasto_total": "6114.40"
+    },
+    {
+      "cliente_nome": "Ana Souza",
+      "gasto_total": "5793.30"
+    },
+    {
+      "cliente_nome": "Elaine Rocha",
+      "gasto_total": "5284.30"
+    }
+  ],
+  "consulta_3": [
+    {
+      "data_pedido": "2026-01-05",
+      "qtd_pedidos": 5,
+      "faturamento_dia": "1499.00"
+    },
+    {
+      "data_pedido": "2026-01-06",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "948.10"
+    },
+    {
+      "data_pedido": "2026-01-07",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "1798.30"
+    },
+    {
+      "data_pedido": "2026-01-08",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "2947.70"
+    },
+    {
+      "data_pedido": "2026-01-09",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "1167.10"
+    },
+    {
+      "data_pedido": "2026-01-10",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "3106.70"
+    },
+    {
+      "data_pedido": "2026-01-11",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "2898.20"
+    },
+    {
+      "data_pedido": "2026-01-12",
+      "qtd_pedidos": 5,
+      "faturamento_dia": "1218.20"
+    },
+    {
+      "data_pedido": "2026-01-13",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "5196.80"
+    },
+    {
+      "data_pedido": "2026-01-14",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "1476.60"
+    },
+    {
+      "data_pedido": "2026-01-15",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "1838.20"
+    },
+    {
+      "data_pedido": "2026-01-16",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "5446.40"
+    },
+    {
+      "data_pedido": "2026-01-17",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "937.40"
+    },
+    {
+      "data_pedido": "2026-01-18",
+      "qtd_pedidos": 5,
+      "faturamento_dia": "3856.30"
+    },
+    {
+      "data_pedido": "2026-01-19",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "3318.20"
+    },
+    {
+      "data_pedido": "2026-01-20",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "2156.80"
+    },
+    {
+      "data_pedido": "2026-01-21",
+      "qtd_pedidos": 5,
+      "faturamento_dia": "2947.50"
+    },
+    {
+      "data_pedido": "2026-01-22",
+      "qtd_pedidos": 5,
+      "faturamento_dia": "2375.30"
+    },
+    {
+      "data_pedido": "2026-01-23",
+      "qtd_pedidos": 5,
+      "faturamento_dia": "1448.30"
+    },
+    {
+      "data_pedido": "2026-01-24",
+      "qtd_pedidos": 6,
+      "faturamento_dia": "6645.70"
+    },
+    {
+      "data_pedido": "2026-01-25",
+      "qtd_pedidos": 3,
+      "faturamento_dia": "849.50"
+    },
+    {
+      "data_pedido": "2026-01-26",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "1866.50"
+    },
+    {
+      "data_pedido": "2026-01-27",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "2478.40"
+    },
+    {
+      "data_pedido": "2026-01-28",
+      "qtd_pedidos": 4,
+      "faturamento_dia": "3377.70"
+    }
+  ],
+  "consulta_4": {
+    "orfaos": 0
+  }
+}
