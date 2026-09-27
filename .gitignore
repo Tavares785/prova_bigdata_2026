@@ -44,3 +44,7 @@ venv/
 derby.log
 metastore_db/
 spark-warehouse/
+
+# plano binario do terraform — carrega os valores das variaveis
+tfplan
+tfplan.binary
