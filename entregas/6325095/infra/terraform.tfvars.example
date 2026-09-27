@@ -1,0 +1,37 @@
+# terraform.tfvars.example — infra (prova)
+#
+# Copie para terraform.tfvars e ajuste:
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# ⚠️ NUNCA versione credenciais. As credenciais temporárias do Learner Lab
+#    (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY / AWS_SESSION_TOKEN) vêm de
+#    variáveis de ambiente ou ~/.aws/credentials — nunca deste arquivo.
+#    terraform.tfvars está no .gitignore — não o commite.
+#
+# Este exemplo cobre apenas a camada raw (PRONTA). Ao construir a sua infra,
+# adicione aqui os valores das variáveis que VOCÊ declarar.
+
+# Região obrigatória do Learner Lab.
+regiao = "us-east-1"
+
+# Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
+bucket_raw_nome = "prova-bigdata-raw-SEURA"
+
+# --- Camada gold (aluno) ----------------------------------------------------
+
+# Nome GLOBALMENTE único do bucket gold (troque SEURA pelo seu RA).
+bucket_gold_nome = "prova-bigdata-gold-SEURA"
+
+# ARN da LabRole do seu Learner Lab (painel "AWS Details" -> Account ID, ou
+# `aws iam get-role --role-name LabRole --query Role.Arn`).
+labrole_arn = "arn:aws:iam::<ID_DA_CONTA>:role/LabRole"
+
+# Nome da tabela DynamoDB de metadados das execuções.
+dynamodb_table_nome = "execucoes"
+
+# Tags de custo padronizadas.
+tags = {
+  Projeto    = "prova-bigdata-aws"
+  Disciplina = "big-data-unifaat"
+  Ambiente   = "learner-lab"
+}
