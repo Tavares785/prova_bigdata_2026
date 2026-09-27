@@ -20,4 +20,4 @@ Essas verificações não comprovam permissões do Learner Lab nem substituem
 O arquivo PENDENCIAS_AWS.md lista as evidências que ainda precisam ser obtidas.
 
 ![alt text](<3 faturamento evidencia.PNG>) ![alt text](<4 evidencia faturamento.PNG>) ![alt text](<dynamodb scan evidence.PNG>) ![alt text](<evidencia 03 faturamento.PNG>) ![alt text](<evidencia do DynamoDB.PNG>) ![alt text](<evidencia faturamento categoria 02.PNG>) ![alt text](<evidencia faturamento categoria.PNG>) ![alt text](<evidencia glue.PNG>) ![alt text](<evidencia s3.PNG>) ![alt text](<glue job evidence.PNG>) ![alt text](<terraform apply feito.PNG>) ![alt text](<terraform init.PNG>) ![alt text](<terraform validate.PNG>) ![alt text](<teste athena evidence.PNG>)
-![alt text](image.png)
+![alt text](image.png)![alt text](image-1.png)
