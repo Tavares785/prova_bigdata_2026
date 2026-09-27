@@ -39,10 +39,11 @@ Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 8.5
 """
 
 import sys
-
+import boto3
+from datetime import datetime, timezone
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame, SparkSession
-
+from pyspark.sql.functions import col, trim, when, lit
 # Imports específicos do Glue — disponíveis no runtime do AWS Glue.
 # No teste local eles não são usados (a lógica pura roda em SparkSession pura).
 try:
@@ -55,39 +56,94 @@ except ImportError:  # ambiente local sem o SDK do Glue
     getResolvedOptions = None
 
 
+    dynamodb = boto3.resource("dynamodb")
+    tabela = dynamodb.Table(ddb_table)
+    tabela.put_item(Item=item)
+
 # ---------------------------------------------------------------------------
 # Funções PURAS (lógica de normalização) — TESTÁVEIS localmente, sem AWS.
+    dynamodb = boto3.resource("dynamodb")
+    tabela = dynamodb.Table(ddb_table)
+    tabela.put_item(Item=item)
+
 # ---------------------------------------------------------------------------
 
 def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
-    """Normaliza o DataFrame desnormalizado no Modelo_Dimensional_Alvo (esquema estrela).
-
-    Deriva, a partir do `df_raw` (tabela ampla `pedidos_desnormalizado`), três DataFrames:
-      - ``dim_cliente``: uma linha por `cliente_id` (chave única), com `cliente_nome`, `cliente_uf`.
-      - ``dim_produto``: uma linha por `produto_id` (chave única), com `produto_nome`, `categoria`.
-      - ``fato_pedidos``: uma linha por `pedido_id`, com FKs `cliente_id`/`produto_id` e as medidas
-        `preco_unitario`, `quantidade`, `valor_total` e a coluna de partição `data_pedido`.
-
-    Regra de dados inválidos (Req 6.7):
-      - Descartar do fato as linhas sem `pedido_id`, `cliente_id` ou `produto_id`, ou com
-        `quantidade` ausente/`<= 0`.
-      - Nas dimensões, textos ausentes (`cliente_nome`, `cliente_uf`, `produto_nome`, `categoria`)
-        viram ``"DESCONHECIDO"`` (a linha da dimensão é mantida).
-
-    Args:
-        df_raw: DataFrame desnormalizado lido do Bucket_Raw.
-
-    Returns:
-        dict com as chaves ``"fato_pedidos"``, ``"dim_cliente"`` e ``"dim_produto"``,
-        cada uma mapeando para o respectivo DataFrame normalizado.
-
-    Requirements: 6.1, 6.2, 6.7
     """
-    # TODO(aluno): implementar a normalização (fato + 2 dimensões) usando DataFrames/Spark SQL.
-    # TODO(aluno): aplicar a regra de tratamento de dados inválidos (Req 6.7).
-    # TODO(aluno): retornar {"fato_pedidos": ..., "dim_cliente": ..., "dim_produto": ...}.
-    raise NotImplementedError("TODO(aluno): implementar normalizar()")
+    Normaliza o dataset desnormalizado em:
+    - dim_cliente
+    - dim_produto
+    - fato_pedidos
+    """
 
+    # ============================================================
+    # 1. DIMENSÃO CLIENTE
+    # ============================================================
+
+    dim_cliente = df_raw.select(
+        "cliente_id",
+        when(
+            col("cliente_nome").isNull()
+            | (trim(col("cliente_nome")) == ""),
+            lit("DESCONHECIDO")
+        ).otherwise(col("cliente_nome")).alias("cliente_nome"),
+
+        when(
+            col("cliente_uf").isNull()
+            | (trim(col("cliente_uf")) == ""),
+            lit("DESCONHECIDO")
+        ).otherwise(col("cliente_uf")).alias("cliente_uf")
+    ).dropDuplicates(["cliente_id"])
+
+    # ============================================================
+    # 2. DIMENSÃO PRODUTO
+    # ============================================================
+
+    dim_produto = df_raw.select(
+        "produto_id",
+
+        when(
+            col("produto_nome").isNull()
+            | (trim(col("produto_nome")) == ""),
+            lit("DESCONHECIDO")
+        ).otherwise(col("produto_nome")).alias("produto_nome"),
+
+        when(
+            col("categoria").isNull()
+            | (trim(col("categoria")) == ""),
+            lit("DESCONHECIDO")
+        ).otherwise(col("categoria")).alias("categoria")
+    ).dropDuplicates(["produto_id"])
+
+    # ============================================================
+    # 3. FATO PEDIDOS
+    # ============================================================
+
+    fato_pedidos = df_raw.filter(
+        col("pedido_id").isNotNull()
+        & (trim(col("pedido_id")) != "")
+        & col("cliente_id").isNotNull()
+        & (trim(col("cliente_id")) != "")
+        & col("produto_id").isNotNull()
+        & (trim(col("produto_id")) != "")
+        & col("quantidade").isNotNull()
+        & (col("quantidade") > 0)
+    ).select(
+        "pedido_id",
+        "data_pedido",
+        "cliente_id",
+        "produto_id",
+        "preco_unitario",
+        "quantidade",
+        "valor_total"
+    )
+
+    # Retorna as três tabelas para o restante do programa
+    return {
+        "dim_cliente": dim_cliente,
+        "dim_produto": dim_produto,
+        "fato_pedidos": fato_pedidos
+    }
 
 def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, status) -> dict:
     """Monta o item de metadados de uma execução para gravar no DynamoDB.
@@ -108,13 +164,27 @@ def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, statu
 
     Requirements: 6.5, 8.5
     """
-    # TODO(aluno): montar e retornar o dict de metadados com todos os campos preenchidos,
-    # TODO(aluno): incluindo data_hora em formato ISO-8601.
-    raise NotImplementedError("TODO(aluno): implementar montar_metadados()")
+    data_hora = datetime.now(timezone.utc).isoformat()
+    return {
+        "execution_id": execution_id,
+        "data_hora": data_hora,
+        "dataset": dataset,
+        "linhas_lidas": linhas_lidas,
+        "linhas_gravadas": linhas_gravadas,
+        "status": status,
+    }
 
+
+    dynamodb = boto3.resource("dynamodb")
+    tabela = dynamodb.Table(ddb_table)
+    tabela.put_item(Item=item)
 
 # ---------------------------------------------------------------------------
 # Funções de I/O (efeitos colaterais / AWS) — SEPARADAS da lógica pura.
+    dynamodb = boto3.resource("dynamodb")
+    tabela = dynamodb.Table(ddb_table)
+    tabela.put_item(Item=item)
+
 # ---------------------------------------------------------------------------
 
 def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
@@ -129,8 +199,12 @@ def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
 
     Requirements: 6.3
     """
-    # TODO(aluno): ler o CSV do raw_path (header=True, inferSchema ou schema explícito).
-    raise NotImplementedError("TODO(aluno): implementar ler_raw()")
+    return (
+        spark.read
+        .option("header", True)
+        .option("inferSchema", True)
+        .csv(raw_path)
+    )
 
 
 def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
@@ -148,10 +222,19 @@ def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
 
     Requirements: 6.4, 6.6
     """
-    # TODO(aluno): gravar fato_pedidos em Parquet particionado por data_pedido.
-    # TODO(aluno): gravar dim_cliente e dim_produto em Parquet (sem partição).
-    raise NotImplementedError("TODO(aluno): implementar escrever_gold()")
+    tabelas["dim_cliente"].write.mode("overwrite").parquet(
+        f"{gold_path}/dim_cliente"
+    )
 
+    tabelas["dim_produto"].write.mode("overwrite").parquet(
+        f"{gold_path}/dim_produto"
+    )
+
+    tabelas["fato_pedidos"].write.mode("overwrite").partitionBy(
+        "data_pedido"
+    ).parquet(
+        f"{gold_path}/fato_pedidos"
+    )
 
 def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
     """Grava o item de metadados da execução na tabela DynamoDB.
@@ -162,12 +245,18 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
 
     Requirements: 6.5, 8.5
     """
-    # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
-    raise NotImplementedError("TODO(aluno): implementar gravar_metadados_dynamo()")
 
+
+    dynamodb = boto3.resource("dynamodb")
+    tabela = dynamodb.Table(ddb_table)
+    tabela.put_item(Item=item)
 
 # ---------------------------------------------------------------------------
 # main — orquestra o contrato de 6 passos (ver design.md, Components (c)).
+    dynamodb = boto3.resource("dynamodb")
+    tabela = dynamodb.Table(ddb_table)
+    tabela.put_item(Item=item)
+
 # ---------------------------------------------------------------------------
 
 def main() -> None:
