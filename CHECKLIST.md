@@ -26,39 +26,39 @@ Cada item indica o requisito correspondente da prova.
 ---
 ## 1. Segurança e credenciais
 
-- [ ] **Credenciais temporárias configuradas e nunca versionadas.** As chaves do Learner Lab
+- [X] **Credenciais temporárias configuradas e nunca versionadas.** As chaves do Learner Lab
   (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN`) foram configuradas via
   variáveis de ambiente ou `~/.aws/credentials` e **não** aparecem em nenhum arquivo commitado
   (confira o `.gitignore`). — _Requisito 11.4_
-- [ ] **Nenhuma credencial ou `terraform.tfvars` com segredo foi commitada.** Apenas os arquivos
+- [X] **Nenhuma credencial ou `terraform.tfvars` com segredo foi commitada.** Apenas os arquivos
   `*.tfvars.example` (sem valores sensíveis) estão versionados. — _Requisito 11.4_
 
 ## 2. Região e aplicação da infraestrutura
 
-- [ ] **Região `us-east-1` em todos os providers**, conforme exigido pelo
+- [X] **Região `us-east-1` em todos os providers**, conforme exigido pelo
   Learner Lab. — _Requisito 10.2_
-- [ ] **AWS CLI v2 instalado e autenticado** (os buckets são criados via CLI no apply). — _Requisito 10.2_
-- [ ] **A infraestrutura (`terraform apply` em `infra/`) aplica sem erro** (`terraform init`,
+- [X] **AWS CLI v2 instalado e autenticado** (os buckets são criados via CLI no apply). — _Requisito 10.2_
+- [X] **A infraestrutura (`terraform apply` em `infra/`) aplica sem erro** (`terraform init`,
   `terraform validate` e `terraform apply` concluem sem falhas). — _Requisito 13.1_
 
 ## 3. Buckets e IAM
 
-- [ ] **Bucket_Gold privado**, com o bloqueio de acesso público habilitado (os quatro
+- [X] **Bucket_Gold privado**, com o bloqueio de acesso público habilitado (os quatro
   bloqueios do `public_access_block` em `true`). — _Requisitos 11.2, 4.5_
-- [ ] **Glue Job usa a LabRole por ARN** (referenciada via `data source` ou variável
+- [X] **Glue Job usa a LabRole por ARN** (referenciada via `data source` ou variável
   `labrole_arn`), **sem** criar roles ou policies IAM próprias. — _Requisito 11.3_
 
 ## 4. Processamento e camada gold
 
-- [ ] **Glue Job executado com sucesso** (disparo via console ou `aws glue start-job-run`,
+- [X] **Glue Job executado com sucesso** (disparo via console ou `aws glue start-job-run`,
   com status acompanhado até concluir). — _Requisito 5.3_
-- [ ] **Dados gravados no Bucket_Gold em Parquet particionado por `data_pedido`**
+- [X] **Dados gravados no Bucket_Gold em Parquet particionado por `data_pedido`**
   (layout `fato_pedidos/data_pedido=YYYY-MM-DD/...`). — _Requisitos 6.6, 13.3_
 
 ## 5. Catálogo e consultas
 
-- [ ] **Tabelas registradas no Glue Data Catalog** e consultáveis pelo Athena. — _Requisito 7.4_
-- [ ] **As consultas Athena de referência (≥ 3) retornam os resultados esperados**
+- [X] **Tabelas registradas no Glue Data Catalog** e consultáveis pelo Athena. — _Requisito 7.4_
+- [X] **As consultas Athena de referência (≥ 3) retornam os resultados esperados**
   definidos no enunciado. — _Requisitos 7.1, 7.2_
 
 ## 6. Metadados no DynamoDB

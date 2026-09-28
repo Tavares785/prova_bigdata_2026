@@ -16,3 +16,19 @@ regiao = "us-east-1"
 
 # Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
 bucket_raw_nome = "prova-bigdata-raw-SEURA"
+
+# --- Camada gold ---
+
+# Nome GLOBALMENTE único do bucket gold (troque SEURA pelo seu RA).
+bucket_gold_nome = "prova-bigdata-gold-SEURA"
+
+# ARN da LabRole: troque <ID_CONTA> pelo "Account" retornado por
+#   aws sts get-caller-identity
+labrole_arn = "arn:aws:iam::<ID_CONTA>:role/LabRole"
+
+# Opcional: já existe um default em variables.tf. Descomente para sobrescrever.
+# tags = {
+#   Projeto    = "prova-bigdata"
+#   Disciplina = "BigData"
+#   Ambiente   = "prova"
+# }
