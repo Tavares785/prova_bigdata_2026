@@ -104,7 +104,7 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
         "quantidade", 
         "valor_total", 
         "data_pedido"
-    )
+    ).withColumn("data_pedido", F.to_date(F.col("data_pedido")))
 
     # Bloco C: Dimensões
     dim_cliente = df_validos.select("cliente_id", "cliente_nome", "cliente_uf") \
