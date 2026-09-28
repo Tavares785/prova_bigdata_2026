@@ -137,11 +137,13 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
         F.col("valor_total").cast("double").alias("valor_total"),
     )
 
-    # Req 6.7: linhas válidas têm as 3 chaves e quantidade > 0 (NULL > 0 é NULL e também descarta).
+    # Req 6.7: linhas válidas têm as 3 chaves, quantidade > 0 (NULL > 0 é NULL e também descarta)
+    # e data_pedido válida (sem ela a linha não tem partição e ficaria invisível no Athena).
     validas = limpo.where(
         F.col("pedido_id").isNotNull()
         & F.col("cliente_id").isNotNull()
         & F.col("produto_id").isNotNull()
+        & F.col("data_pedido").isNotNull()
         & (F.col("quantidade") > 0)
     )
 
@@ -290,6 +292,9 @@ def main() -> None:
 
     # execution_id único da rodada (usado como chave de partição no DynamoDB).
     execution_id = str(uuid.uuid4())
+    # linhas_lidas fica disponível para o item de FALHA mesmo se a falha ocorrer depois
+    # da leitura (ex.: na escrita do gold) — sem isso, o metadado perderia um dado já conhecido.
+    linhas_lidas = 0
 
     try:
         # Passo 2 — Ler o raw e contar linhas_lidas.
@@ -324,7 +329,7 @@ def main() -> None:
             item = montar_metadados(
                 execution_id=execution_id,
                 dataset=dataset_name,
-                linhas_lidas=0,
+                linhas_lidas=linhas_lidas,
                 linhas_gravadas=0,
                 status="FALHA",
             )

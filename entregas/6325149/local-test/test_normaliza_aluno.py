@@ -305,6 +305,27 @@ def test_main_falha_nao_mascara_erro_se_dynamo_tambem_falhar(monkeypatch):
         job.main()
 
 
+def test_data_pedido_invalida_descarta_do_fato(spark):
+    """Achado do code-review: data_pedido nula sobreviveria ao filtro e viraria partição NULL."""
+    linhas = [("PED900", "nao-e-uma-data", "C1", "Nome", "SP", "P1", "Prod", "Cat", 10.0, 1, 10.0)]
+    df = spark.createDataFrame(linhas, _schema_texto())
+    assert job.normalizar(df)["fato_pedidos"].count() == 0
+
+
+def test_falha_apos_leitura_preserva_linhas_lidas(monkeypatch, spark):
+    """Achado do code-review: FALHA gravava linhas_lidas=0 mesmo quando já era conhecido."""
+    gravados = []
+    _simular_glue(monkeypatch, gravados, spark)
+    monkeypatch.setattr(job, "ler_raw", lambda s, p: s.read.csv(str(CSV), header=True, schema=job.SCHEMA_RAW))
+    monkeypatch.setattr(job, "escrever_gold", lambda tabelas, gold: (_ for _ in ()).throw(RuntimeError("erro ao escrever gold")))
+    with pytest.raises(RuntimeError, match="erro ao escrever gold"):
+        job.main()
+    (_, item), = gravados
+    assert item["status"] == "FALHA"
+    assert item["linhas_lidas"] == 110  # já era conhecido antes da falha na escrita
+    assert item["linhas_gravadas"] == 0  # nada foi de fato gravado no gold
+
+
 def test_execution_id_unico_entre_execucoes(monkeypatch):
     ids = []
     for _ in range(2):

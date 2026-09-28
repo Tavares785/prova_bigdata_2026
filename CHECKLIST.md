@@ -70,6 +70,11 @@ Cada item indica o requisito correspondente da prova.
 
 - [x] **Tags de custo padronizadas** (`Projeto`, `Disciplina`, `Ambiente`) aplicadas a todos
   os recursos criados. — _Requisito 10.3_
+  > Ressalva: o bucket **raw** não recebeu tags — ele é criado por `infra/raw.tf`, entregue
+  > "PRONTO (não altere)" pelo professor, que não chama `put-bucket-tagging`. Os demais
+  > recursos (buckets gold/resultados, Glue Job, database do Glue, Athena Workgroup,
+  > DynamoDB) têm as 3 tags — ver `entregas/6325149/evidencias/03-*.txt` e
+  > `entregas/6325149/README.md`.
 - [x] **`terraform destroy` executado ao final** para remover todos os recursos e evitar
   consumo residual do orçamento (guarde a evidência da destruição). — _Requisitos 10.4, 10.6_
 
