@@ -1,0 +1,31 @@
+[0m[1mterraform_data.bucket_raw: Refreshing state... [id=6a23bffd-68a0-8eed-57aa-a8fc3df817be][0m
+[0m[1mterraform_data.bucket_gold: Refreshing state... [id=e35b326d-71ac-cac6-783d-16a96bcfc2e8][0m
+[0m[1mterraform_data.upload_script_glue: Refreshing state... [id=b0eac04c-3ccb-78db-e336-dda717d051ad][0m
+[0m[1maws_glue_catalog_database.gold: Refreshing state... [id=319184937445:prova_bigdata_gold][0m
+[0m[1maws_athena_workgroup.prova: Refreshing state... [id=prova-bigdata][0m
+[0m[1maws_dynamodb_table.execucoes: Refreshing state... [id=execucoes][0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mreading Amazon DynamoDB Table (execucoes): AccessDeniedException: User: arn:aws:sts::319184937445:assumed-role/voclabs/user5394153=Carollini_Godoy is not authorized to perform: dynamodb:DescribeTable on resource: arn:aws:dynamodb:us-east-1:319184937445:table/execucoes with an explicit deny in an identity-based policy: arn:aws:iam::319184937445:policy/voc-cancel-cred
+[31m│[0m [0m	status code: 400, request id: A6HM5F0SR9G59SG5OIGVK8B5FFVV4KQNSO5AEMVJF66Q9ASUAAJG[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with aws_dynamodb_table.execucoes,
+[31m│[0m [0m  on gold.tf line 80, in resource "aws_dynamodb_table" "execucoes":
+[31m│[0m [0m  80: resource "aws_dynamodb_table" "execucoes" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mreading Glue Catalog Database (319184937445:prova_bigdata_gold): AccessDeniedException: User: arn:aws:sts::319184937445:assumed-role/voclabs/user5394153=Carollini_Godoy is not authorized to perform: glue:GetDatabase on resource: arn:aws:glue:us-east-1:319184937445:catalog with an explicit deny in an identity-based policy: arn:aws:iam::319184937445:policy/voc-cancel-cred[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with aws_glue_catalog_database.gold,
+[31m│[0m [0m  on gold.tf line 133, in resource "aws_glue_catalog_database" "gold":
+[31m│[0m [0m 133: resource "aws_glue_catalog_database" "gold" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mreading Athena WorkGroup (prova-bigdata): operation error Athena: GetWorkGroup, https response error StatusCode: 400, RequestID: 4832e06a-61dc-43d1-a117-482138fcc82d, api error AccessDeniedException: You are not authorized to perform: athena:GetWorkGroup on the resource. After your AWS administrator or you have updated your permissions, please try again.[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with aws_athena_workgroup.prova,
+[31m│[0m [0m  on gold.tf line 175, in resource "aws_athena_workgroup" "prova":
+[31m│[0m [0m 175: resource "aws_athena_workgroup" "prova" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m

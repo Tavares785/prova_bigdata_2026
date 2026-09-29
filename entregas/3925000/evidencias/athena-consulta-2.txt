@@ -1,0 +1,7 @@
+Consulta 2 - Top 5 clientes por gasto
+QueryExecutionId: c3fcc2c1-9599-40b7-9fd6-671a1edd5249
+Status: SUCCEEDED
+
+Carla Nunes 6955.2
+Diego Alves 6464.7
+Henrique Melo 6114.4

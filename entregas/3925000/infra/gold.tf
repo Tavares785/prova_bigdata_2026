@@ -38,7 +38,7 @@ resource "terraform_data" "bucket_gold" {
           BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
       aws s3api put-bucket-tagging \
         --bucket "${var.bucket_gold_nome}" \
-        --tagging 'TagSet=[{Key=Projeto,Value=prova-bigdata},{Key=Ambiente,Value=lab},{Key=Responsavel,Value=3925000}]'
+        --tagging 'TagSet=[{Key=Projeto,Value=prova-bigdata},{Key=Disciplina,Value=Big Data},{Key=Ambiente,Value=lab}]'
     CMD
   }
 

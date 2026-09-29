@@ -48,8 +48,8 @@ variable "tags" {
   type        = map(string)
 
   default = {
-    Projeto     = "prova-bigdata"
-    Ambiente    = "lab"
-    Responsavel = "3925000"
+    Projeto    = "prova-bigdata"
+    Disciplina = "Big Data"
+    Ambiente   = "lab"
   }
 }
