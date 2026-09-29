@@ -16,6 +16,11 @@ resource "terraform_data" "bucket_gold" {
       aws s3api create-bucket --bucket "${var.bucket_gold_nome}" --region "${var.regiao}" 2>/dev/null || true
       aws s3api put-public-access-block --bucket "${var.bucket_gold_nome}" \
         --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+      # Tags de custo no bucket. O recurso terraform_data nao aceita `tags`
+      # (nao e um recurso AWS), entao elas vao pelo mesmo caminho da criacao.
+      # jsonencode em vez da sintaxe abreviada porque ha valores com espaco.
+      aws s3api put-bucket-tagging --bucket "${var.bucket_gold_nome}" \
+        --tagging '${jsonencode({ TagSet = [for k, v in var.tags : { Key = k, Value = v }] })}'
     CMD
   }
 
@@ -78,6 +83,8 @@ resource "aws_glue_job" "normalizacao" {
 resource "aws_glue_catalog_database" "gold" {
   name        = "prova_bigdata_gold"
   description = "Catalogo das tabelas normalizadas do Bucket Gold."
+
+  tags = var.tags
 }
 
 resource "aws_glue_crawler" "gold" {

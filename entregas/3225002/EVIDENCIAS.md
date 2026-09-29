@@ -8,6 +8,13 @@
 Pipeline executado de ponta a ponta: **S3 raw (CSV) → Glue Job PySpark → S3 gold
 (Parquet particionado) → Athena (SQL)**, com metadados da execução no DynamoDB.
 
+> 📸 **Capturas de tela** do console AWS e do terminal em
+> [`evidencias/`](evidencias/) — ver o [índice](evidencias/README.md).
+> O pipeline foi executado duas vezes, em contas diferentes do Learner Lab
+> (`447916381827` em 26–27/09 e `591657390055` em 29/09), com resultados
+> idênticos. Os outputs em texto abaixo são da primeira execução; as capturas,
+> da segunda.
+
 ---
 
 ## 1. `terraform apply` — 8 recursos

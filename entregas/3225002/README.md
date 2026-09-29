@@ -31,6 +31,7 @@ S3 raw (CSV)  →  Glue Job PySpark  →  S3 gold (Parquet particionado)  →  A
 | Caminho | Conteúdo |
 |---|---|
 | [`EVIDENCIAS.md`](EVIDENCIAS.md) | **evidências de execução** — outputs reais do apply, do Job, das consultas, do DynamoDB e do destroy |
+| [`evidencias/`](evidencias/) | **10 capturas de tela** do console AWS e do terminal ([índice](evidencias/README.md)) |
 | [`RESULTADOS_ESPERADOS.md`](RESULTADOS_ESPERADOS.md) | o que o enunciado esperava × o que foi obtido, item por item |
 | [`glue-job/normaliza_pedidos.py`](glue-job/normaliza_pedidos.py) | o Job de normalização, com as 5 funções implementadas |
 | [`infra/gold.tf`](infra/gold.tf) | a camada gold — 7 recursos (construída do zero, ver nota abaixo) |
