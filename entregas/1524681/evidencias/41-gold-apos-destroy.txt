@@ -1,0 +1,4 @@
+--- buckets restantes na conta:
+--- tentando listar o bucket gold (deve falhar, foi destruido):
+
+aws: [ERROR]: An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist

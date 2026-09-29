@@ -1,0 +1,26 @@
+--- SQL: MSCK REPAIR TABLE prova_bigdata_gold_1524681.fato_pedidos
+Partitions not in metastore:	fato_pedidos:data_pedido=2026-01-05	fato_pedidos:data_pedido=2026-01-06	fato_pedidos:data_pedido=2026-01-07	fato_pedidos:data_pedido=2026-01-08	fato_pedidos:data_pedido=2026-01-09	fato_pedidos:data_pedido=2026-01-10	fato_pedidos:data_pedido=2026-01-11	fato_pedidos:data_pedido=2026-01-12	fato_pedidos:data_pedido=2026-01-13	fato_pedidos:data_pedido=2026-01-14	fato_pedidos:data_pedido=2026-01-15	fato_pedidos:data_pedido=2026-01-16	fato_pedidos:data_pedido=2026-01-17	fato_pedidos:data_pedido=2026-01-18	fato_pedidos:data_pedido=2026-01-19	fato_pedidos:data_pedido=2026-01-20	fato_pedidos:data_pedido=2026-01-21	fato_pedidos:data_pedido=2026-01-22	fato_pedidos:data_pedido=2026-01-23	fato_pedidos:data_pedido=2026-01-24	fato_pedidos:data_pedido=2026-01-25	fato_pedidos:data_pedido=2026-01-26	fato_pedidos:data_pedido=2026-01-27	fato_pedidos:data_pedido=2026-01-28
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-05
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-06
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-07
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-08
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-09
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-10
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-11
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-12
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-13
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-14
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-15
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-16
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-17
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-18
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-19
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-20
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-21
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-22
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-23
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-24
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-25
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-26
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-27
+Repair: Added partition to metastore fato_pedidos:data_pedido=2026-01-28

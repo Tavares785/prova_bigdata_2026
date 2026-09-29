@@ -1,0 +1,9 @@
+--- SQL: SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento FROM prova_bigdata_gold_1524681.fato_pedidos f JOIN prova_bigdata_gold_1524681.dim_produto p ON f.produto_id = p.produto_id GROUP BY p.categoria ORDER BY faturamento DESC
+categoria	faturamento
+Eletronicos	30334.1
+Moveis	13485.0
+Calcados	5698.1
+Eletrodomesticos	4921.0
+Livros	2876.8
+Acessorios	2338.2
+Vestuario	2145.7

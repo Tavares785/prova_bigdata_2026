@@ -1,0 +1,8 @@
+athena_workgroup = "workgroup-prova-bigdata"
+bucket_gold = "prova-bigdata-gold-1524681"
+bucket_raw = "prova-bigdata-raw-1524681"
+catalog_database = "prova_bigdata_gold_1524681"
+dynamodb_table = "metadados_execucoes"
+glue_job_name = "normaliza-pedidos"
+glue_script_location = "s3://prova-bigdata-gold-1524681/scripts/normaliza_pedidos.py"
+msck_hint = "MSCK REPAIR TABLE prova_bigdata_gold_1524681.fato_pedidos"

@@ -1,0 +1,7 @@
+{
+    "Tags": {
+        "Ambiente": "learner-lab",
+        "Disciplina": "bigdata",
+        "Projeto": "prova-bigdata"
+    }
+}

@@ -1,0 +1,2 @@
+=== terraform fmt -check -recursive ===
+fmt_exit=0

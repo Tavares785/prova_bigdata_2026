@@ -1,0 +1,1 @@
+2026-09-29 20:56:18       1540 part-00000-9cd5dd4d-1792-45e5-851d-e199da8d62ba-c000.snappy.parquet

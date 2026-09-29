@@ -1,0 +1,468 @@
+terraform_data.bucket_gold: Refreshing state... [id=3a5a6c72-a6bd-85bf-8501-d52a540040a7]
+terraform_data.bucket_raw: Refreshing state... [id=9c2cae05-063b-0c84-ecd2-fa2b218e2cfb]
+terraform_data.glue_script: Refreshing state... [id=f39e8968-026b-4767-37b1-8ab0280e29c8]
+aws_glue_catalog_database.gold: Refreshing state... [id=274796246448:prova_bigdata_gold_1524681]
+aws_athena_workgroup.prova: Refreshing state... [id=workgroup-prova-bigdata]
+aws_dynamodb_table.metadados: Refreshing state... [id=metadados_execucoes]
+aws_glue_catalog_table.dim_produto: Refreshing state... [id=274796246448:prova_bigdata_gold_1524681:dim_produto]
+aws_glue_catalog_table.dim_cliente: Refreshing state... [id=274796246448:prova_bigdata_gold_1524681:dim_cliente]
+aws_glue_catalog_table.fato_pedidos: Refreshing state... [id=274796246448:prova_bigdata_gold_1524681:fato_pedidos]
+aws_glue_job.normaliza_pedidos: Refreshing state... [id=normaliza-pedidos]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_athena_workgroup.prova will be destroyed
+  - resource "aws_athena_workgroup" "prova" {
+      - arn           = "arn:aws:athena:us-east-1:274796246448:workgroup/workgroup-prova-bigdata" -> null
+      - description   = "Workgroup do Athena para as consultas da camada gold." -> null
+      - force_destroy = true -> null
+      - id            = "workgroup-prova-bigdata" -> null
+      - name          = "workgroup-prova-bigdata" -> null
+      - state         = "ENABLED" -> null
+      - tags          = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+      - tags_all      = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+
+      - configuration {
+          - bytes_scanned_cutoff_per_query     = 0 -> null
+          - enforce_workgroup_configuration    = true -> null
+          - publish_cloudwatch_metrics_enabled = true -> null
+          - requester_pays_enabled             = false -> null
+            # (1 unchanged attribute hidden)
+
+          - engine_version {
+              - effective_engine_version = "Athena engine version 3" -> null
+              - selected_engine_version  = "AUTO" -> null
+            }
+
+          - result_configuration {
+              - output_location       = "s3://prova-bigdata-gold-1524681/athena-results/" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # aws_dynamodb_table.metadados will be destroyed
+  - resource "aws_dynamodb_table" "metadados" {
+      - arn                         = "arn:aws:dynamodb:us-east-1:274796246448:table/metadados_execucoes" -> null
+      - billing_mode                = "PAY_PER_REQUEST" -> null
+      - deletion_protection_enabled = false -> null
+      - hash_key                    = "execution_id" -> null
+      - id                          = "metadados_execucoes" -> null
+      - name                        = "metadados_execucoes" -> null
+      - read_capacity               = 0 -> null
+      - stream_enabled              = false -> null
+      - table_class                 = "STANDARD" -> null
+      - tags                        = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+      - tags_all                    = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+      - write_capacity              = 0 -> null
+        # (3 unchanged attributes hidden)
+
+      - attribute {
+          - name = "execution_id" -> null
+          - type = "S" -> null
+        }
+
+      - point_in_time_recovery {
+          - enabled = false -> null
+        }
+
+      - ttl {
+          - enabled        = false -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_glue_catalog_database.gold will be destroyed
+  - resource "aws_glue_catalog_database" "gold" {
+      - arn          = "arn:aws:glue:us-east-1:274796246448:database/prova_bigdata_gold_1524681" -> null
+      - catalog_id   = "274796246448" -> null
+      - id           = "274796246448:prova_bigdata_gold_1524681" -> null
+      - name         = "prova_bigdata_gold_1524681" -> null
+      - parameters   = {} -> null
+      - tags         = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+      - tags_all     = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - create_table_default_permission {
+          - permissions = [
+              - "ALL",
+            ] -> null
+
+          - principal {
+              - data_lake_principal_identifier = "IAM_ALLOWED_PRINCIPALS" -> null
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.dim_cliente will be destroyed
+  - resource "aws_glue_catalog_table" "dim_cliente" {
+      - arn                = "arn:aws:glue:us-east-1:274796246448:table/prova_bigdata_gold_1524681/dim_cliente" -> null
+      - catalog_id         = "274796246448" -> null
+      - database_name      = "prova_bigdata_gold_1524681" -> null
+      - id                 = "274796246448:prova_bigdata_gold_1524681:dim_cliente" -> null
+      - name               = "dim_cliente" -> null
+      - parameters         = {
+          - "classification" = "parquet"
+        } -> null
+      - retention          = 0 -> null
+      - table_type         = "EXTERNAL_TABLE" -> null
+        # (4 unchanged attributes hidden)
+
+      - storage_descriptor {
+          - bucket_columns            = [] -> null
+          - compressed                = false -> null
+          - input_format              = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat" -> null
+          - location                  = "s3://prova-bigdata-gold-1524681/dim_cliente/" -> null
+          - number_of_buckets         = 0 -> null
+          - output_format             = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat" -> null
+          - parameters                = {} -> null
+          - stored_as_sub_directories = false -> null
+
+          - columns {
+              - name       = "cliente_id" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "cliente_nome" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "cliente_uf" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+
+          - ser_de_info {
+              - name                  = "dim_cliente-parquet-serde" -> null
+              - parameters            = {} -> null
+              - serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe" -> null
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.dim_produto will be destroyed
+  - resource "aws_glue_catalog_table" "dim_produto" {
+      - arn                = "arn:aws:glue:us-east-1:274796246448:table/prova_bigdata_gold_1524681/dim_produto" -> null
+      - catalog_id         = "274796246448" -> null
+      - database_name      = "prova_bigdata_gold_1524681" -> null
+      - id                 = "274796246448:prova_bigdata_gold_1524681:dim_produto" -> null
+      - name               = "dim_produto" -> null
+      - parameters         = {
+          - "classification" = "parquet"
+        } -> null
+      - retention          = 0 -> null
+      - table_type         = "EXTERNAL_TABLE" -> null
+        # (4 unchanged attributes hidden)
+
+      - storage_descriptor {
+          - bucket_columns            = [] -> null
+          - compressed                = false -> null
+          - input_format              = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat" -> null
+          - location                  = "s3://prova-bigdata-gold-1524681/dim_produto/" -> null
+          - number_of_buckets         = 0 -> null
+          - output_format             = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat" -> null
+          - parameters                = {} -> null
+          - stored_as_sub_directories = false -> null
+
+          - columns {
+              - name       = "produto_id" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "produto_nome" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "categoria" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+
+          - ser_de_info {
+              - name                  = "dim_produto-parquet-serde" -> null
+              - parameters            = {} -> null
+              - serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe" -> null
+            }
+        }
+    }
+
+  # aws_glue_catalog_table.fato_pedidos will be destroyed
+  - resource "aws_glue_catalog_table" "fato_pedidos" {
+      - arn                = "arn:aws:glue:us-east-1:274796246448:table/prova_bigdata_gold_1524681/fato_pedidos" -> null
+      - catalog_id         = "274796246448" -> null
+      - database_name      = "prova_bigdata_gold_1524681" -> null
+      - id                 = "274796246448:prova_bigdata_gold_1524681:fato_pedidos" -> null
+      - name               = "fato_pedidos" -> null
+      - parameters         = {
+          - "classification" = "parquet"
+        } -> null
+      - retention          = 0 -> null
+      - table_type         = "EXTERNAL_TABLE" -> null
+        # (4 unchanged attributes hidden)
+
+      - partition_keys {
+          - name    = "data_pedido" -> null
+          - type    = "string" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - storage_descriptor {
+          - bucket_columns            = [] -> null
+          - compressed                = false -> null
+          - input_format              = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat" -> null
+          - location                  = "s3://prova-bigdata-gold-1524681/fato_pedidos/" -> null
+          - number_of_buckets         = 0 -> null
+          - output_format             = "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat" -> null
+          - parameters                = {} -> null
+          - stored_as_sub_directories = false -> null
+
+          - columns {
+              - name       = "pedido_id" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "cliente_id" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "produto_id" -> null
+              - parameters = {} -> null
+              - type       = "string" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "preco_unitario" -> null
+              - parameters = {} -> null
+              - type       = "double" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "quantidade" -> null
+              - parameters = {} -> null
+              - type       = "int" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - columns {
+              - name       = "valor_total" -> null
+              - parameters = {} -> null
+              - type       = "double" -> null
+                # (1 unchanged attribute hidden)
+            }
+
+          - ser_de_info {
+              - name                  = "fato_pedidos-parquet-serde" -> null
+              - parameters            = {} -> null
+              - serialization_library = "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe" -> null
+            }
+        }
+    }
+
+  # aws_glue_job.normaliza_pedidos will be destroyed
+  - resource "aws_glue_job" "normaliza_pedidos" {
+      - arn                       = "arn:aws:glue:us-east-1:274796246448:job/normaliza-pedidos" -> null
+      - connections               = [] -> null
+      - default_arguments         = {
+          - "--DATASET_NAME" = "pedidos_desnormalizado"
+          - "--DDB_TABLE"    = "metadados_execucoes"
+          - "--GOLD_PATH"    = "s3://prova-bigdata-gold-1524681"
+          - "--RAW_PATH"     = "s3://prova-bigdata-raw-1524681/pedidos/pedidos_desnormalizado.csv"
+        } -> null
+      - glue_version              = "5.0" -> null
+      - id                        = "normaliza-pedidos" -> null
+      - max_capacity              = 2 -> null
+      - max_retries               = 0 -> null
+      - name                      = "normaliza-pedidos" -> null
+      - non_overridable_arguments = {} -> null
+      - number_of_workers         = 2 -> null
+      - role_arn                  = "arn:aws:iam::274796246448:role/LabRole" -> null
+      - tags                      = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+      - tags_all                  = {
+          - "Ambiente"   = "learner-lab"
+          - "Disciplina" = "bigdata"
+          - "Projeto"    = "prova-bigdata"
+        } -> null
+      - timeout                   = 10 -> null
+      - worker_type               = "G.1X" -> null
+        # (3 unchanged attributes hidden)
+
+      - command {
+          - name            = "glueetl" -> null
+          - python_version  = "3" -> null
+          - script_location = "s3://prova-bigdata-gold-1524681/scripts/normaliza_pedidos.py" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - execution_property {
+          - max_concurrent_runs = 1 -> null
+        }
+    }
+
+  # terraform_data.bucket_gold will be destroyed
+  - resource "terraform_data" "bucket_gold" {
+      - id               = "3a5a6c72-a6bd-85bf-8501-d52a540040a7" -> null
+      - input            = {
+          - bucket = "prova-bigdata-gold-1524681"
+          - regiao = "us-east-1"
+        } -> null
+      - output           = {
+          - bucket = "prova-bigdata-gold-1524681"
+          - regiao = "us-east-1"
+        } -> null
+      - triggers_replace = [
+          - "prova-bigdata-gold-1524681",
+          - "us-east-1",
+        ] -> null
+    }
+
+  # terraform_data.bucket_raw will be destroyed
+  - resource "terraform_data" "bucket_raw" {
+      - id               = "9c2cae05-063b-0c84-ecd2-fa2b218e2cfb" -> null
+      - input            = {
+          - bucket = "prova-bigdata-raw-1524681"
+          - regiao = "us-east-1"
+        } -> null
+      - output           = {
+          - bucket = "prova-bigdata-raw-1524681"
+          - regiao = "us-east-1"
+        } -> null
+      - triggers_replace = [
+          - "prova-bigdata-raw-1524681",
+          - "us-east-1",
+        ] -> null
+    }
+
+  # terraform_data.glue_script will be destroyed
+  - resource "terraform_data" "glue_script" {
+      - id               = "f39e8968-026b-4767-37b1-8ab0280e29c8" -> null
+      - triggers_replace = [
+          - "09640ab0251f7e7378cb2ced0f1367fc",
+        ] -> null
+    }
+
+Plan: 0 to add, 0 to change, 10 to destroy.
+
+Changes to Outputs:
+  - athena_workgroup     = "workgroup-prova-bigdata" -> null
+  - bucket_gold          = "prova-bigdata-gold-1524681" -> null
+  - bucket_raw           = "prova-bigdata-raw-1524681" -> null
+  - catalog_database     = "prova_bigdata_gold_1524681" -> null
+  - dynamodb_table       = "metadados_execucoes" -> null
+  - glue_job_name        = "normaliza-pedidos" -> null
+  - glue_script_location = "s3://prova-bigdata-gold-1524681/scripts/normaliza_pedidos.py" -> null
+  - msck_hint            = "MSCK REPAIR TABLE prova_bigdata_gold_1524681.fato_pedidos" -> null
+terraform_data.bucket_raw: Destroying... [id=9c2cae05-063b-0c84-ecd2-fa2b218e2cfb]
+terraform_data.bucket_raw: Provisioning with 'local-exec'...
+terraform_data.bucket_raw (local-exec): Executing: ["/bin/sh" "-c" "aws s3 rb s3://prova-bigdata-raw-1524681 --force || true"]
+aws_athena_workgroup.prova: Destroying... [id=workgroup-prova-bigdata]
+aws_glue_job.normaliza_pedidos: Destroying... [id=normaliza-pedidos]
+aws_glue_catalog_table.dim_produto: Destroying... [id=274796246448:prova_bigdata_gold_1524681:dim_produto]
+aws_glue_catalog_table.dim_cliente: Destroying... [id=274796246448:prova_bigdata_gold_1524681:dim_cliente]
+aws_glue_catalog_table.fato_pedidos: Destroying... [id=274796246448:prova_bigdata_gold_1524681:fato_pedidos]
+aws_glue_job.normaliza_pedidos: Destruction complete after 1s
+terraform_data.glue_script: Destroying... [id=f39e8968-026b-4767-37b1-8ab0280e29c8]
+terraform_data.glue_script: Destruction complete after 0s
+aws_dynamodb_table.metadados: Destroying... [id=metadados_execucoes]
+terraform_data.bucket_gold: Destroying... [id=3a5a6c72-a6bd-85bf-8501-d52a540040a7]
+terraform_data.bucket_gold: Provisioning with 'local-exec'...
+terraform_data.bucket_gold (local-exec): Executing: ["/bin/sh" "-c" "aws s3 rb s3://prova-bigdata-gold-1524681 --force || true"]
+aws_athena_workgroup.prova: Destruction complete after 2s
+aws_glue_catalog_table.dim_produto: Destruction complete after 2s
+aws_glue_catalog_table.dim_cliente: Destruction complete after 2s
+aws_glue_catalog_table.fato_pedidos: Destruction complete after 2s
+aws_glue_catalog_database.gold: Destroying... [id=274796246448:prova_bigdata_gold_1524681]
+aws_glue_catalog_database.gold: Destruction complete after 0s
+terraform_data.bucket_raw (local-exec): delete: s3://prova-bigdata-raw-1524681/pedidos/pedidos_desnormalizado.csv
+terraform_data.bucket_raw (local-exec): remove_bucket: prova-bigdata-raw-1524681
+terraform_data.bucket_raw: Destruction complete after 4s
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/2bff2265-4997-40f7-a950-9f3a6d96c590.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/2bff2265-4997-40f7-a950-9f3a6d96c590.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/47bf705a-790a-484d-b1b0-ff3cc31af9f3.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/47bf705a-790a-484d-b1b0-ff3cc31af9f3.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/8bf76893-f787-4e82-89c7-ac0b203893ea.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/e147d87f-b281-498a-b65c-f48c49b18300.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/8d261557-54bf-4d85-843e-20503e1f1411.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/8bf76893-f787-4e82-89c7-ac0b203893ea.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/6476d1f2-7105-432f-bb62-12bc403834a0.txt
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/8d261557-54bf-4d85-843e-20503e1f1411.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/6476d1f2-7105-432f-bb62-12bc403834a0.txt.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/athena-results/e147d87f-b281-498a-b65c-f48c49b18300.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/dim_cliente/part-00000-9cd5dd4d-1792-45e5-851d-e199da8d62ba-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/dim_produto/part-00000-99403e91-ef79-48fc-bfbe-62e2916ea203-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-05/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-07/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-06/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-08/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-11/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-12/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-10/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-09/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-14/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-13/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-15/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-16/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-17/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-20/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-19/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-21/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-22/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-18/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-23/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-24/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-26/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-28/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-25/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/fato_pedidos/data_pedido=2026-01-27/part-00000-e981a062-09bb-4119-9a9c-d7d1fe8e9357.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-1524681/scripts/normaliza_pedidos.py
+terraform_data.bucket_gold (local-exec): remove_bucket: prova-bigdata-gold-1524681
+terraform_data.bucket_gold: Destruction complete after 5s
+aws_dynamodb_table.metadados: Still destroying... [id=metadados_execucoes, 10s elapsed]
+aws_dynamodb_table.metadados: Destruction complete after 15s
+
+Destroy complete! Resources: 10 destroyed.
+destroy_exit=0
