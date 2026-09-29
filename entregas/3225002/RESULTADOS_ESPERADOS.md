@@ -213,24 +213,57 @@ Athena workgroups     : (só o primary)
 
 ## Validação local (antes de subir para a AWS)
 
-A suíte de testes de propriedade do professor (`local-test/`) foi apontada para
-esta implementação através de um shim, sem alterar a pasta `local-test/` e sem
-consultar a implementação de referência.
+A suíte de 11 testes do professor (`local-test/`) foi apontada para esta
+implementação através de um shim, **sem alterar a pasta `local-test/` e sem
+consultar a implementação de referência**. A bancada está em [`tests/`](tests/)
+e o relato completo em [`tests/README.md`](tests/README.md).
 
-| Teste | Resultado |
-|---|---|
-| `test_smoke_infra_normaliza` | PASSOU |
-| `test_prop1_contagem_fato_igual_linhas_validas` | PASSOU |
-| `test_prop6_metadados_consistentes` | PASSOU |
-| `test_borda_cliente_id_ausente_descartada_do_fato` | PASSOU |
-| `test_borda_cliente_nome_ausente_vira_desconhecido` | PASSOU |
-| `test_borda_quantidade_invalida_descartada` | PASSOU |
-| `test_borda_dataset_com_data_unica_gera_particao_unica` | PASSOU |
-| `test_prop2` a `test_prop5` | **sem veredito** — ver nota |
+```
+test_smoke_infra_normaliza                              PASSOU
+test_prop1_contagem_fato_igual_linhas_validas           PASSOU
+test_prop2_dimensoes_com_chaves_unicas                  PASSOU
+test_prop3_integridade_referencial                      PASSOU
+test_prop4_particoes_iguais_datas_distintas             PASSOU
+test_prop5_roundtrip_parquet_preserva_linhas            PASSOU
+test_prop6_metadados_consistentes                       PASSOU
+test_borda_cliente_id_ausente_descartada_do_fato        PASSOU
+test_borda_cliente_nome_ausente_vira_desconhecido       PASSOU
+test_borda_quantidade_invalida_descartada               PASSOU
+test_borda_dataset_com_data_unica_gera_particao_unica   PASSOU
 
-> **Nota honesta sobre os 4 sem veredito:** a JVM do Spark foi encerrada por
-> falta de memória na máquina de desenvolvimento durante esses testes, e eles
-> falharam com `ConnectionRefusedError` do py4j — erro de infraestrutura, não de
-> lógica. Não foram reprovados; não foram avaliados. Os mesmos números que eles
-> verificam (contagem do fato, unicidade das chaves, integridade referencial e
-> número de partições) foram confirmados na execução real na AWS, via Athena.
+============================================
+ 11 passaram, 0 falharam
+============================================
+```
+
+Saída completa em [`evidencias/pytest-local.txt`](evidencias/pytest-local.txt).
+
+As seis propriedades usam Hypothesis com 100+ iterações cada, sobre dados
+gerados aleatoriamente — ou seja, a regra 6.7 foi verificada em centenas de
+combinações que eu não escolhi.
+
+### Duas dificuldades de ambiente que precisaram ser resolvidas
+
+**A JVM do Spark morria no meio da suíte.** Rodando os 11 testes num processo
+só, a memória da VM do Docker estourava e a JVM era encerrada; a partir daí
+todos os testes seguintes falhavam com `ConnectionRefusedError` do py4j — erro
+de infraestrutura que, à primeira vista, parece falha de lógica. A solução foi
+`tests/testar-um-por-um.sh`, que roda **um container por teste**: cada um começa
+com a JVM limpa.
+
+> Lição de leitura de erro: quando vários testes falham com a mesma mensagem de
+> infraestrutura, a informação está na **primeira** falha da lista; as outras são
+> consequência.
+
+**O `import boto3` no topo do módulo quebrava os 11 testes.** O
+`local-test/requirements.txt` traz apenas `pyspark`, `pytest` e `hypothesis` —
+sem boto3. Com o import no nível do módulo, qualquer `import normaliza_pedidos`
+falhava com `ModuleNotFoundError` **antes** de avaliar qualquer lógica.
+
+A correção foi mover o import para dentro de `gravar_metadados_dynamo()`, a
+única função que o usa. Isso restaura a separação que o próprio esqueleto
+descreve no cabeçalho:
+
+> *"As funções PURAS (`normalizar`, `montar_metadados`) operam apenas sobre
+> DataFrames/valores, **sem tocar AWS**, para poderem ser testadas localmente.
+> As funções de I/O ficam SEPARADAS."*

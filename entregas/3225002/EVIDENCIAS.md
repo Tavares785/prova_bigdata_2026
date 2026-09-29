@@ -8,6 +8,10 @@
 Pipeline executado de ponta a ponta: **S3 raw (CSV) → Glue Job PySpark → S3 gold
 (Parquet particionado) → Athena (SQL)**, com metadados da execução no DynamoDB.
 
+> ✅ **Validação local:** os 11 testes do professor, apontados para esta
+> implementação, passam — ver [`evidencias/pytest-local.txt`](evidencias/pytest-local.txt)
+> e a bancada em [`tests/`](tests/).
+>
 > 📸 **Capturas de tela** do console AWS e do terminal em
 > [`evidencias/`](evidencias/) — ver o [índice](evidencias/README.md).
 > O pipeline foi executado duas vezes, em contas diferentes do Learner Lab

@@ -1,0 +1,76 @@
+{
+  "_comentario": "Numeros esperados da normalizacao sobre o dataset da prova. Servem de referencia rapida para conferir uma execucao, sem precisar reler os documentos.",
+  "dataset": {
+    "arquivo": "dataset/pedidos_desnormalizado.csv",
+    "linhas_totais": 110,
+    "colunas": 11,
+    "clientes_distintos_no_csv": 22,
+    "produtos_distintos_no_csv": 9,
+    "datas_distintas": 24,
+    "_nota": "22 e 9 incluem a chave nula; apos o filtro sobram 21 clientes e 8 produtos"
+  },
+  "modelo_dimensional": {
+    "fato_pedidos": 103,
+    "dim_cliente": 21,
+    "dim_produto": 8,
+    "particoes": 24,
+    "pedido_id_distintos_no_fato": 103
+  },
+  "funil_da_regra_6_7": [
+    { "filtro": "dataset original",                     "linhas": 110 },
+    { "filtro": "pedido_id valido",                     "linhas": 109 },
+    { "filtro": "cliente_id valido",                    "linhas": 107 },
+    { "filtro": "produto_id valido",                    "linhas": 106 },
+    { "filtro": "quantidade nao nula E maior que zero", "linhas": 103 }
+  ],
+  "linhas_descartadas": [
+    { "linha_csv": 97,  "pedido": "PED0096", "motivo": "sem cliente_id" },
+    { "linha_csv": 98,  "pedido": "PED0097", "motivo": "sem produto_id" },
+    { "linha_csv": 99,  "pedido": null,      "motivo": "sem pedido_id" },
+    { "linha_csv": 100, "pedido": "PED0099", "motivo": "quantidade = 0" },
+    { "linha_csv": 101, "pedido": "PED0100", "motivo": "quantidade ausente" },
+    { "linha_csv": 102, "pedido": "PED0101", "motivo": "quantidade = -2" },
+    { "linha_csv": 107, "pedido": "PED0106", "motivo": "sem cliente_id e sem produto_id" }
+  ],
+  "desconhecido_esperado": {
+    "dim_cliente": [
+      { "chave": "CLI018", "campo": "cliente_nome", "motivo": "aparece 1x no CSV, e nessa unica linha o nome esta ausente" },
+      { "chave": "CLI019", "campo": "cliente_uf",   "motivo": "aparece 1x no CSV, e nessa unica linha a UF esta ausente" }
+    ],
+    "dim_produto": [],
+    "_nota": "PRD084 e PRD072 tambem tem campos vazios no CSV, mas NAO viram DESCONHECIDO: eles se repetem e o first(ignorenulls=True) recupera o valor real das outras linhas"
+  },
+  "consultas_athena": {
+    "faturamento_total": 61798.9,
+    "faturamento_por_categoria": {
+      "Eletronicos": 30334.1,
+      "Moveis": 13485.0,
+      "Calcados": 5698.1,
+      "Eletrodomesticos": 4921.0,
+      "Livros": 2876.8,
+      "Acessorios": 2338.2,
+      "Vestuario": 2145.7
+    },
+    "top_5_clientes": [
+      { "cliente": "Carla Nunes",   "gasto": 6955.2 },
+      { "cliente": "Diego Alves",   "gasto": 6464.7 },
+      { "cliente": "Henrique Melo", "gasto": 6114.4 },
+      { "cliente": "Ana Souza",     "gasto": 5793.3 },
+      { "cliente": "Elaine Rocha",  "gasto": 5284.3 }
+    ],
+    "orfaos": 0
+  },
+  "metadados_dynamodb": {
+    "linhas_lidas": 110,
+    "linhas_gravadas": 103,
+    "status": "SUCESSO",
+    "_nota": "a diferenca de 7 e exatamente o descarte da regra 6.7"
+  },
+  "validacoes_cruzadas": {
+    "soma_das_categorias_igual_sum_valor_total": true,
+    "soma_qtd_por_dia_igual_linhas_do_fato": true,
+    "datas_distintas_igual_numero_de_particoes": true,
+    "chaves_das_dimensoes_unicas": true,
+    "integridade_referencial_sem_orfaos": true
+  }
+}

@@ -31,6 +31,13 @@ escritos pelo Glue e não são gerenciados pelo Terraform.
 tags de custo em JSON. O `terraform_data` não aceita o argumento `tags` por não
 ser um recurso AWS, então elas vão pelo mesmo caminho da criação do bucket.
 
+## Evidências em texto, nesta mesma pasta
+
+| Arquivo | Conteúdo |
+|---|---|
+| [`terraform-validate-local.txt`](terraform-validate-local.txt) | `fmt` e `validate` da pasta `infra/`, mais a conferência de segurança lida do próprio código: 0 recursos IAM, 0 `aws_s3_bucket`, 2 provisioners de destroy, 5 recursos com tags |
+| [`pytest-local.txt`](pytest-local.txt) | a suíte de 11 testes do professor, apontada para esta implementação (ver [`../tests/`](../tests/)) |
+
 ## As consultas 3 e 4
 
 Não têm captura de tela: a 3 devolve 24 linhas e a 4 devolve um único zero —

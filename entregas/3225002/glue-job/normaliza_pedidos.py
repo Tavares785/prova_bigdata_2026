@@ -41,7 +41,6 @@ Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 8.5
 import sys
 from datetime import datetime
 
-import boto3
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql import functions as F
@@ -291,6 +290,12 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
     Requirements: 6.5, 8.5
     """
     # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
+    # Import local: sem isso, o modulo inteiro exigiria boto3 so por causa
+    # desta funcao, e as funcoes puras (normalizar, montar_metadados) nao
+    # poderiam ser importadas num ambiente sem AWS — quebrando a separacao
+    # descrita na nota de arquitetura de teste no topo do arquivo.
+    import boto3
+
     dynamodb = boto3.resource("dynamodb")
     tabela = dynamodb.Table(ddb_table)
     tabela.put_item(Item=item)

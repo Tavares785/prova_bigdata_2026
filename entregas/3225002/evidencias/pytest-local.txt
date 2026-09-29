@@ -1,0 +1,35 @@
+====================================================================
+ Validacao local — a suite do professor apontada para esta solucao
+ Aluno: Jose Henrique Teixeira Luiz — RA 3225002
+ Data (UTC): 2026-09-29 12:32:21Z
+====================================================================
+
+Como foi feito: a suite local-test/test_normalizacao.py importa de um
+modulo chamado 'normalizacao_referencia', que e a implementacao de
+referencia do professor. A bancada em tests/ substitui esse modulo por um
+shim de uma linha que reexporta as funcoes do meu normaliza_pedidos.py.
+Assim os 11 testes dele avaliam o MEU codigo, sem alterar local-test/ e
+sem abrir a implementacao de referencia.
+
+Cada teste roda no seu proprio container (tests/testar-um-por-um.sh): a
+suite inteira num processo so estourava a memoria e a JVM do Spark era
+encerrada no meio, fazendo os testes seguintes falharem com
+ConnectionRefusedError — erro de ambiente, nao de logica.
+
+$ ./tests/testar-um-por-um.sh
+
+  test_smoke_infra_normaliza                                 PASSOU
+  test_prop1_contagem_fato_igual_linhas_validas              PASSOU
+  test_prop2_dimensoes_com_chaves_unicas                     PASSOU
+  test_prop3_integridade_referencial                         PASSOU
+  test_prop4_particoes_iguais_datas_distintas                PASSOU
+  test_prop5_roundtrip_parquet_preserva_linhas               PASSOU
+  test_prop6_metadados_consistentes                          PASSOU
+  test_borda_cliente_id_ausente_descartada_do_fato           PASSOU
+  test_borda_cliente_nome_ausente_vira_desconhecido          PASSOU
+  test_borda_quantidade_invalida_descartada                  PASSOU
+  test_borda_dataset_com_data_unica_gera_particao_unica      PASSOU
+
+  ============================================
+   11 passaram, 0 falharam
+  ============================================

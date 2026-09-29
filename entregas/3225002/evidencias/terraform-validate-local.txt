@@ -1,0 +1,41 @@
+====================================================================
+ Validacao local do Terraform — antes de aplicar na AWS
+ Aluno: Jose Henrique Teixeira Luiz — RA 3225002
+ Data (UTC): 2026-09-29 12:16:41Z
+ Terraform v1.15.8
+ Pasta: entregas/3225002/infra/
+====================================================================
+
+$ terraform fmt -recursive -check
+(nenhum arquivo listado = tudo formatado)
+
+$ terraform validate
+Success! The configuration is valid.
+
+
+--------------------------------------------------------------------
+Os 8 recursos declarados:
+  "terraform_data" "bucket_raw"
+  "terraform_data" "bucket_gold"
+  "terraform_data" "glue_script"
+  "aws_glue_job" "normalizacao"
+  "aws_glue_catalog_database" "gold"
+  "aws_glue_crawler" "gold"
+  "aws_athena_workgroup" "gold"
+  "aws_dynamodb_table" "execucoes"
+
+As 5 variaveis declaradas:
+  "regiao"
+  "bucket_raw_nome"
+  "bucket_gold_nome"
+  "labrole_arn"
+  "tags"
+
+--------------------------------------------------------------------
+Conferencia de seguranca, lida do proprio codigo:
+  recursos aws_iam_*:                        0 — o Learner Lab nega iam:CreateRole
+  recursos aws_s3_bucket:                    0 — a SCP nega GetBucketObjectLockConfiguration
+  provisioners when = destroy:               2 — esvaziam os buckets antes de remover
+  recursos com tags = var.tags:              5
+  put-bucket-tagging (bucket gold):          1
+  bloqueios de acesso publico:               2

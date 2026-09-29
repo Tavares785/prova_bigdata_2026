@@ -38,7 +38,8 @@ S3 raw (CSV)  →  Glue Job PySpark  →  S3 gold (Parquet particionado)  →  A
 | [`infra/raw.tf`](infra/raw.tf) | a camada raw, fornecida pelo professor (não alterada) |
 | [`infra/variables.tf`](infra/variables.tf) | variáveis, incluindo as 3 novas do gold |
 | [`infra/terraform.tfvars.example`](infra/terraform.tfvars.example) | exemplo de valores (sem segredo) |
-| [`sql/`](sql/) | as 4 consultas de referência da Seção 8, como arquivos, com o resultado obtido em comentário |
+| [`sql/`](sql/) | as 4 consultas de referência da Seção 8 + validações adicionais, cada uma com o resultado obtido em comentário |
+| [`tests/`](tests/) | a **bancada de testes local** — como validei a normalização antes de subir para a AWS ([como funciona](tests/README.md)) |
 | [`dataset/`](dataset/) | o dataset de exemplo, para referência |
 
 > **Não versionados, de propósito:** `terraform.tfvars` (carrega o ARN da conta),
