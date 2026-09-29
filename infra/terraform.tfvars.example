@@ -16,15 +16,3 @@ regiao = "us-east-1"
 
 # Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
 bucket_raw_nome = "prova-bigdata-raw-SEURA"
-
-# Nome GLOBALMENTE único do bucket gold (troque SEURA pelo seu RA).
-bucket_gold_nome = "prova-bigdata-gold-SEURA"
-
-# ARN da role preexistente LabRole no Learner Lab.
-labrole_arn = "arn:aws:iam::123456789012:role/LabRole"
-
-tags = {
-	Projeto    = "prova-bigdata"
-	Disciplina = "Big Data"
-	Ambiente   = "Learner Lab"
-}

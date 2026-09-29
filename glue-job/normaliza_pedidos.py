@@ -39,12 +39,9 @@ Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 8.5
 """
 
 import sys
-from datetime import datetime
 
-import boto3
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql import functions as F
 
 # Imports específicos do Glue — disponíveis no runtime do AWS Glue.
 # No teste local eles não são usados (a lógica pura roda em SparkSession pura).
@@ -89,111 +86,7 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
     # TODO(aluno): implementar a normalização (fato + 2 dimensões) usando DataFrames/Spark SQL.
     # TODO(aluno): aplicar a regra de tratamento de dados inválidos (Req 6.7).
     # TODO(aluno): retornar {"fato_pedidos": ..., "dim_cliente": ..., "dim_produto": ...}.
-
-    df_limpo = (
-        df_raw
-        .withColumn("pedido_id", F.trim(F.col("pedido_id")))
-        .withColumn("cliente_id", F.trim(F.col("cliente_id")))
-        .withColumn("produto_id", F.trim(F.col("produto_id")))
-        .withColumn("data_pedido", F.to_date(F.col("data_pedido")))
-    )
-
-    dim_cliente = (
-        df_limpo
-        .filter(
-            F.col("cliente_id").isNotNull()
-            & (F.col("cliente_id") != "")
-        )
-        .select(
-            "cliente_id",
-            F.when(
-                F.trim(F.col("cliente_nome")) == "",
-                F.lit(None)
-            ).otherwise(
-                F.trim(F.col("cliente_nome"))
-            ).alias("cliente_nome"),
-            F.when(
-                F.trim(F.col("cliente_uf")) == "",
-                F.lit(None)
-            ).otherwise(
-                F.trim(F.col("cliente_uf"))
-            ).alias("cliente_uf"),
-        )
-        .groupBy("cliente_id")
-        .agg(
-            F.first("cliente_nome", ignorenulls=True).alias("cliente_nome"),
-            F.first("cliente_uf", ignorenulls=True).alias("cliente_uf"),
-        )
-        .fillna(
-            {
-                "cliente_nome": "DESCONHECIDO",
-                "cliente_uf": "DESCONHECIDO",
-            }
-        )
-    )
-
-    dim_produto = (
-        df_limpo
-        .filter(
-            F.col("produto_id").isNotNull()
-            & (F.col("produto_id") != "")
-        )
-        .select(
-            "produto_id",
-            F.when(
-                F.trim(F.col("produto_nome")) == "",
-                F.lit(None)
-            ).otherwise(
-                F.trim(F.col("produto_nome"))
-            ).alias("produto_nome"),
-            F.when(
-                F.trim(F.col("categoria")) == "",
-                F.lit(None)
-            ).otherwise(
-                F.trim(F.col("categoria"))
-            ).alias("categoria"),
-        )
-        .groupBy("produto_id")
-        .agg(
-            F.first("produto_nome", ignorenulls=True).alias("produto_nome"),
-            F.first("categoria", ignorenulls=True).alias("categoria"),
-        )
-        .fillna(
-            {
-                "produto_nome": "DESCONHECIDO",
-                "categoria": "DESCONHECIDO",
-            }
-        )
-    )
-
-    fato_pedidos = (
-        df_limpo
-        .filter(
-            F.col("pedido_id").isNotNull()
-            & (F.col("pedido_id") != "")
-            & F.col("cliente_id").isNotNull()
-            & (F.col("cliente_id") != "")
-            & F.col("produto_id").isNotNull()
-            & (F.col("produto_id") != "")
-            & F.col("quantidade").isNotNull()
-            & (F.col("quantidade") > 0)
-        )
-        .select(
-            "pedido_id",
-            "cliente_id",
-            "produto_id",
-            "preco_unitario",
-            "quantidade",
-            "valor_total",
-            "data_pedido",
-        )
-    )
-
-    return {
-        "fato_pedidos": fato_pedidos,
-        "dim_cliente": dim_cliente,
-        "dim_produto": dim_produto,
-    }
+    raise NotImplementedError("TODO(aluno): implementar normalizar()")
 
 
 def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, status) -> dict:
@@ -217,14 +110,7 @@ def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, statu
     """
     # TODO(aluno): montar e retornar o dict de metadados com todos os campos preenchidos,
     # TODO(aluno): incluindo data_hora em formato ISO-8601.
-    return {
-        "execution_id": execution_id,
-        "data_hora": datetime.now().isoformat(),
-        "dataset": dataset,
-        "linhas_lidas": linhas_lidas,
-        "linhas_gravadas": linhas_gravadas,
-        "status": status,
-    }
+    raise NotImplementedError("TODO(aluno): implementar montar_metadados()")
 
 
 # ---------------------------------------------------------------------------
@@ -244,11 +130,7 @@ def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
     Requirements: 6.3
     """
     # TODO(aluno): ler o CSV do raw_path (header=True, inferSchema ou schema explícito).
-    return spark.read.csv(
-        raw_path,
-        header=True,
-        inferSchema=True,
-    )
+    raise NotImplementedError("TODO(aluno): implementar ler_raw()")
 
 
 def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
@@ -268,17 +150,7 @@ def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
     """
     # TODO(aluno): gravar fato_pedidos em Parquet particionado por data_pedido.
     # TODO(aluno): gravar dim_cliente e dim_produto em Parquet (sem partição).
-    gold_root = gold_path.rstrip("/")
-
-    tabelas["fato_pedidos"].write.mode("overwrite").partitionBy(
-        "data_pedido"
-    ).parquet(f"{gold_root}/fato_pedidos")
-    tabelas["dim_cliente"].write.mode("overwrite").parquet(
-        f"{gold_root}/dim_cliente"
-    )
-    tabelas["dim_produto"].write.mode("overwrite").parquet(
-        f"{gold_root}/dim_produto"
-    )
+    raise NotImplementedError("TODO(aluno): implementar escrever_gold()")
 
 
 def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
@@ -291,9 +163,7 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
     Requirements: 6.5, 8.5
     """
     # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
-    dynamodb = boto3.resource("dynamodb")
-    tabela = dynamodb.Table(ddb_table)
-    tabela.put_item(Item=item)
+    raise NotImplementedError("TODO(aluno): implementar gravar_metadados_dynamo()")
 
 
 # ---------------------------------------------------------------------------
