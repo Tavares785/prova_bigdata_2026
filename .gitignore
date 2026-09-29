@@ -43,4 +43,4 @@ venv/
 # --- Spark local ---
 derby.log
 metastore_db/
-spark-warehouse/
+spark-warehouse/    
