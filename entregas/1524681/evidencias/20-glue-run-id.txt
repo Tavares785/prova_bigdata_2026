@@ -1,1 +1,1 @@
-job_name=normaliza-pedidos run_id=jr_73d89769d89072ee5ff489baf5d6c0ab29fe47983272df62ed52d7662a92c72f
+job_name=normaliza-pedidos run_id=jr_2eec624af9db1444afdf07787a69f2e4c30dc49a04f58433d2b50320835ee27a

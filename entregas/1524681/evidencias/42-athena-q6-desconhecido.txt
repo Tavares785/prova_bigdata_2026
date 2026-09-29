@@ -1,0 +1,11 @@
+--- SQL: SELECT 'dim_cliente' AS tabela, cliente_id AS id, cliente_nome AS texto
+           FROM prova_bigdata_gold_1524681.dim_cliente WHERE cliente_nome = 'DESCONHECIDO'
+           UNION ALL
+           SELECT 'dim_produto', produto_id, produto_nome
+           FROM prova_bigdata_gold_1524681.dim_produto WHERE produto_nome = 'DESCONHECIDO'
+           UNION ALL
+           SELECT 'dim_produto', produto_id, categoria
+           FROM prova_bigdata_gold_1524681.dim_produto WHERE categoria = 'DESCONHECIDO'
+           ORDER BY 1, 2
+tabela	id	texto
+dim_cliente	CLI018	DESCONHECIDO
