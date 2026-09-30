@@ -39,9 +39,19 @@ Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 8.5
 """
 
 import sys
+from datetime import datetime, timezone
 
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql.types import (
+    DateType,
+    DoubleType,
+    IntegerType,
+    StringType,
+    StructField,
+    StructType,
+)
 
 # Imports específicos do Glue — disponíveis no runtime do AWS Glue.
 # No teste local eles não são usados (a lógica pura roda em SparkSession pura).
@@ -58,6 +68,17 @@ except ImportError:  # ambiente local sem o SDK do Glue
 # ---------------------------------------------------------------------------
 # Funções PURAS (lógica de normalização) — TESTÁVEIS localmente, sem AWS.
 # ---------------------------------------------------------------------------
+
+def chave_ausente(nome_coluna):
+    c = F.col(nome_coluna)
+    return c.isNull() | (F.trim(c) == "")
+
+
+def texto_ou_nulo(nome_coluna):
+    # "" (ou só espaços) vira NULL, para ser tratado igual a ausente.
+    c = F.col(nome_coluna)
+    return F.when(F.trim(c) == "", None).otherwise(c)
+
 
 def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
     """Normaliza o DataFrame desnormalizado no Modelo_Dimensional_Alvo (esquema estrela).
@@ -83,10 +104,60 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
 
     Requirements: 6.1, 6.2, 6.7
     """
-    # TODO(aluno): implementar a normalização (fato + 2 dimensões) usando DataFrames/Spark SQL.
-    # TODO(aluno): aplicar a regra de tratamento de dados inválidos (Req 6.7).
-    # TODO(aluno): retornar {"fato_pedidos": ..., "dim_cliente": ..., "dim_produto": ...}.
-    raise NotImplementedError("TODO(aluno): implementar normalizar()")
+    # Linha válida: as 3 chaves presentes E quantidade não nula E > 0 (Req 6.7).
+    linha_valida = (
+        ~chave_ausente("pedido_id")
+        & ~chave_ausente("cliente_id")
+        & ~chave_ausente("produto_id")
+        & F.col("quantidade").isNotNull()
+        & (F.col("quantidade").cast("int") > 0)
+    )
+
+    df_validas = df_raw.where(linha_valida)
+
+    # Fato: grão = item de pedido (mesmo grão do CSV), só FKs, data e medidas.
+    fato_pedidos = df_validas.select(
+        "pedido_id", "data_pedido", "cliente_id", "produto_id",
+        "preco_unitario", "quantidade", "valor_total",
+    )
+
+    # Dimensões: uma linha por chave, preferindo o valor real; só vira
+    # DESCONHECIDO se nenhuma linha daquela chave tiver o texto.
+    dim_cliente = (
+        df_validas
+        .select(
+            "cliente_id",
+            texto_ou_nulo("cliente_nome").alias("cliente_nome"),
+            texto_ou_nulo("cliente_uf").alias("cliente_uf"),
+        )
+        .groupBy("cliente_id")
+        .agg(
+            F.first("cliente_nome", ignorenulls=True).alias("cliente_nome"),
+            F.first("cliente_uf", ignorenulls=True).alias("cliente_uf"),
+        )
+        .fillna("DESCONHECIDO", subset=["cliente_nome", "cliente_uf"])
+    )
+
+    dim_produto = (
+        df_validas
+        .select(
+            "produto_id",
+            texto_ou_nulo("produto_nome").alias("produto_nome"),
+            texto_ou_nulo("categoria").alias("categoria"),
+        )
+        .groupBy("produto_id")
+        .agg(
+            F.first("produto_nome", ignorenulls=True).alias("produto_nome"),
+            F.first("categoria", ignorenulls=True).alias("categoria"),
+        )
+        .fillna("DESCONHECIDO", subset=["produto_nome", "categoria"])
+    )
+
+    return {
+        "fato_pedidos": fato_pedidos,
+        "dim_cliente": dim_cliente,
+        "dim_produto": dim_produto,
+    }
 
 
 def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, status) -> dict:
@@ -108,14 +179,36 @@ def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, statu
 
     Requirements: 6.5, 8.5
     """
-    # TODO(aluno): montar e retornar o dict de metadados com todos os campos preenchidos,
-    # TODO(aluno): incluindo data_hora em formato ISO-8601.
-    raise NotImplementedError("TODO(aluno): implementar montar_metadados()")
+    return {
+        "execution_id": execution_id,
+        "data_hora": datetime.now(timezone.utc).isoformat(),
+        "dataset": dataset,
+        "linhas_lidas": linhas_lidas,
+        "linhas_gravadas": linhas_gravadas,
+        "status": status,
+    }
 
 
 # ---------------------------------------------------------------------------
 # Funções de I/O (efeitos colaterais / AWS) — SEPARADAS da lógica pura.
 # ---------------------------------------------------------------------------
+
+# Schema explícito do Dataset_Exemplo (README, Seção 5): tipos garantidos, sem
+# depender do inferSchema. Valor fora do tipo (ex.: quantidade "abc") vira NULL.
+SCHEMA_RAW = StructType([
+    StructField("pedido_id", StringType()),
+    StructField("data_pedido", DateType()),
+    StructField("cliente_id", StringType()),
+    StructField("cliente_nome", StringType()),
+    StructField("cliente_uf", StringType()),
+    StructField("produto_id", StringType()),
+    StructField("produto_nome", StringType()),
+    StructField("categoria", StringType()),
+    StructField("preco_unitario", DoubleType()),
+    StructField("quantidade", IntegerType()),
+    StructField("valor_total", DoubleType()),
+])
+
 
 def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
     """Lê o CSV desnormalizado do Bucket_Raw como DataFrame.
@@ -129,8 +222,7 @@ def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
 
     Requirements: 6.3
     """
-    # TODO(aluno): ler o CSV do raw_path (header=True, inferSchema ou schema explícito).
-    raise NotImplementedError("TODO(aluno): implementar ler_raw()")
+    return spark.read.option("header", True).schema(SCHEMA_RAW).csv(raw_path)
 
 
 def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
@@ -148,9 +240,18 @@ def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
 
     Requirements: 6.4, 6.6
     """
-    # TODO(aluno): gravar fato_pedidos em Parquet particionado por data_pedido.
-    # TODO(aluno): gravar dim_cliente e dim_produto em Parquet (sem partição).
-    raise NotImplementedError("TODO(aluno): implementar escrever_gold()")
+    # rstrip evita "s3://gold//fato_pedidos" quando GOLD_PATH termina com "/".
+    base = gold_path.rstrip("/")
+
+    # overwrite: reexecutar o job substitui o gold em vez de duplicar linhas.
+    (
+        tabelas["fato_pedidos"].write
+        .mode("overwrite")
+        .partitionBy("data_pedido")
+        .parquet(f"{base}/fato_pedidos")
+    )
+    tabelas["dim_cliente"].write.mode("overwrite").parquet(f"{base}/dim_cliente")
+    tabelas["dim_produto"].write.mode("overwrite").parquet(f"{base}/dim_produto")
 
 
 def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
@@ -162,8 +263,13 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
 
     Requirements: 6.5, 8.5
     """
-    # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
-    raise NotImplementedError("TODO(aluno): implementar gravar_metadados_dynamo()")
+    # Import local: o boto3 existe no runtime do Glue, mas não na imagem do
+    # local-test; importar no topo quebraria os testes locais.
+    import boto3
+
+    # resource/Table aceita o dict Python direto (sem {"S": ...}/{"N": ...}).
+    tabela = boto3.resource("dynamodb", region_name="us-east-1").Table(ddb_table)
+    tabela.put_item(Item=item)
 
 
 # ---------------------------------------------------------------------------

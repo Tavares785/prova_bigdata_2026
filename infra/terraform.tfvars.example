@@ -16,3 +16,9 @@ regiao = "us-east-1"
 
 # Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
 bucket_raw_nome = "prova-bigdata-raw-SEURA"
+
+# Nome GLOBALMENTE único do bucket gold (troque SEURA pelo seu RA).
+bucket_gold_nome = "prova-bigdata-gold-SEURA"
+
+# A LabRole é buscada automaticamente (data "aws_iam_role" em gold.tf).
+# As tags têm default em variables.tf; sobrescreva aqui se quiser.
