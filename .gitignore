@@ -44,3 +44,8 @@ venv/
 derby.log
 metastore_db/
 spark-warehouse/
+
+# --- Instaladores e binários locais (não pertencem ao repositório) ---
+infra/aws/
+infra/awscliv2.zip
+*.zip
