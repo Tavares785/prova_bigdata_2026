@@ -27,3 +27,28 @@ variable "bucket_raw_nome" {
     error_message = "O nome do bucket S3 deve ter entre 3 e 63 caracteres."
   }
 }
+variable "bucket_gold_nome" {
+  description = "Nome global único do bucket S3 gold."
+  type        = string
+}
+
+variable "labrole_arn" {
+  description = "ARN da LabRole do Learner Lab."
+  type        = string
+}
+
+variable "dynamodb_table_nome" {
+  description = "Nome da tabela DynamoDB de metadados de execução."
+  type        = string
+  default     = "execucoes"
+}
+
+variable "tags" {
+  description = "Tags padronizadas de custo."
+  type        = map(string)
+  default = {
+    Projeto     = "prova-bigdata"
+    Disciplina  = "ADS"
+    Ambiente    = "learner-lab"
+  }
+}
