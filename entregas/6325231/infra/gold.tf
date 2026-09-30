@@ -229,7 +229,8 @@ resource "aws_glue_catalog_table" "fato_pedidos" {
 }
 
 resource "aws_athena_workgroup" "prova" {
-  name = "prova-6325231"
+  name          = "prova-6325231"
+  force_destroy = true
   configuration {
     enforce_workgroup_configuration = true
     result_configuration {

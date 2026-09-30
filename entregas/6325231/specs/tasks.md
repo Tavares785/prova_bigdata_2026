@@ -8,10 +8,11 @@
 - [x] Executar `terraform fmt -check`, `init`, `validate` e revisar plano.
 - [x] Confirmar sessão, conta, LabRole e saldo do Learner Lab.
 - [x] Aplicar infra, executar Glue, consultar Athena e DynamoDB.
-- [ ] Capturar prints reais da conta 906975261211 antes da limpeza.
+- [x] Salvar print de apply da primeira conta e prints de Athena/DynamoDB da conta 906975261211.
 - [x] Revisar plano de destruição: 11 recursos exclusivos, sem versões S3.
-- [ ] Destruir apenas recursos da prova e verificar resíduos.
-- [x] Revisar diff/segredos e criar commit b425082.
+- [x] Destruir e verificar ausência dos recursos da conta 906975261211.
+- [ ] Verificar limpeza da primeira conta quando houver credenciais dela.
+- [x] Revisar diff/segredos e registrar commits locais.
 - [ ] Fazer push e abrir PR para `master` do original.
 
 Retomada: leia `AGENTS.md`, este arquivo, `docs/diario-ia.md`, `docs/evidencias.md` e `git status` antes de repetir qualquer ação na AWS.

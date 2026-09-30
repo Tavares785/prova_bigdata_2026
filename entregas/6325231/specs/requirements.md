@@ -8,9 +8,9 @@ Fonte: README.md, RUBRICA.md, CHECKLIST.md e esqueleto deste repositório. O PDF
 | Glue com LabRole e PySpark | `infra/gold.tf`, `glue-job/normaliza_pedidos.py` | teste local e JobRun SUCCEEDED | JobRunId | Validado |
 | Fato + dimensões e dados inválidos | `normalizar` | testes próprios sobre o script entregue | resultados locais | Validado |
 | Parquet e partição por data | `escrever_gold` | leitura e inspeção de partições | teste local e S3 | Validado |
-| Catálogo e Athena, quatro consultas | Glue Catalog + Athena WG | Q1 a Q4 e órfãos de clientes | QueryExecutionIds; prints pendentes | Consultas validadas |
-| Metadados por execução | DynamoDB + Job | testes e item real | item sanitizado; print pendente | Item validado |
-| Segurança, custo e limpeza | tags, buckets privados, destroy | revisão de plano, identidade e resíduos | apply/destroy reais | Pendente |
+| Catálogo e Athena, quatro consultas | Glue Catalog + Athena WG | Q1 a Q4 e órfãos de clientes | QueryExecutionIds e prints Q1–Q4 | Validado |
+| Metadados por execução | DynamoDB + Job | testes e item real | item real e print | Validado |
+| Segurança, custo e limpeza | tags, buckets privados, destroy | revisão de plano, identidade e resíduos | apply/destroy reais | Conta atual limpa; conta antiga sem verificação |
 | Entrega isolada | `entregas/6325231/`, branch e PR | diff, push e PR | links e commits | Em andamento |
 
 Critérios de aceitação: 110 linhas de entrada no CSV versionado; fato só com chaves presentes e quantidade positiva; uma linha por `pedido_id`; dimensões únicas por chave e sem órfãos; textos ausentes preenchidos com `DESCONHECIDO`; saídas Parquet nos prefixos especificados; reexecução sem duplicação; metadados de SUCESSO/FALHA coerentes; recursos da prova removidos após capturar prints.
