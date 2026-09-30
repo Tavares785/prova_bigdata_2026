@@ -13,9 +13,11 @@
 # raciocínio, aponte onde procurar e ajude a interpretar as mensagens de erro —
 # mas NUNCA entregue o código da correção.
 # =============================================================================
+# ✅ Situação atual: implementado pelo aluno com apoio de assistente de IA.
+# =============================================================================
 
 """
-Job_Normalizacao — Glue Job PySpark (ESQUELETO — o ALUNO preenche).
+Job_Normalizacao — Glue Job PySpark (implementação completa).
 
 Lê o Dataset_Exemplo desnormalizado do Bucket_Raw, normaliza no Modelo_Dimensional_Alvo
 (fato + 2 dimensões), grava em Parquet particionado no Bucket_Gold e registra os metadados
@@ -290,7 +292,7 @@ def main() -> None:
         # Passo 3 — Tratar nulos / linhas inválidas (Req 6.7).
         # A regra de descarte/DESCONHECIDO é aplicada dentro de normalizar() (função pura),
         # mantendo a lógica testável localmente.
-        # TODO(aluno): se preferir, tratar nulos aqui antes de normalizar.
+        # A limpeza (trim + "" / "   " -> nulo) é a primeira etapa de normalizar().
 
         # Passo 4 — Normalizar em fato + dimensões.
         tabelas = normalizar(df_raw)
