@@ -1,0 +1,62 @@
+Gold no S3 — Parquet particionado
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/
+                           PRE athena-results/
+                           PRE dim_cliente/
+                           PRE dim_produto/
+                           PRE fato_pedidos/
+                           PRE scripts/
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/fato_pedidos/   (partições: 24)
+                           PRE data_pedido=2026-01-05/
+                           PRE data_pedido=2026-01-06/
+                           PRE data_pedido=2026-01-07/
+                           PRE data_pedido=2026-01-08/
+                           PRE data_pedido=2026-01-09/
+                           PRE data_pedido=2026-01-10/
+                           PRE data_pedido=2026-01-11/
+                           PRE data_pedido=2026-01-12/
+                           PRE data_pedido=2026-01-13/
+                           PRE data_pedido=2026-01-14/
+                           PRE data_pedido=2026-01-15/
+                           PRE data_pedido=2026-01-16/
+                           PRE data_pedido=2026-01-17/
+                           PRE data_pedido=2026-01-18/
+                           PRE data_pedido=2026-01-19/
+                           PRE data_pedido=2026-01-20/
+                           PRE data_pedido=2026-01-21/
+                           PRE data_pedido=2026-01-22/
+                           PRE data_pedido=2026-01-23/
+                           PRE data_pedido=2026-01-24/
+                           PRE data_pedido=2026-01-25/
+                           PRE data_pedido=2026-01-26/
+                           PRE data_pedido=2026-01-27/
+                           PRE data_pedido=2026-01-28/
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/ --recursive (somente .parquet)
+2026-09-25 22:50:22       1378 dim_cliente/part-00000-8a014ac1-6ea4-4cd8-901c-064facac794d-c000.snappy.parquet
+2026-09-25 22:50:23       1308 dim_produto/part-00000-44df7c7f-21fc-4bbe-9029-a8f682f526e9-c000.snappy.parquet
+2026-09-25 22:50:16       2014 fato_pedidos/data_pedido=2026-01-05/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:16       1874 fato_pedidos/data_pedido=2026-01-06/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1899 fato_pedidos/data_pedido=2026-01-07/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1900 fato_pedidos/data_pedido=2026-01-08/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1933 fato_pedidos/data_pedido=2026-01-09/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1958 fato_pedidos/data_pedido=2026-01-10/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1991 fato_pedidos/data_pedido=2026-01-11/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       2033 fato_pedidos/data_pedido=2026-01-12/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1992 fato_pedidos/data_pedido=2026-01-13/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1963 fato_pedidos/data_pedido=2026-01-14/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1875 fato_pedidos/data_pedido=2026-01-15/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1873 fato_pedidos/data_pedido=2026-01-16/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1965 fato_pedidos/data_pedido=2026-01-17/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       2003 fato_pedidos/data_pedido=2026-01-18/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:17       1873 fato_pedidos/data_pedido=2026-01-19/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1991 fato_pedidos/data_pedido=2026-01-20/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2025 fato_pedidos/data_pedido=2026-01-21/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2054 fato_pedidos/data_pedido=2026-01-22/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2053 fato_pedidos/data_pedido=2026-01-23/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       2067 fato_pedidos/data_pedido=2026-01-24/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1866 fato_pedidos/data_pedido=2026-01-25/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1932 fato_pedidos/data_pedido=2026-01-26/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1901 fato_pedidos/data_pedido=2026-01-27/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+2026-09-25 22:50:18       1895 fato_pedidos/data_pedido=2026-01-28/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet

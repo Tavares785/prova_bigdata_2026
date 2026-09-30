@@ -1,0 +1,26 @@
+Athena — consulta1_faturamento_por_categoria
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: 4f6ce8d5-ea85-4d45-9bf9-5bb2fa622342
+Estado: SUCCEEDED | Dados lidos: 4379 bytes | Tempo: 1364 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/4f6ce8d5-ea85-4d45-9bf9-5bb2fa622342.csv
+
+SQL:
+SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento
+FROM fato_pedidos f
+JOIN dim_produto p ON f.produto_id = p.produto_id
+GROUP BY p.categoria
+ORDER BY faturamento DESC;
+
+Resultado:
++------------------+-------------+
+| categoria        | faturamento |
++------------------+-------------+
+| Eletronicos      | 30334.1     |
+| Moveis           | 13485.0     |
+| Calcados         | 5698.1      |
+| Eletrodomesticos | 4921.0      |
+| Livros           | 2876.8      |
+| Acessorios       | 2338.2      |
+| Vestuario        | 2145.7      |
++------------------+-------------+
+(7 linha(s))

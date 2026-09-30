@@ -1,0 +1,183 @@
+Sessão no terminal web do AWS Academy Learner Lab (Vocareum) — conta 968685597832
+Terminal: eee_W_6915372@runweb252318 | Região: us-east-1
+(Horários do terminal web em -07:00 / Pacífico; 18:48 -07:00 = 22:48 -03:00 = 01:48 UTC)
+
+Observação: as consultas 3 e a listagem de partições foram cortadas pelo paginador
+do terminal; as linhas que faltavam foram completadas com o MESMO comando de leitura
+(mesmo QueryExecutionId / mesmo bucket), sem executar nada novo no Athena.
+
+==============================================================================
+$ export AWS_DEFAULT_REGION=us-east-1
+$ aws sts get-caller-identity
+{
+    "UserId": "AROA6DCRJGSELTOXU6CN3:user5367760=weslley_lucas_souza_alves",
+    "Account": "968685597832",
+    "Arn": "arn:aws:sts::968685597832:assumed-role/voclabs/user5367760=weslley_lucas_souza_alves"
+}
+
+==============================================================================
+ATHENA — Consulta 1: faturamento por categoria
+$ athena "SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento FROM fato_pedidos f JOIN dim_produto p ON f.produto_id = p.produto_id GROUP BY p.categoria ORDER BY faturamento DESC"
+Estado: SUCCEEDED  |  QueryExecutionId: 56a70f7d-5e11-46f1-89fa-dca9a594f5c5
+
+categoria         faturamento
+Eletronicos       30334.1
+Moveis            13485.0
+Calcados          5698.1
+Eletrodomesticos  4921.0
+Livros            2876.8
+Acessorios        2338.2
+Vestuario         2145.7
+
+==============================================================================
+ATHENA — Consulta 2: top 5 clientes
+$ athena "SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total FROM fato_pedidos f JOIN dim_cliente c ON f.cliente_id = c.cliente_id GROUP BY c.cliente_nome ORDER BY gasto_total DESC LIMIT 5"
+Estado: SUCCEEDED  |  QueryExecutionId: 0ddc491a-e4b0-4c2c-b714-1b5705fcda7d
+
+cliente_nome   gasto_total
+Carla Nunes    6955.2
+Diego Alves    6464.7
+Henrique Melo  6114.4
+Ana Souza      5793.3
+Elaine Rocha   5284.3
+
+==============================================================================
+ATHENA — Consulta 3: pedidos e faturamento por dia (partição)
+$ athena "SELECT data_pedido, COUNT(*) AS qtd_pedidos, ROUND(SUM(valor_total), 2) AS faturamento_dia FROM fato_pedidos GROUP BY data_pedido ORDER BY data_pedido"
+Estado: SUCCEEDED  |  QueryExecutionId: ce4f805f-ab19-4463-9b58-f2a24c0b1322
+
+$ aws athena get-query-results --query-execution-id ce4f805f-ab19-4463-9b58-f2a24c0b1322 --output text --query 'ResultSet.Rows[*].Data[*].VarCharValue' | column -t
+data_pedido  qtd_pedidos  faturamento_dia
+2026-01-05   5            1499.0
+2026-01-06   4            948.1
+2026-01-07   4            1798.3
+2026-01-08   4            2947.7
+2026-01-09   4            1167.1
+2026-01-10   4            3106.7
+2026-01-11   4            2898.2
+2026-01-12   5            1218.2
+2026-01-13   4            5196.8
+2026-01-14   4            1476.6
+2026-01-15   4            1838.2
+2026-01-16   4            5446.4
+2026-01-17   4            937.4
+2026-01-18   5            3856.3
+2026-01-19   4            3318.2
+2026-01-20   4            2156.8
+2026-01-21   5            2947.5
+2026-01-22   5            2375.3
+2026-01-23   5            1448.3
+2026-01-24   6            6645.7
+2026-01-25   3            849.5
+2026-01-26   4            1866.5
+2026-01-27   4            2478.4
+2026-01-28   4            3377.7
+(24 linhas; SUM(qtd_pedidos) = 103)
+
+==============================================================================
+ATHENA — Consulta 4: integridade (órfãos)
+$ athena "SELECT COUNT(*) AS orfaos FROM fato_pedidos f LEFT JOIN dim_produto p ON f.produto_id = p.produto_id WHERE p.produto_id IS NULL"
+Estado: SUCCEEDED  |  QueryExecutionId: ba1071ed-9134-44aa-8e56-c7e7e66711a7
+
+orfaos
+0
+
+==============================================================================
+GLUE JOB
+$ aws glue get-job-runs --job-name normaliza-pedidos --max-items 1 --query 'JobRuns[0].{...}' --output table
+-----------------------------------------------------
+|                    GetJobRuns                     |
++--------------+------------------------------------+
+|  Estado      |  SUCCEEDED                         |
+|  Fim         |  2026-09-25T18:50:36.327000-07:00  |
+|  GlueVersion |  4.0                               |
+|  Inicio      |  2026-09-25T18:48:21.356000-07:00  |
+|  Job         |  normaliza-pedidos                 |
+|  Segundos    |  124                               |
+|  Tipo        |  G.1X                              |
+|  Workers     |  2                                 |
++--------------+------------------------------------+
+
+==============================================================================
+GLUE CRAWLER + DATA CATALOG
+$ aws glue get-crawler --name crawler-prova-bigdata-gold --query 'Crawler.{...}' --output table
+----------------------------------------------------------------------------------
+|                                   GetCrawler                                   |
++-----------------------------+----------------------+---------+-----------------+
+|           Crawler           |      Database        | Estado  | UltimaExecucao  |
++-----------------------------+----------------------+---------+-----------------+
+|  crawler-prova-bigdata-gold |  prova_bigdata_gold  |  READY  |  SUCCEEDED      |
++-----------------------------+----------------------+---------+-----------------+
+
+$ aws glue get-tables --database-name prova_bigdata_gold --query 'TableList[].{...}' --output table
+---------------------------------------------------------------------------------------------
+|                                         GetTables                                         |
++---------+-------------------------------------------------+--------------+----------------+
+| Formato |                      Local                      |  Particao    |    Tabela      |
++---------+-------------------------------------------------+--------------+----------------+
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_cliente/   |  None        |  dim_cliente   |
+|  parquet|  s3://prova-bigdata-gold-6325226/dim_produto/   |  None        |  dim_produto   |
+|  parquet|  s3://prova-bigdata-gold-6325226/fato_pedidos/  |  data_pedido |  fato_pedidos  |
++---------+-------------------------------------------------+--------------+----------------+
+
+$ echo "Partições em fato_pedidos: $(aws glue get-partitions --database-name prova_bigdata_gold --table-name fato_pedidos --query 'length(Partitions)')"
+Partições em fato_pedidos: 24
+
+==============================================================================
+DYNAMODB
+$ aws dynamodb describe-table --table-name execucoes --query 'Table.{...}' --output table
+--------------------------------------------------
+|                  DescribeTable                 |
++-----------------+----------------+-------------+
+|     Billing     |     Chave      |   Tabela    |
++-----------------+----------------+-------------+
+|  PAY_PER_REQUEST|  execution_id  |  execucoes  |
++-----------------+----------------+-------------+
+
+$ aws dynamodb scan --table-name execucoes --output table --query 'Items[].{...}'
++----------------------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+|             data_hora            |         dataset         |                    execution_id                     | linhas_gravadas  | linhas_lidas  |  status   |
++----------------------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+|  2026-09-26T01:50:22.912875+00:00|  pedidos_desnormalizado |  normaliza-pedidos-spark-application-1790387351470  |  103             |  110          |  SUCESSO  |
++----------------------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+
+==============================================================================
+S3 — bucket raw
+$ aws s3 ls s3://prova-bigdata-raw-6325226/ --recursive
+2026-09-25 18:46:51      10198 pedidos/pedidos_desnormalizado.csv
+
+==============================================================================
+S3 — bucket gold
+$ aws s3 ls s3://prova-bigdata-gold-6325226/
+                           PRE athena-results/
+                           PRE dim_cliente/
+                           PRE dim_produto/
+                           PRE fato_pedidos/
+                           PRE scripts/
+
+$ aws s3 ls s3://prova-bigdata-gold-6325226/fato_pedidos/
+                           PRE data_pedido=2026-01-05/
+                           PRE data_pedido=2026-01-06/
+                           PRE data_pedido=2026-01-07/
+                           PRE data_pedido=2026-01-08/
+                           PRE data_pedido=2026-01-09/
+                           PRE data_pedido=2026-01-10/
+                           PRE data_pedido=2026-01-11/
+                           PRE data_pedido=2026-01-12/
+                           PRE data_pedido=2026-01-13/
+                           PRE data_pedido=2026-01-14/
+                           PRE data_pedido=2026-01-15/
+                           PRE data_pedido=2026-01-16/
+                           PRE data_pedido=2026-01-17/
+                           PRE data_pedido=2026-01-18/
+                           PRE data_pedido=2026-01-19/
+                           PRE data_pedido=2026-01-20/
+                           PRE data_pedido=2026-01-21/
+                           PRE data_pedido=2026-01-22/
+                           PRE data_pedido=2026-01-23/
+                           PRE data_pedido=2026-01-24/
+                           PRE data_pedido=2026-01-25/
+                           PRE data_pedido=2026-01-26/
+                           PRE data_pedido=2026-01-27/
+                           PRE data_pedido=2026-01-28/
+(24 partições)

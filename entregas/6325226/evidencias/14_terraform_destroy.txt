@@ -1,0 +1,46 @@
+terraform destroy — limpeza final (infra/) — 2026-09-26T02:32:20Z
+
+$ terraform destroy
+terraform_data.bucket_raw: Destroying... [id=190dcfa9-3e37-13c0-0b23-5b95bb37da4d]
+aws_athena_workgroup.prova: Destroying... [id=prova-bigdata]
+aws_glue_crawler.gold: Destroying... [id=crawler-prova-bigdata-gold]
+aws_glue_job.normaliza_pedidos: Destroying... [id=normaliza-pedidos]
+aws_glue_crawler.gold: Destruction complete after 0s
+aws_glue_catalog_database.gold: Destroying... [id=968685597832:prova_bigdata_gold]
+aws_glue_job.normaliza_pedidos: Destruction complete after 0s
+aws_dynamodb_table.execucoes: Destroying... [id=execucoes]
+aws_s3_object.script: Destroying... [id=scripts/normaliza_pedidos.py]
+aws_athena_workgroup.prova: Destruction complete after 0s
+aws_glue_catalog_database.gold: Destruction complete after 1s
+aws_s3_object.script: Destruction complete after 1s
+terraform_data.bucket_raw (local-exec): delete: s3://prova-bigdata-raw-6325226/pedidos/pedidos_desnormalizado.csv
+terraform_data.bucket_gold: Destroying... [id=39408f14-35b1-13ce-cc85-94b244afc89d]
+terraform_data.bucket_raw (local-exec): remove_bucket: prova-bigdata-raw-6325226
+terraform_data.bucket_raw: Destruction complete after 4s
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/0ddc491a-e4b0-4c2c-b714-1b5705fcda7d.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/433f0e14-2423-41b0-910b-55c30d3399a8.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/43b5215d-84ff-4aac-9002-254f2897df87.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/56a70f7d-5e11-46f1-89fa-dca9a594f5c5.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/4f6ce8d5-ea85-4d45-9bf9-5bb2fa622342.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/64d4e97e-fccb-4c5f-b534-2b90757277e6.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/ce4f805f-ab19-4463-9b58-f2a24c0b1322.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/ba1071ed-9134-44aa-8e56-c7e7e66711a7.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/e0c6582b-4368-49ed-8dd4-2be94bf59da2.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/athena-results/e9c9353b-2ca7-4698-b5ea-479ebcd1e7a1.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/dim_cliente/part-00000-8a014ac1-6ea4-4cd8-901c-064facac794d-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/dim_produto/part-00000-44df7c7f-21fc-4bbe-9029-a8f682f526e9-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325226/fato_pedidos/data_pedido=2026-01-05/part-00000-e9c4eb57-72d7-4e3e-9c26-67f2bd2c17e0.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): remove_bucket: prova-bigdata-gold-6325226
+terraform_data.bucket_gold: Destruction complete after 4s
+aws_dynamodb_table.execucoes: Destruction complete after 8s
+Destroy complete! Resources: 8 destroyed.
+   (... demais objetos do gold removidos pelo --force ...)
+
+Verificação pós-destroy na conta 968685597832 (us-east-1):
+$ aws s3 ls | grep prova-bigdata            -> 0 bucket(s)
+$ aws glue list-jobs                         -> 0 job(s)
+$ aws glue list-crawlers                     -> 0 crawler(s)
+$ aws glue get-databases (prova_bigdata_gold) -> 0 database(s)
+$ aws dynamodb list-tables                   -> 0 tabela(s)
+$ aws athena list-work-groups                -> primary (só o padrão da conta)
+$ terraform state list | wc -l               -> 0 recurso(s)

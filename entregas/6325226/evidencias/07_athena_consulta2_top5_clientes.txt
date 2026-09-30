@@ -1,0 +1,25 @@
+Athena — consulta2_top5_clientes
+Workgroup: prova-bigdata | Database: prova_bigdata_gold | Região: us-east-1
+QueryExecutionId: e9c9353b-2ca7-4698-b5ea-479ebcd1e7a1
+Estado: SUCCEEDED | Dados lidos: 3858 bytes | Tempo: 1279 ms
+Resultado salvo em: s3://prova-bigdata-gold-6325226/athena-results/e9c9353b-2ca7-4698-b5ea-479ebcd1e7a1.csv
+
+SQL:
+SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total
+FROM fato_pedidos f
+JOIN dim_cliente c ON f.cliente_id = c.cliente_id
+GROUP BY c.cliente_nome
+ORDER BY gasto_total DESC
+LIMIT 5;
+
+Resultado:
++---------------+-------------+
+| cliente_nome  | gasto_total |
++---------------+-------------+
+| Carla Nunes   | 6955.2      |
+| Diego Alves   | 6464.7      |
+| Henrique Melo | 6114.4      |
+| Ana Souza     | 5793.3      |
+| Elaine Rocha  | 5284.3      |
++---------------+-------------+
+(5 linha(s))

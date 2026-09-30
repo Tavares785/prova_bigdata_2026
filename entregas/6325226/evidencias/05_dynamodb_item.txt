@@ -1,0 +1,37 @@
+DynamoDB — tabela execucoes (catálogo de metadados)
+
+$ aws dynamodb describe-table --table-name execucoes
+-----------------------------------------------------------
+|                      DescribeTable                      |
++------------------+----------------+--------+------------+
+|      Billing     |     Chave      | Itens  |  Tabela    |
++------------------+----------------+--------+------------+
+|  PAY_PER_REQUEST |  execution_id  |  0     |  execucoes |
++------------------+----------------+--------+------------+
+
+(Obs.: o ItemCount do describe-table é atualizado pela AWS a cada ~6 horas;
+ o scan abaixo mostra o item gravado pela execução do Glue Job.)
+
+$ aws dynamodb scan --table-name execucoes
+[
+    {
+        "dataset": {
+            "S": "pedidos_desnormalizado"
+        },
+        "data_hora": {
+            "S": "2026-09-26T01:50:22.912875+00:00"
+        },
+        "execution_id": {
+            "S": "normaliza-pedidos-spark-application-1790387351470"
+        },
+        "linhas_gravadas": {
+            "N": "103"
+        },
+        "linhas_lidas": {
+            "N": "110"
+        },
+        "status": {
+            "S": "SUCESSO"
+        }
+    }
+]
