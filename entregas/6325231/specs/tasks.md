@@ -11,7 +11,7 @@
 - [x] Salvar print de apply da primeira conta e prints de Athena/DynamoDB da conta 906975261211.
 - [x] Revisar plano de destruição: 11 recursos exclusivos, sem versões S3.
 - [x] Destruir e verificar ausência dos recursos da conta 906975261211.
-- [ ] Verificar limpeza da primeira conta quando houver credenciais dela.
+- Primeira conta temporária inacessível: limpeza não verificável; fato registrado nas evidências.
 - [x] Revisar diff/segredos e registrar commits locais.
 - [ ] Fazer push e abrir PR para `master` do original.
 
