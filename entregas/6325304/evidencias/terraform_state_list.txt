@@ -1,0 +1,8 @@
+aws_athena_workgroup.wg
+aws_dynamodb_table.catalogo
+aws_glue_catalog_database.gold
+aws_glue_crawler.gold
+aws_glue_job.normalizacao
+aws_s3_object.script_glue
+terraform_data.bucket_gold
+terraform_data.bucket_raw

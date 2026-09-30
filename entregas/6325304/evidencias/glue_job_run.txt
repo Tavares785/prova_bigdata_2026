@@ -1,0 +1,5 @@
+{
+    "Estado": "SUCCEEDED",
+    "Inicio": "2026-09-29T23:19:26.494000-03:00",
+    "DuracaoSegundos": 121
+}
