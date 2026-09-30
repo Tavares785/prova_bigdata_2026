@@ -5,9 +5,9 @@
 - Glue: glue-run.json; JobRunId jr_1c7ff8212a174e44ca24c615afe0e1a3c472cd44dd460bc4eba085350788b06f, SUCCEEDED, 98 s. S3 gold: 24 partições por data. Raw e gold: os quatro bloqueios públicos ativos e as três tags conferidas.
 - DynamoDB: dynamodb-item.json; SUCESSO, 110 linhas lidas, 103 gravadas.
 - Athena: resultados e IDs em athena-resultados.json. Q1: 7 categorias, soma 61798,90 e nenhuma nula. Q2: 5 clientes em ordem decrescente. Q3: 24 datas, 103 pedidos e soma 61798,90. Q4: zero órfãos de produto. Verificação extra: zero órfãos de cliente.
-- Prints reais: apply da primeira conta em `prints/01-terraform-primeira-conta.png`; Q1–Q6 e item DynamoDB da segunda conta em `prints/02` a `08`. A segunda conta tem também log real de apply em `execucao-906975261211/terraform-apply.txt`.
+- Prints reais da conta 906975261211: apply em `prints/01-terraform-conta-atual.png`, Q1–Q6 e item DynamoDB em `prints/02` a `08`. O apply também consta em `execucao-906975261211/terraform-apply.txt`; o print da primeira conta permanece identificado separadamente.
 
-Nenhuma imagem foi simulada. O print de apply é da primeira conta; os prints de consultas e DynamoDB são da segunda, como indicado pelos IDs de conta.
+Nenhuma imagem foi simulada. O print principal de apply, as consultas e o item DynamoDB são da mesma conta (906975261211).
 
 ## Nova sessão Learner Lab — conta 906975261211
 

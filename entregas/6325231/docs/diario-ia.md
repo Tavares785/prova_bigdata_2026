@@ -31,3 +31,5 @@ Usuário informou novas credenciais e saldo de US$ 50. STS confirmou conta 90697
 30/09/2026 — Prints reais salvos: apply da primeira conta, Athena Q1–Q6 e item DynamoDB da segunda. Destroy na conta 906975261211: Athena exigiu exclusão recursiva do workgroup; repetição concluiu. Estado vazio e recursos ausentes. Conta antiga sem acesso para verificar limpeza.
 
 30/09/2026 — Auditoria: 3 testes PySpark passaram; Terraform raiz e entrega validaram. Corrigido `force_destroy` do Athena após falha observada no destroy. Specs atualizadas; sem novo apply após essa correção.
+
+30/09/2026 — Print do apply da conta 906975261211 recebido e salvo sem edição; evidências visuais principais agora pertencem à mesma conta.
