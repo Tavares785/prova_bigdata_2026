@@ -27,3 +27,13 @@ variable "bucket_raw_nome" {
     error_message = "O nome do bucket S3 deve ter entre 3 e 63 caracteres."
   }
 }
+
+variable "bucket_gold_nome" {
+  description = "Nome global único do bucket S3 gold."
+  type        = string
+}
+
+variable "labrole_arn" {
+  description = "ARN da LabRole pré-existente no AWS Academy Learner Lab."
+  type        = string
+}
