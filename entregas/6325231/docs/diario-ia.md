@@ -1,0 +1,19 @@
+# Diário de trabalho
+
+## P001 — 29/09/2026
+
+Prompt: pedido anexado para concluir a prova prática de Big Data com especificações, implementação, testes, execução real e evidências; identificação informada: Andreyh Rodrigues de Souza, RA 6325231. O usuário pediu para ignorar o aviso de IA do checklist. Sem segredos no prompt.
+
+Objetivo: construir pipeline S3 → Glue → S3 Parquet → Athena, com DynamoDB e Terraform, e entregar em branch própria.
+
+Inspeção: fork `Andreyh117/prova-6325231`, branch inicial `master`; `README.md` já estava modificado pelo usuário. Criada `prova-6325231`. Nenhum PDF foi encontrado. Teste oficial importa o gabarito, então serão criados testes para o script entregue. CSV tem 110 linhas; 103 passam na filtragem básica de chaves e quantidade.
+
+Arquivos: especificações e documentação inicial em `entregas/6325231/`. Validações AWS ainda pendentes.
+
+## P002 — Dados complementares
+
+Usuário confirmou que o projeto aberto contém as fontes disponíveis; Learner Lab ativo com US$ 50. Identidade AWS e LabRole confirmadas. Provider 5.31.0 oficial verificado por SHA256; init precisou de espelho local temporário porque havia outra versão em cache. Fmt, validate, plano com 11 criações e apply: sucesso. Testes do script: 3 passed. Job Glue SUCCEEDED em 98 s; 110 linhas lidas, 103 fatos, 24 partições. Athena Q1–Q4 e verificações adicionais passaram; detalhes em evidencias.md.
+
+## P003 — Ajuste de escopo
+
+Usuário pediu concisão, testes direcionados, sem agentes paralelos e restauração do README.md raiz. O arquivo foi restaurado. Prints e limpeza aguardam captura das telas reais.
