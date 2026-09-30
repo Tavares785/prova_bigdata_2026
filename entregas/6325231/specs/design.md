@@ -1,0 +1,11 @@
+# Desenho
+
+Uma configuração Terraform em `entregas/6325231/infra/` usa o `raw.tf` fornecido e `gold.tf` para criar bucket gold por AWS CLI v2, upload do script, Glue 4.0/PySpark 3.3, catálogo, Athena e DynamoDB em `us-east-1`. O estado é local e ignorado pelo Git. A LabRole é referenciada por ARN; não há IAM novo. Nomes de buckets são únicos, com RA e sufixo definido no tfvars local.
+
+O Job recebe `RAW_PATH`, `GOLD_PATH`, `DDB_TABLE`, `DATASET_NAME`; lê CSV com esquema explícito; transforma DataFrames; grava `dim_cliente/`, `dim_produto/` e `fato_pedidos/data_pedido=.../` em Parquet. As dimensões consideram todas as linhas com sua própria chave, inclusive linhas excluídas do fato. Chaves e textos são aparados; texto vazio vira `DESCONHECIDO`. Duplicatas conflitantes são resolvidas por ordenação estável de conteúdo, privilegiando textos informativos. `pedido_id` conflitante escolhe uma linha por ordenação estável de todos os campos. Não se recalcula `valor_total` porque o contrato manda preservar a medida; divergências são verificadas e documentadas.
+
+Cada gravação usa `overwrite` apenas nos três prefixos da atividade. O Job registra metadados somente depois de todas as escritas; uma falha tenta gravar `FALHA` e propaga o erro original. Uma gravação parcial não é marcada como SUCESSO. A reexecução sobrescreve prefixos completos. A tabela do fato no catálogo usa projeção de partições por data para que Athena leia as datas sem crawler ou `MSCK REPAIR TABLE`. As dimensões usam tabelas externas sobre os prefixos fixos.
+
+Dependência de execução: AWS CLI e Terraform devem usar a mesma conta/região; o apply só ocorre após identidade, orçamento e plano conferidos. O bucket gold criado externamente pelo provisioner exige auditoria antes do destroy. Prints reais são necessários para apply, Athena e DynamoDB.
+
+A Q2 oficial agrupa pelo nome do cliente; clientes homônimos seriam agregados. A consulta oficial foi preservada.
