@@ -74,7 +74,7 @@ Cada item indica o requisito correspondente da prova.
   consumo residual do orçamento (guarde a evidência da destruição). — _Requisitos 10.4, 10.6_
 
 ## 8. Entrega (fork, branch e PR)
-
+r
 - [ ] **Fork** do repositório da prova criado na sua conta. — _Requisito 12.1_
 - [ ] **Branch no padrão `prova-SEURA`** criada a partir do seu fork. — _Requisito 12.3_
 - [ ] **Arquivos do aluno em `entregas/<RA>/`** (uma pasta identificada pelo seu RA na raiz
