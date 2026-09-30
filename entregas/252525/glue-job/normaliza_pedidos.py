@@ -42,6 +42,8 @@ import sys
 
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import functions as F
+from datetime import datetime, timezone
 
 # Imports específicos do Glue — disponíveis no runtime do AWS Glue.
 # No teste local eles não são usados (a lógica pura roda em SparkSession pura).
@@ -60,6 +62,7 @@ except ImportError:  # ambiente local sem o SDK do Glue
 # ---------------------------------------------------------------------------
 
 def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
+    
     """Normaliza o DataFrame desnormalizado no Modelo_Dimensional_Alvo (esquema estrela).
 
     Deriva, a partir do `df_raw` (tabela ampla `pedidos_desnormalizado`), três DataFrames:
@@ -83,10 +86,65 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
 
     Requirements: 6.1, 6.2, 6.7
     """
-    # TODO(aluno): implementar a normalização (fato + 2 dimensões) usando DataFrames/Spark SQL.
-    # TODO(aluno): aplicar a regra de tratamento de dados inválidos (Req 6.7).
-    # TODO(aluno): retornar {"fato_pedidos": ..., "dim_cliente": ..., "dim_produto": ...}.
-    raise NotImplementedError("TODO(aluno): implementar normalizar()")
+    df_validas = df_raw.where(
+        F.col("pedido_id").isNotNull() & (F.trim(F.col("pedido_id")) != "")
+       & F.col("cliente_id").isNotNull() & (F.trim(F.col("cliente_id")) != "")
+       & F.col("produto_id").isNotNull() & (F.trim(F.col("produto_id")) != "")
+       & F.col("quantidade").isNotNull() 
+       & (F.col("quantidade") >0)
+        )
+    fato_pedidos=df_validas.select(
+        "pedido_id","data_pedido","cliente_id","produto_id","preco_unitario","quantidade","valor_total"
+        ).dropDuplicates(["pedido_id"])
+
+    dim_cliente = (
+        df_raw
+        .where(
+            F.col("cliente_id").isNotNull() & (F.trim(F.col("cliente_id")) != "")
+                )                       
+        .select(
+            "cliente_id",
+            F.when(
+                F.col("cliente_nome").isNull() | (F.trim(F.col("cliente_nome")) == ""), 
+                "DESCONHECIDO"
+                ).otherwise(F.col("cliente_nome")
+                ).alias("cliente_nome"),
+            F.when(
+                F.col("cliente_uf").isNull() | (F.trim(F.col
+                ("cliente_uf")) == ""),
+                "DESCONHECIDO"
+                ).otherwise(F.col("cliente_uf")).alias("cliente_uf"),
+        )
+        .dropDuplicates(["cliente_id"])
+    )
+
+    dim_produto = (
+        df_raw
+        .where(
+            F.col("produto_id").isNotNull() & (F.trim(F.col
+            ("produto_id")) != "")
+        )                        
+        .select(
+            "produto_id",
+            F.when
+                (F.col("produto_nome").isNull() |(F.trim(F.col("produto_nome")) ==""), 
+                "DESCONHECIDO"
+                ).otherwise(F.col("produto_nome")).alias("produto_nome"),
+            F.when(
+                F.col("categoria").isNull() |(F.trim(F.col("categoria")) ==""), 
+                "DESCONHECIDO"
+                ).otherwise(F.col("categoria")).alias("categoria"),
+        )
+        .dropDuplicates(["produto_id"])
+    )
+
+
+    return {
+        "fato_pedidos": fato_pedidos,
+        "dim_cliente":  dim_cliente,
+        "dim_produto":  dim_produto,
+    }
+
 
 
 def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, status) -> dict:
@@ -108,10 +166,18 @@ def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, statu
 
     Requirements: 6.5, 8.5
     """
-    # TODO(aluno): montar e retornar o dict de metadados com todos os campos preenchidos,
-    # TODO(aluno): incluindo data_hora em formato ISO-8601.
-    raise NotImplementedError("TODO(aluno): implementar montar_metadados()")
+    data_hora = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    return {
+        "execution_id":    execution_id,
+        "data_hora":       data_hora,
+        "dataset":         dataset,
+        "linhas_lidas":    linhas_lidas,
+        "linhas_gravadas": linhas_gravadas,
+        "status":          status,
+    }
+
+   
 
 # ---------------------------------------------------------------------------
 # Funções de I/O (efeitos colaterais / AWS) — SEPARADAS da lógica pura.
@@ -129,9 +195,11 @@ def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
 
     Requirements: 6.3
     """
-    # TODO(aluno): ler o CSV do raw_path (header=True, inferSchema ou schema explícito).
-    raise NotImplementedError("TODO(aluno): implementar ler_raw()")
-
+    return spark.read.csv(
+        raw_path,
+        header=True,
+        inferSchema=True
+    )
 
 def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
     """Grava as tabelas normalizadas em Parquet no Bucket_Gold.
@@ -148,10 +216,15 @@ def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
 
     Requirements: 6.4, 6.6
     """
-    # TODO(aluno): gravar fato_pedidos em Parquet particionado por data_pedido.
-    # TODO(aluno): gravar dim_cliente e dim_produto em Parquet (sem partição).
-    raise NotImplementedError("TODO(aluno): implementar escrever_gold()")
-
+    tabelas["fato_pedidos"].write.mode("overwrite").partitionBy("data_pedido").parquet(
+        f"{gold_path}/fato_pedidos"
+    )
+    tabelas["dim_cliente"].write.mode("overwrite").parquet(
+        f"{gold_path}/dim_cliente"
+    )
+    tabelas["dim_produto"].write.mode("overwrite").parquet(
+        f"{gold_path}/dim_produto"
+    )
 
 def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
     """Grava o item de metadados da execução na tabela DynamoDB.
@@ -162,8 +235,10 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
 
     Requirements: 6.5, 8.5
     """
-    # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
-    raise NotImplementedError("TODO(aluno): implementar gravar_metadados_dynamo()")
+    import boto3
+    tabela = boto3.resource("dynamodb").Table(ddb_table)
+    tabela.put_item(Item=item)
+
 
 
 # ---------------------------------------------------------------------------
