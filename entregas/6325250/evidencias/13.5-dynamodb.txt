@@ -1,0 +1,19 @@
+EVIDÊNCIA 13.5 — DYNAMODB
+
+Comando:
+
+aws dynamodb scan \
+  --table-name execucoes \
+  --region us-east-1 \
+  --query 'Items[].{execution_id:execution_id.S,dataset:dataset.S,linhas_lidas:linhas_lidas.N,linhas_gravadas:linhas_gravadas.N,status:status.S,data_hora:data_hora.S}' \
+  --output table
+
+Resultado:
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+|                                                                        Scan                                                                         |
++----------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+|       data_hora      |         dataset         |                    execution_id                     | linhas_gravadas  | linhas_lidas  |  status   |
++----------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+
+| 2026-09-30T13:51:16Z | pedidos_desnormalizado | normaliza-pedidos-spark-application-1790776200127 | 103              | 110           |  SUCESSO  |
++----------------------+-------------------------+-----------------------------------------------------+------------------+---------------+-----------+

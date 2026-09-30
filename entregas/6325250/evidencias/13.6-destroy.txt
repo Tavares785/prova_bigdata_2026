@@ -1,0 +1,102 @@
+EVIDÊNCIA 13.6 — CUSTO, SEGURANÇA E CLEANUP
+
+1. TAGS DE CUSTO
+
+Arquivo:
+infra/variables.tf
+
+Configuração:
+Projeto    = "prova-bigdata-2026"
+Disciplina = "Big Data"
+Ambiente   = "Learner Lab"
+
+
+2. BLOQUEIO DE ACESSO PÚBLICO — BUCKET RAW
+
+Comando:
+aws s3api get-public-access-block \
+  --bucket prova-bigdata-raw-6325250 \
+  --region us-east-1
+
+Resultado:
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+    }
+}
+
+
+3. BLOQUEIO DE ACESSO PÚBLICO — BUCKET GOLD
+
+Comando:
+aws s3api get-public-access-block \
+  --bucket prova-bigdata-gold-6325250 \
+  --region us-east-1
+
+Resultado:
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+    }
+}
+
+
+4. IAM — LABROLE
+
+Comando:
+grep -n 'labrole_arn' infra/terraform.tfvars
+
+Resultado:
+7:labrole_arn = "arn:aws:iam::356572154381:role/LabRole"
+
+
+5. CREDENCIAIS
+
+Comando:
+git status --short
+
+Resultado:
+?? entregas/6325250/evidencias/
+
+Comando:
+find . -type f \( -name "credentials" -o -name "*.pem" -o -name "*.key" \) -not -path "./.git/*"
+
+Resultado:
+Nenhum arquivo encontrado dentro do projeto.
+
+Observação:
+As credenciais AWS utilizadas ficam fora do repositório, em ~/.aws/credentials.
+
+
+
+
+6. CLEANUP
+
+Comando executado no diretório infra/:
+
+terraform destroy
+
+Resultado final:
+
+aws_athena_workgroup.gold: Refreshing state... [id=prova-bigdata-gold]
+
+No changes. No objects need to be destroyed.
+
+Either you have not created any objects yet or the existing objects were already deleted outside of Terraform.
+
+Destroy complete! Resources: 0 destroyed.
+
+O Athena WorkGroup que permaneceu após a primeira execução foi removido manualmente com:
+
+aws athena delete-work-group \
+  --work-group prova-bigdata-gold \
+  --recursive \
+  --region us-east-1
+
+Após a remoção, uma nova execução do terraform destroy confirmou que não havia mais objetos a destruir.
