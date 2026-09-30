@@ -1,0 +1,10 @@
+Conta 906975261211; workspace lab-906975261211.
+Plano inicial: 0 add, 0 change, 11 destroy.
+Primeira execução: 10 excluídos; Athena recusou workgroup com histórico de consultas.
+Correção: aws athena delete-work-group --work-group prova-6325231 --recursive-delete-option --region us-east-1
+Plano revisado: 0 add, 0 change, 1 destroy.
+terraform_data.bucket_gold (local-exec): remove_bucket: prova-bigdata-gold-6325231-906975261211
+terraform_data.bucket_gold: Destruction complete after 4s
+
+Apply complete! Resources: 0 added, 0 changed, 1 destroyed.
+Verificação posterior: buckets raw/gold, DynamoDB, Glue job/database e Athena workgroup ausentes; terraform state list: 0 recursos.

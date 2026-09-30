@@ -27,3 +27,5 @@ Usuário pediu retomada. Evidências JSON e consultas foram salvas, commit b4250
 ## P005 — Nova sessão do Learner Lab
 
 Usuário informou novas credenciais e saldo de US$ 50. STS confirmou conta 906975261211, diferente da primeira. LabRole e ausência de recursos preexistentes verificados. Criado workspace isolado; plano de 11 criações e apply concluídos. Glue e Athena repetidos nessa conta para permitir prints no console atual; IDs em evidencias.md. Estado antigo preservado; limpeza de ambas as contas pendente dos prints/acesso.
+
+30/09/2026 — Prints reais salvos: apply da primeira conta, Athena Q1–Q6 e item DynamoDB da segunda. Destroy na conta 906975261211: Athena exigiu exclusão recursiva do workgroup; repetição concluiu. Estado vazio e recursos ausentes. Conta antiga sem acesso para verificar limpeza.
