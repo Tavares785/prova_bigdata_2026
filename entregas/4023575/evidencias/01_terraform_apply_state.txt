@@ -1,0 +1,9 @@
+aws_athena_workgroup.gold_wg
+aws_dynamodb_table.execucoes
+aws_glue_catalog_database.gold_db
+aws_glue_catalog_table.dim_cliente
+aws_glue_catalog_table.dim_produto
+aws_glue_catalog_table.fato_pedidos
+aws_glue_job.normaliza_pedidos
+terraform_data.bucket_gold
+terraform_data.bucket_raw

@@ -1,0 +1,372 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "data_pedido"
+                    },
+                    {
+                        "VarCharValue": "qtd_pedidos"
+                    },
+                    {
+                        "VarCharValue": "faturamento_dia"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-05"
+                    },
+                    {
+                        "VarCharValue": "5"
+                    },
+                    {
+                        "VarCharValue": "1499.0"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-06"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "948.1"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-07"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "1798.3"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-08"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "2947.7"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-09"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "1167.1"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-10"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "3106.7"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-11"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "2898.2"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-12"
+                    },
+                    {
+                        "VarCharValue": "5"
+                    },
+                    {
+                        "VarCharValue": "1218.2"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-13"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "5196.8"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-14"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "1476.6"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-15"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "1838.2"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-16"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "5446.4"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-17"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "937.4"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-18"
+                    },
+                    {
+                        "VarCharValue": "5"
+                    },
+                    {
+                        "VarCharValue": "3856.3"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-19"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "3318.2"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-20"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "2156.8"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-21"
+                    },
+                    {
+                        "VarCharValue": "5"
+                    },
+                    {
+                        "VarCharValue": "2947.5"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-22"
+                    },
+                    {
+                        "VarCharValue": "5"
+                    },
+                    {
+                        "VarCharValue": "2375.3"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-23"
+                    },
+                    {
+                        "VarCharValue": "5"
+                    },
+                    {
+                        "VarCharValue": "1448.3"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-24"
+                    },
+                    {
+                        "VarCharValue": "6"
+                    },
+                    {
+                        "VarCharValue": "6645.7"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-25"
+                    },
+                    {
+                        "VarCharValue": "3"
+                    },
+                    {
+                        "VarCharValue": "849.5"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-26"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "1866.5"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-27"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "2478.4"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "2026-01-28"
+                    },
+                    {
+                        "VarCharValue": "4"
+                    },
+                    {
+                        "VarCharValue": "3377.7"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "data_pedido",
+                    "Label": "data_pedido",
+                    "Type": "date",
+                    "Precision": 0,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "qtd_pedidos",
+                    "Label": "qtd_pedidos",
+                    "Type": "bigint",
+                    "Precision": 19,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "faturamento_dia",
+                    "Label": "faturamento_dia",
+                    "Type": "double",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

@@ -1,0 +1,115 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "categoria"
+                    },
+                    {
+                        "VarCharValue": "faturamento"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Eletronicos"
+                    },
+                    {
+                        "VarCharValue": "30334.1"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Moveis"
+                    },
+                    {
+                        "VarCharValue": "13485.0"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Calcados"
+                    },
+                    {
+                        "VarCharValue": "5698.1"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Eletrodomesticos"
+                    },
+                    {
+                        "VarCharValue": "4921.0"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Livros"
+                    },
+                    {
+                        "VarCharValue": "2876.8"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Acessorios"
+                    },
+                    {
+                        "VarCharValue": "2338.2"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Vestuario"
+                    },
+                    {
+                        "VarCharValue": "2145.7"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "categoria",
+                    "Label": "categoria",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "faturamento",
+                    "Label": "faturamento",
+                    "Type": "double",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

@@ -1,0 +1,29 @@
+{
+    "JobRun": {
+        "Id": "jr_33d62e983b9687ca8c4c1bb30aea4e0a6370df46f67194629b382b07e4b50747",
+        "Attempt": 0,
+        "JobName": "normaliza-pedidos",
+        "JobMode": "SCRIPT",
+        "JobRunQueuingEnabled": false,
+        "StartedOn": "2026-09-30T01:17:13.278000-03:00",
+        "LastModifiedOn": "2026-09-30T01:18:55.136000-03:00",
+        "CompletedOn": "2026-09-30T01:18:55.136000-03:00",
+        "JobRunState": "SUCCEEDED",
+        "Arguments": {
+            "--GOLD_PATH": "s3://prova-bigdata-gold-4023575b/",
+            "--DDB_TABLE": "execucoes",
+            "--DATASET_NAME": "pedidos_desnormalizado",
+            "--RAW_PATH": "s3://prova-bigdata-raw-4023575b/pedidos/"
+        },
+        "PredecessorRuns": [],
+        "AllocatedCapacity": 2,
+        "ExecutionTime": 94,
+        "Timeout": 2880,
+        "MaxCapacity": 2.0,
+        "WorkerType": "G.1X",
+        "NumberOfWorkers": 2,
+        "LogGroupName": "/aws-glue/jobs",
+        "GlueVersion": "4.0",
+        "DPUSeconds": 188.0
+    }
+}
