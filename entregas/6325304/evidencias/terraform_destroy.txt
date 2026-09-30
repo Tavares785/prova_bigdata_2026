@@ -1,0 +1,346 @@
+[0m[1mterraform_data.bucket_raw: Refreshing state... [id=cfccc4db-c82e-2f25-2bc9-b4150ca9092e][0m
+[0m[1mterraform_data.bucket_gold: Refreshing state... [id=be8f8377-80f9-1ec7-9f39-848efe3a7e9b][0m
+[0m[1maws_glue_catalog_database.gold: Refreshing state... [id=175670145706:prova_bigdata_gold][0m
+[0m[1maws_dynamodb_table.catalogo: Refreshing state... [id=catalogo-execucoes][0m
+[0m[1maws_athena_workgroup.wg: Refreshing state... [id=wg-prova-bigdata][0m
+[0m[1maws_s3_object.script_glue: Refreshing state... [id=scripts/normaliza_pedidos.py][0m
+[0m[1maws_glue_crawler.gold: Refreshing state... [id=crawler-gold-pedidos][0m
+[0m[1maws_glue_job.normalizacao: Refreshing state... [id=job-normaliza-pedidos][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [31m-[0m destroy[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_athena_workgroup.wg[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_athena_workgroup" "wg" {
+      [31m-[0m[0m arn           = "arn:aws:athena:us-east-1:175670145706:workgroup/wg-prova-bigdata" [90m-> null[0m[0m
+      [31m-[0m[0m force_destroy = true [90m-> null[0m[0m
+      [31m-[0m[0m id            = "wg-prova-bigdata" [90m-> null[0m[0m
+      [31m-[0m[0m name          = "wg-prova-bigdata" [90m-> null[0m[0m
+      [31m-[0m[0m state         = "ENABLED" [90m-> null[0m[0m
+      [31m-[0m[0m tags          = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all      = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+        [90m# (1 unchanged attribute hidden)[0m[0m
+
+      [31m-[0m[0m configuration {
+          [31m-[0m[0m bytes_scanned_cutoff_per_query     = 0 [90m-> null[0m[0m
+          [31m-[0m[0m enforce_workgroup_configuration    = true [90m-> null[0m[0m
+          [31m-[0m[0m publish_cloudwatch_metrics_enabled = false [90m-> null[0m[0m
+          [31m-[0m[0m requester_pays_enabled             = false [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+
+          [31m-[0m[0m engine_version {
+              [31m-[0m[0m effective_engine_version = "Athena engine version 3" [90m-> null[0m[0m
+              [31m-[0m[0m selected_engine_version  = "AUTO" [90m-> null[0m[0m
+            }
+
+          [31m-[0m[0m result_configuration {
+              [31m-[0m[0m output_location       = "s3://prova-bigdata-gold-6325304/athena-results/" [90m-> null[0m[0m
+                [90m# (1 unchanged attribute hidden)[0m[0m
+            }
+        }
+    }
+
+[1m  # aws_dynamodb_table.catalogo[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_dynamodb_table" "catalogo" {
+      [31m-[0m[0m arn                         = "arn:aws:dynamodb:us-east-1:175670145706:table/catalogo-execucoes" [90m-> null[0m[0m
+      [31m-[0m[0m billing_mode                = "PAY_PER_REQUEST" [90m-> null[0m[0m
+      [31m-[0m[0m deletion_protection_enabled = false [90m-> null[0m[0m
+      [31m-[0m[0m hash_key                    = "execution_id" [90m-> null[0m[0m
+      [31m-[0m[0m id                          = "catalogo-execucoes" [90m-> null[0m[0m
+      [31m-[0m[0m name                        = "catalogo-execucoes" [90m-> null[0m[0m
+      [31m-[0m[0m read_capacity               = 0 [90m-> null[0m[0m
+      [31m-[0m[0m stream_enabled              = false [90m-> null[0m[0m
+      [31m-[0m[0m table_class                 = "STANDARD" [90m-> null[0m[0m
+      [31m-[0m[0m tags                        = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all                    = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m write_capacity              = 0 [90m-> null[0m[0m
+        [90m# (3 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m attribute {
+          [31m-[0m[0m name = "execution_id" [90m-> null[0m[0m
+          [31m-[0m[0m type = "S" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m point_in_time_recovery {
+          [31m-[0m[0m enabled = false [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m ttl {
+          [31m-[0m[0m enabled        = false [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+    }
+
+[1m  # aws_glue_catalog_database.gold[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_glue_catalog_database" "gold" {
+      [31m-[0m[0m arn          = "arn:aws:glue:us-east-1:175670145706:database/prova_bigdata_gold" [90m-> null[0m[0m
+      [31m-[0m[0m catalog_id   = "175670145706" [90m-> null[0m[0m
+      [31m-[0m[0m id           = "175670145706:prova_bigdata_gold" [90m-> null[0m[0m
+      [31m-[0m[0m name         = "prova_bigdata_gold" [90m-> null[0m[0m
+      [31m-[0m[0m parameters   = {} [90m-> null[0m[0m
+      [31m-[0m[0m tags         = {} [90m-> null[0m[0m
+      [31m-[0m[0m tags_all     = {} [90m-> null[0m[0m
+        [90m# (2 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m create_table_default_permission {
+          [31m-[0m[0m permissions = [
+              [31m-[0m[0m "ALL",
+            ] [90m-> null[0m[0m
+
+          [31m-[0m[0m principal {
+              [31m-[0m[0m data_lake_principal_identifier = "IAM_ALLOWED_PRINCIPALS" [90m-> null[0m[0m
+            }
+        }
+    }
+
+[1m  # aws_glue_crawler.gold[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_glue_crawler" "gold" {
+      [31m-[0m[0m arn                    = "arn:aws:glue:us-east-1:175670145706:crawler/crawler-gold-pedidos" [90m-> null[0m[0m
+      [31m-[0m[0m classifiers            = [] [90m-> null[0m[0m
+      [31m-[0m[0m database_name          = "prova_bigdata_gold" [90m-> null[0m[0m
+      [31m-[0m[0m id                     = "crawler-gold-pedidos" [90m-> null[0m[0m
+      [31m-[0m[0m name                   = "crawler-gold-pedidos" [90m-> null[0m[0m
+      [31m-[0m[0m role                   = "LabRole" [90m-> null[0m[0m
+      [31m-[0m[0m tags                   = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all               = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+        [90m# (5 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m lake_formation_configuration {
+          [31m-[0m[0m use_lake_formation_credentials = false [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+
+      [31m-[0m[0m lineage_configuration {
+          [31m-[0m[0m crawler_lineage_settings = "DISABLE" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m recrawl_policy {
+          [31m-[0m[0m recrawl_behavior = "CRAWL_EVERYTHING" [90m-> null[0m[0m
+        }
+
+      [31m-[0m[0m s3_target {
+          [31m-[0m[0m exclusions          = [] [90m-> null[0m[0m
+          [31m-[0m[0m path                = "s3://prova-bigdata-gold-6325304/fato_pedidos/" [90m-> null[0m[0m
+          [31m-[0m[0m sample_size         = 0 [90m-> null[0m[0m
+            [90m# (3 unchanged attributes hidden)[0m[0m
+        }
+      [31m-[0m[0m s3_target {
+          [31m-[0m[0m exclusions          = [] [90m-> null[0m[0m
+          [31m-[0m[0m path                = "s3://prova-bigdata-gold-6325304/dim_cliente/" [90m-> null[0m[0m
+          [31m-[0m[0m sample_size         = 0 [90m-> null[0m[0m
+            [90m# (3 unchanged attributes hidden)[0m[0m
+        }
+      [31m-[0m[0m s3_target {
+          [31m-[0m[0m exclusions          = [] [90m-> null[0m[0m
+          [31m-[0m[0m path                = "s3://prova-bigdata-gold-6325304/dim_produto/" [90m-> null[0m[0m
+          [31m-[0m[0m sample_size         = 0 [90m-> null[0m[0m
+            [90m# (3 unchanged attributes hidden)[0m[0m
+        }
+
+      [31m-[0m[0m schema_change_policy {
+          [31m-[0m[0m delete_behavior = "DEPRECATE_IN_DATABASE" [90m-> null[0m[0m
+          [31m-[0m[0m update_behavior = "UPDATE_IN_DATABASE" [90m-> null[0m[0m
+        }
+    }
+
+[1m  # aws_glue_job.normalizacao[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_glue_job" "normalizacao" {
+      [31m-[0m[0m arn                       = "arn:aws:glue:us-east-1:175670145706:job/job-normaliza-pedidos" [90m-> null[0m[0m
+      [31m-[0m[0m connections               = [] [90m-> null[0m[0m
+      [31m-[0m[0m default_arguments         = {
+          [31m-[0m[0m "--DATASET_NAME" = "pedidos_desnormalizado"
+          [31m-[0m[0m "--DDB_TABLE"    = "catalogo-execucoes"
+          [31m-[0m[0m "--GOLD_PATH"    = "s3://prova-bigdata-gold-6325304/"
+          [31m-[0m[0m "--RAW_PATH"     = "s3://prova-bigdata-raw-6325304/pedidos/pedidos_desnormalizado.csv"
+          [31m-[0m[0m "--job-language" = "python"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m glue_version              = "4.0" [90m-> null[0m[0m
+      [31m-[0m[0m id                        = "job-normaliza-pedidos" [90m-> null[0m[0m
+      [31m-[0m[0m max_capacity              = 2 [90m-> null[0m[0m
+      [31m-[0m[0m max_retries               = 0 [90m-> null[0m[0m
+      [31m-[0m[0m name                      = "job-normaliza-pedidos" [90m-> null[0m[0m
+      [31m-[0m[0m non_overridable_arguments = {} [90m-> null[0m[0m
+      [31m-[0m[0m number_of_workers         = 2 [90m-> null[0m[0m
+      [31m-[0m[0m role_arn                  = "arn:aws:iam::175670145706:role/LabRole" [90m-> null[0m[0m
+      [31m-[0m[0m tags                      = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all                  = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m timeout                   = 15 [90m-> null[0m[0m
+      [31m-[0m[0m worker_type               = "G.1X" [90m-> null[0m[0m
+        [90m# (3 unchanged attributes hidden)[0m[0m
+
+      [31m-[0m[0m command {
+          [31m-[0m[0m name            = "glueetl" [90m-> null[0m[0m
+          [31m-[0m[0m python_version  = "3" [90m-> null[0m[0m
+          [31m-[0m[0m script_location = "s3://prova-bigdata-gold-6325304/scripts/normaliza_pedidos.py" [90m-> null[0m[0m
+            [90m# (1 unchanged attribute hidden)[0m[0m
+        }
+
+      [31m-[0m[0m execution_property {
+          [31m-[0m[0m max_concurrent_runs = 1 [90m-> null[0m[0m
+        }
+    }
+
+[1m  # aws_s3_object.script_glue[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "aws_s3_object" "script_glue" {
+      [31m-[0m[0m bucket                        = "prova-bigdata-gold-6325304" [90m-> null[0m[0m
+      [31m-[0m[0m bucket_key_enabled            = false [90m-> null[0m[0m
+      [31m-[0m[0m content_type                  = "application/octet-stream" [90m-> null[0m[0m
+      [31m-[0m[0m etag                          = "24d1300e08afa77a95838e20d0b1080a" [90m-> null[0m[0m
+      [31m-[0m[0m force_destroy                 = false [90m-> null[0m[0m
+      [31m-[0m[0m id                            = "scripts/normaliza_pedidos.py" [90m-> null[0m[0m
+      [31m-[0m[0m key                           = "scripts/normaliza_pedidos.py" [90m-> null[0m[0m
+      [31m-[0m[0m metadata                      = {} [90m-> null[0m[0m
+      [31m-[0m[0m server_side_encryption        = "AES256" [90m-> null[0m[0m
+      [31m-[0m[0m source                        = "./../glue-job/normaliza_pedidos.py" [90m-> null[0m[0m
+      [31m-[0m[0m storage_class                 = "STANDARD" [90m-> null[0m[0m
+      [31m-[0m[0m tags                          = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m tags_all                      = {
+          [31m-[0m[0m "Ambiente"   = "learner-lab"
+          [31m-[0m[0m "Disciplina" = "big-data"
+          [31m-[0m[0m "Projeto"    = "prova-bigdata"
+        } [90m-> null[0m[0m
+        [90m# (13 unchanged attributes hidden)[0m[0m
+    }
+
+[1m  # terraform_data.bucket_gold[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "terraform_data" "bucket_gold" {
+      [31m-[0m[0m id     = "be8f8377-80f9-1ec7-9f39-848efe3a7e9b" [90m-> null[0m[0m
+      [31m-[0m[0m input  = {
+          [31m-[0m[0m nome   = "prova-bigdata-gold-6325304"
+          [31m-[0m[0m regiao = "us-east-1"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m output = {
+          [31m-[0m[0m nome   = "prova-bigdata-gold-6325304"
+          [31m-[0m[0m regiao = "us-east-1"
+        } [90m-> null[0m[0m
+    }
+
+[1m  # terraform_data.bucket_raw[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "terraform_data" "bucket_raw" {
+      [31m-[0m[0m id               = "cfccc4db-c82e-2f25-2bc9-b4150ca9092e" [90m-> null[0m[0m
+      [31m-[0m[0m input            = {
+          [31m-[0m[0m bucket = "prova-bigdata-raw-6325304"
+          [31m-[0m[0m regiao = "us-east-1"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m output           = {
+          [31m-[0m[0m bucket = "prova-bigdata-raw-6325304"
+          [31m-[0m[0m regiao = "us-east-1"
+        } [90m-> null[0m[0m
+      [31m-[0m[0m triggers_replace = [
+          [31m-[0m[0m "prova-bigdata-raw-6325304",
+          [31m-[0m[0m "us-east-1",
+        ] [90m-> null[0m[0m
+    }
+
+[1mPlan:[0m [0m0 to add, 0 to change, 8 to destroy.
+
+Changes to Outputs:
+  [31m-[0m[0m athena_workgroup = "wg-prova-bigdata" [90m-> null[0m[0m
+  [31m-[0m[0m bucket_gold      = "prova-bigdata-gold-6325304" [90m-> null[0m[0m
+  [31m-[0m[0m bucket_raw       = "prova-bigdata-raw-6325304" [90m-> null[0m[0m
+  [31m-[0m[0m dynamodb_tabela  = "catalogo-execucoes" [90m-> null[0m[0m
+  [31m-[0m[0m glue_crawler     = "crawler-gold-pedidos" [90m-> null[0m[0m
+  [31m-[0m[0m glue_database    = "prova_bigdata_gold" [90m-> null[0m[0m
+  [31m-[0m[0m glue_job         = "job-normaliza-pedidos" [90m-> null[0m[0m
+[0m[1mterraform_data.bucket_raw: Destroying... [id=cfccc4db-c82e-2f25-2bc9-b4150ca9092e][0m[0m
+[0m[1mterraform_data.bucket_raw: Provisioning with 'local-exec'...[0m[0m
+[0m[1mterraform_data.bucket_raw (local-exec):[0m [0mExecuting: ["/bin/sh" "-c" "aws s3 rb s3://prova-bigdata-raw-6325304 --force || true"]
+[0m[1maws_athena_workgroup.wg: Destroying... [id=wg-prova-bigdata][0m[0m
+[0m[1maws_glue_job.normalizacao: Destroying... [id=job-normaliza-pedidos][0m[0m
+[0m[1maws_glue_crawler.gold: Destroying... [id=crawler-gold-pedidos][0m[0m
+[0m[1maws_glue_crawler.gold: Destruction complete after 1s[0m
+[0m[1maws_glue_job.normalizacao: Destruction complete after 1s[0m
+[0m[1maws_glue_catalog_database.gold: Destroying... [id=175670145706:prova_bigdata_gold][0m[0m
+[0m[1maws_s3_object.script_glue: Destroying... [id=scripts/normaliza_pedidos.py][0m[0m
+[0m[1maws_dynamodb_table.catalogo: Destroying... [id=catalogo-execucoes][0m[0m
+[0m[1maws_athena_workgroup.wg: Destruction complete after 1s[0m
+[0m[1maws_glue_catalog_database.gold: Destruction complete after 0s[0m
+[0m[1maws_s3_object.script_glue: Destruction complete after 1s[0m
+[0m[1mterraform_data.bucket_gold: Destroying... [id=be8f8377-80f9-1ec7-9f39-848efe3a7e9b][0m[0m
+[0m[1mterraform_data.bucket_gold: Provisioning with 'local-exec'...[0m[0m
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mExecuting: ["/bin/bash" "-c" "aws s3 rb s3://prova-bigdata-gold-6325304 --force --region us-east-1 || true"]
+[0m[1mterraform_data.bucket_raw (local-exec):[0m [0mdelete: s3://prova-bigdata-raw-6325304/pedidos/pedidos_desnormalizado.csv
+[0m[1mterraform_data.bucket_raw (local-exec):[0m [0mremove_bucket: prova-bigdata-raw-6325304
+[0m[1mterraform_data.bucket_raw: Destruction complete after 8s[0m
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/1f78497d-aa46-4af3-821f-d22e8482cfae.csv
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/1f78497d-aa46-4af3-821f-d22e8482cfae.csv.metadata
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/33596b4e-2db8-49a1-b105-9ae5ddd75dbf.csv.metadata
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/f6b7740b-99b7-4fbf-adf4-07c2b13686d4.csv
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/3367a184-7d47-460f-84a5-9d631b4b4c48.csv.metadata
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/d70a96f9-dde1-4476-9d5d-7400d5642b0c.csv.metadata
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/3367a184-7d47-460f-84a5-9d631b4b4c48.csv
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/c448d6b3-d1e8-49a3-80ff-1458f0d9eb20.csv.metadata
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/c448d6b3-d1e8-49a3-80ff-1458f0d9eb20.csv
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/d70a96f9-dde1-4476-9d5d-7400d5642b0c.csv
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/33596b4e-2db8-49a1-b105-9ae5ddd75dbf.csv
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/athena-results/f6b7740b-99b7-4fbf-adf4-07c2b13686d4.csv.metadata
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/dim_cliente/part-00000-61d7aa23-1c42-4ff4-ae7a-f5100a7e7f58-c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/dim_produto/part-00000-04e50c80-1614-4a3a-a942-3c08ed65443b-c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-05/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-06/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-07/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-08/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-10/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-11/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-09/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-12/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-13/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-14/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-15/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-16/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-18/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1maws_dynamodb_table.catalogo: Destruction complete after 8s[0m
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-17/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-19/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-20/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-21/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-22/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-23/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-24/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-25/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-26/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-27/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mdelete: s3://prova-bigdata-gold-6325304/fato_pedidos/data_pedido=2026-01-28/part-00000-4e8c07bd-bdad-4a61-8a9f-ebc2eaad1a93.c000.snappy.parquet
+[0m[1mterraform_data.bucket_gold (local-exec):[0m [0mremove_bucket: prova-bigdata-gold-6325304
+[0m[1mterraform_data.bucket_gold: Destruction complete after 8s[0m
+[0m[1m[32m
+Destroy complete! Resources: 8 destroyed.[0m
