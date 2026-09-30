@@ -1,0 +1,1 @@
+cliente_nome	total_compras	Carla Nunes	6955.2	Diego Alves	6464.7	Henrique Melo	6114.4	Ana Souza	5793.3	Elaine Rocha	5284.3

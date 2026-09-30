@@ -1,0 +1,20 @@
+terraform_data.script_glue: Destroying... [id=6726346e-72bf-3210-7179-9f5d6bbaf06d]
+terraform_data.script_glue: Destruction complete after 0s
+terraform_data.script_glue: Creating...
+terraform_data.script_glue: Provisioning with 'local-exec'...
+terraform_data.script_glue (local-exec): Executing: ["/bin/sh" "-c" "aws s3 cp \"$SCRIPT_PATH\" \"s3://$GOLD_BUCKET/scripts/normaliza_pedidos.py\" --region \"$AWS_REGION\""]
+terraform_data.script_glue (local-exec): Completed 12.6 KiB/12.6 KiB (18.8 KiB/s) with 1 file(s) remaining
+terraform_data.script_glue (local-exec): upload: ../glue-job/normaliza_pedidos.py to s3://prova-bigdata-gold-6325197-503064813318/scripts/normaliza_pedidos.py
+terraform_data.script_glue: Creation complete after 1s [id=05594aca-0f47-2e9e-5458-bbd3ace7255b]
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+athena_workgroup = "prova-6325197"
+bucket_gold_nome = "prova-bigdata-gold-6325197-503064813318"
+bucket_raw_nome = "prova-bigdata-raw-6325197-503064813318"
+catalogo_database = "prova_bigdata_6325197"
+crawler_nome = "crawler-gold-6325197"
+ddb_table_nome = "execucoes-6325197"
+glue_job_nome = "normaliza-pedidos-6325197"

@@ -1,0 +1,417 @@
+terraform_data.bucket_gold: Refreshing state... [id=53a0a40a-7a0e-de94-17fa-3b2f1b27d822]
+terraform_data.bucket_raw: Refreshing state... [id=733c7062-dc7f-6d25-16c7-fa90f76c0a59]
+terraform_data.script_glue: Refreshing state... [id=05594aca-0f47-2e9e-5458-bbd3ace7255b]
+terraform_data.tags_buckets["gold"]: Refreshing state... [id=6768ce87-c31e-7f82-67aa-2e7174cac337]
+terraform_data.tags_buckets["raw"]: Refreshing state... [id=c100895f-d09f-ec20-fc7e-994ccd287675]
+aws_athena_workgroup.prova: Refreshing state... [id=prova-6325197]
+aws_glue_catalog_database.gold: Refreshing state... [id=503064813318:prova_bigdata_6325197]
+aws_dynamodb_table.execucoes: Refreshing state... [id=execucoes-6325197]
+aws_glue_crawler.gold: Refreshing state... [id=crawler-gold-6325197]
+aws_glue_job.normaliza_pedidos: Refreshing state... [id=normaliza-pedidos-6325197]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_athena_workgroup.prova will be destroyed
+  - resource "aws_athena_workgroup" "prova" {
+      - arn           = "arn:aws:athena:us-east-1:503064813318:workgroup/prova-6325197" -> null
+      - force_destroy = true -> null
+      - id            = "prova-6325197" -> null
+      - name          = "prova-6325197" -> null
+      - state         = "ENABLED" -> null
+      - tags          = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+      - tags_all      = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+        # (1 unchanged attribute hidden)
+
+      - configuration {
+          - bytes_scanned_cutoff_per_query     = 0 -> null
+          - enforce_workgroup_configuration    = true -> null
+          - publish_cloudwatch_metrics_enabled = true -> null
+          - requester_pays_enabled             = false -> null
+            # (1 unchanged attribute hidden)
+
+          - engine_version {
+              - effective_engine_version = "Athena engine version 3" -> null
+              - selected_engine_version  = "AUTO" -> null
+            }
+
+          - result_configuration {
+              - output_location       = "s3://prova-bigdata-gold-6325197-503064813318/athena-results/" -> null
+                # (1 unchanged attribute hidden)
+
+              - encryption_configuration {
+                  - encryption_option = "SSE_S3" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+    }
+
+  # aws_dynamodb_table.execucoes will be destroyed
+  - resource "aws_dynamodb_table" "execucoes" {
+      - arn                         = "arn:aws:dynamodb:us-east-1:503064813318:table/execucoes-6325197" -> null
+      - billing_mode                = "PAY_PER_REQUEST" -> null
+      - deletion_protection_enabled = false -> null
+      - hash_key                    = "execution_id" -> null
+      - id                          = "execucoes-6325197" -> null
+      - name                        = "execucoes-6325197" -> null
+      - read_capacity               = 0 -> null
+      - stream_enabled              = false -> null
+      - table_class                 = "STANDARD" -> null
+      - tags                        = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+      - tags_all                    = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+      - write_capacity              = 0 -> null
+        # (3 unchanged attributes hidden)
+
+      - attribute {
+          - name = "execution_id" -> null
+          - type = "S" -> null
+        }
+
+      - point_in_time_recovery {
+          - enabled = false -> null
+        }
+
+      - ttl {
+          - enabled        = false -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_glue_catalog_database.gold will be destroyed
+  - resource "aws_glue_catalog_database" "gold" {
+      - arn          = "arn:aws:glue:us-east-1:503064813318:database/prova_bigdata_6325197" -> null
+      - catalog_id   = "503064813318" -> null
+      - id           = "503064813318:prova_bigdata_6325197" -> null
+      - name         = "prova_bigdata_6325197" -> null
+      - parameters   = {} -> null
+      - tags         = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+      - tags_all     = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - create_table_default_permission {
+          - permissions = [
+              - "ALL",
+            ] -> null
+
+          - principal {
+              - data_lake_principal_identifier = "IAM_ALLOWED_PRINCIPALS" -> null
+            }
+        }
+    }
+
+  # aws_glue_crawler.gold will be destroyed
+  - resource "aws_glue_crawler" "gold" {
+      - arn                    = "arn:aws:glue:us-east-1:503064813318:crawler/crawler-gold-6325197" -> null
+      - classifiers            = [] -> null
+      - database_name          = "prova_bigdata_6325197" -> null
+      - id                     = "crawler-gold-6325197" -> null
+      - name                   = "crawler-gold-6325197" -> null
+      - role                   = "LabRole" -> null
+      - tags                   = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+      - tags_all               = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+        # (5 unchanged attributes hidden)
+
+      - lake_formation_configuration {
+          - use_lake_formation_credentials = false -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - lineage_configuration {
+          - crawler_lineage_settings = "DISABLE" -> null
+        }
+
+      - recrawl_policy {
+          - recrawl_behavior = "CRAWL_EVERYTHING" -> null
+        }
+
+      - s3_target {
+          - exclusions          = [] -> null
+          - path                = "s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/" -> null
+          - sample_size         = 0 -> null
+            # (3 unchanged attributes hidden)
+        }
+      - s3_target {
+          - exclusions          = [] -> null
+          - path                = "s3://prova-bigdata-gold-6325197-503064813318/dim_cliente/" -> null
+          - sample_size         = 0 -> null
+            # (3 unchanged attributes hidden)
+        }
+      - s3_target {
+          - exclusions          = [] -> null
+          - path                = "s3://prova-bigdata-gold-6325197-503064813318/dim_produto/" -> null
+          - sample_size         = 0 -> null
+            # (3 unchanged attributes hidden)
+        }
+
+      - schema_change_policy {
+          - delete_behavior = "LOG" -> null
+          - update_behavior = "UPDATE_IN_DATABASE" -> null
+        }
+    }
+
+  # aws_glue_job.normaliza_pedidos will be destroyed
+  - resource "aws_glue_job" "normaliza_pedidos" {
+      - arn                       = "arn:aws:glue:us-east-1:503064813318:job/normaliza-pedidos-6325197" -> null
+      - connections               = [] -> null
+      - default_arguments         = {
+          - "--DATASET_NAME" = "pedidos_desnormalizado"
+          - "--DDB_TABLE"    = "execucoes-6325197"
+          - "--GOLD_PATH"    = "s3://prova-bigdata-gold-6325197-503064813318/"
+          - "--RAW_PATH"     = "s3://prova-bigdata-raw-6325197-503064813318/pedidos/"
+          - "--job-language" = "python"
+        } -> null
+      - glue_version              = "4.0" -> null
+      - id                        = "normaliza-pedidos-6325197" -> null
+      - max_capacity              = 2 -> null
+      - max_retries               = 0 -> null
+      - name                      = "normaliza-pedidos-6325197" -> null
+      - non_overridable_arguments = {} -> null
+      - number_of_workers         = 2 -> null
+      - role_arn                  = "arn:aws:iam::503064813318:role/LabRole" -> null
+      - tags                      = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+      - tags_all                  = {
+          - "Ambiente"   = "LearnerLab"
+          - "Disciplina" = "BigData"
+          - "Projeto"    = "prova-bigdata-6325197"
+        } -> null
+      - timeout                   = 10 -> null
+      - worker_type               = "G.1X" -> null
+        # (3 unchanged attributes hidden)
+
+      - command {
+          - name            = "glueetl" -> null
+          - python_version  = "3" -> null
+          - script_location = "s3://prova-bigdata-gold-6325197-503064813318/scripts/normaliza_pedidos.py" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - execution_property {
+          - max_concurrent_runs = 1 -> null
+        }
+    }
+
+  # terraform_data.bucket_gold will be destroyed
+  - resource "terraform_data" "bucket_gold" {
+      - id               = "53a0a40a-7a0e-de94-17fa-3b2f1b27d822" -> null
+      - input            = {
+          - bucket = "prova-bigdata-gold-6325197-503064813318"
+          - regiao = "us-east-1"
+        } -> null
+      - output           = {
+          - bucket = "prova-bigdata-gold-6325197-503064813318"
+          - regiao = "us-east-1"
+        } -> null
+      - triggers_replace = [
+          - "prova-bigdata-gold-6325197-503064813318",
+          - "us-east-1",
+        ] -> null
+    }
+
+  # terraform_data.bucket_raw will be destroyed
+  - resource "terraform_data" "bucket_raw" {
+      - id               = "733c7062-dc7f-6d25-16c7-fa90f76c0a59" -> null
+      - input            = {
+          - bucket = "prova-bigdata-raw-6325197-503064813318"
+          - regiao = "us-east-1"
+        } -> null
+      - output           = {
+          - bucket = "prova-bigdata-raw-6325197-503064813318"
+          - regiao = "us-east-1"
+        } -> null
+      - triggers_replace = [
+          - "prova-bigdata-raw-6325197-503064813318",
+          - "us-east-1",
+        ] -> null
+    }
+
+  # terraform_data.script_glue will be destroyed
+  - resource "terraform_data" "script_glue" {
+      - id               = "05594aca-0f47-2e9e-5458-bbd3ace7255b" -> null
+      - triggers_replace = [
+          - "28cca751b62e90d71b141302ddb16d54da1390339373dcdb08172bb2b2473980",
+          - "prova-bigdata-gold-6325197-503064813318",
+        ] -> null
+    }
+
+  # terraform_data.tags_buckets["gold"] will be destroyed
+  - resource "terraform_data" "tags_buckets" {
+      - id               = "6768ce87-c31e-7f82-67aa-2e7174cac337" -> null
+      - triggers_replace = [
+          - "prova-bigdata-gold-6325197-503064813318",
+          - jsonencode(
+                {
+                  - TagSet = [
+                      - {
+                          - Key   = "Ambiente"
+                          - Value = "LearnerLab"
+                        },
+                      - {
+                          - Key   = "Disciplina"
+                          - Value = "BigData"
+                        },
+                      - {
+                          - Key   = "Projeto"
+                          - Value = "prova-bigdata-6325197"
+                        },
+                    ]
+                }
+            ),
+          - "733c7062-dc7f-6d25-16c7-fa90f76c0a59",
+          - "53a0a40a-7a0e-de94-17fa-3b2f1b27d822",
+        ] -> null
+    }
+
+  # terraform_data.tags_buckets["raw"] will be destroyed
+  - resource "terraform_data" "tags_buckets" {
+      - id               = "c100895f-d09f-ec20-fc7e-994ccd287675" -> null
+      - triggers_replace = [
+          - "prova-bigdata-raw-6325197-503064813318",
+          - jsonencode(
+                {
+                  - TagSet = [
+                      - {
+                          - Key   = "Ambiente"
+                          - Value = "LearnerLab"
+                        },
+                      - {
+                          - Key   = "Disciplina"
+                          - Value = "BigData"
+                        },
+                      - {
+                          - Key   = "Projeto"
+                          - Value = "prova-bigdata-6325197"
+                        },
+                    ]
+                }
+            ),
+          - "733c7062-dc7f-6d25-16c7-fa90f76c0a59",
+          - "53a0a40a-7a0e-de94-17fa-3b2f1b27d822",
+        ] -> null
+    }
+
+Plan: 0 to add, 0 to change, 10 to destroy.
+
+Changes to Outputs:
+  - athena_workgroup  = "prova-6325197" -> null
+  - bucket_gold_nome  = "prova-bigdata-gold-6325197-503064813318" -> null
+  - bucket_raw_nome   = "prova-bigdata-raw-6325197-503064813318" -> null
+  - catalogo_database = "prova_bigdata_6325197" -> null
+  - crawler_nome      = "crawler-gold-6325197" -> null
+  - ddb_table_nome    = "execucoes-6325197" -> null
+  - glue_job_nome     = "normaliza-pedidos-6325197" -> null
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value:
+terraform_data.tags_buckets["raw"]: Destroying... [id=c100895f-d09f-ec20-fc7e-994ccd287675]
+terraform_data.tags_buckets["raw"]: Destruction complete after 0s
+terraform_data.tags_buckets["gold"]: Destroying... [id=6768ce87-c31e-7f82-67aa-2e7174cac337]
+terraform_data.tags_buckets["gold"]: Destruction complete after 0s
+aws_glue_job.normaliza_pedidos: Destroying... [id=normaliza-pedidos-6325197]
+aws_athena_workgroup.prova: Destroying... [id=prova-6325197]
+aws_glue_crawler.gold: Destroying... [id=crawler-gold-6325197]
+aws_glue_crawler.gold: Destruction complete after 1s
+aws_glue_catalog_database.gold: Destroying... [id=503064813318:prova_bigdata_6325197]
+aws_glue_job.normaliza_pedidos: Destruction complete after 1s
+terraform_data.bucket_raw: Destroying... [id=733c7062-dc7f-6d25-16c7-fa90f76c0a59]
+terraform_data.script_glue: Destroying... [id=05594aca-0f47-2e9e-5458-bbd3ace7255b]
+terraform_data.script_glue: Destruction complete after 0s
+terraform_data.bucket_raw: Provisioning with 'local-exec'...
+terraform_data.bucket_raw (local-exec): Executing: ["/bin/sh" "-c" "aws s3 rb s3://prova-bigdata-raw-6325197-503064813318 --force || true"]
+aws_dynamodb_table.execucoes: Destroying... [id=execucoes-6325197]
+aws_athena_workgroup.prova: Destruction complete after 1s
+terraform_data.bucket_gold: Destroying... [id=53a0a40a-7a0e-de94-17fa-3b2f1b27d822]
+terraform_data.bucket_gold: Provisioning with 'local-exec'...
+terraform_data.bucket_gold (local-exec): Executing: ["/bin/sh" "-c" "aws s3 rb \"s3://$GOLD_BUCKET\" --force --region \"$AWS_REGION\""]
+aws_glue_catalog_database.gold: Destruction complete after 0s
+terraform_data.bucket_raw (local-exec): delete: s3://prova-bigdata-raw-6325197-503064813318/pedidos/pedidos_desnormalizado.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/197b5aad-45cc-44db-83ab-add34349bb4d.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/197b5aad-45cc-44db-83ab-add34349bb4d.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/1b66653f-aa87-4476-8a88-56ce414092ff.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/49e9afe1-2c90-4426-a22b-a14224ef0f82.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/1b66653f-aa87-4476-8a88-56ce414092ff.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/863ad1f6-f50c-4893-a496-076998ebe9b2.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/49e9afe1-2c90-4426-a22b-a14224ef0f82.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/863ad1f6-f50c-4893-a496-076998ebe9b2.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/7e01beb6-3be0-498d-af68-b89afc29dc55.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/7e01beb6-3be0-498d-af68-b89afc29dc55.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/cc51bf7e-6d37-4319-a747-32c75a92235a.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/cc51bf7e-6d37-4319-a747-32c75a92235a.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/df0569ea-c65d-4c1f-a864-f169d461b2ad.csv
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/athena-results/df0569ea-c65d-4c1f-a864-f169d461b2ad.csv.metadata
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-07/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-09/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-08/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-10/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-12/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-11/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-13/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-14/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-15/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-16/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-17/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-18/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-19/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-20/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-21/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-22/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-23/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-24/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-25/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-27/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-26/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/scripts/normaliza_pedidos.py
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-28/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_raw (local-exec): remove_bucket: prova-bigdata-raw-6325197-503064813318
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/dim_cliente/part-00000-b1e686e3-77c3-426e-a7ab-c5371e3fc1d2-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/dim_produto/part-00000-a5aa8989-b226-401f-9abf-8b6a0fb3fc60-c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-05/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_gold (local-exec): delete: s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/data_pedido=2026-01-06/part-00000-a39a3286-38f9-44f9-b327-7bfcb97b0d8a.c000.snappy.parquet
+terraform_data.bucket_raw: Destruction complete after 2s
+terraform_data.bucket_gold (local-exec): remove_bucket: prova-bigdata-gold-6325197-503064813318
+terraform_data.bucket_gold: Destruction complete after 3s
+aws_dynamodb_table.execucoes: Destruction complete after 8s
+
+Destroy complete! Resources: 10 destroyed.

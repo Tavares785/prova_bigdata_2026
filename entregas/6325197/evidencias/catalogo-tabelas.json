@@ -1,0 +1,242 @@
+{
+    "TableList": [
+        {
+            "Name": "dim_cliente",
+            "DatabaseName": "prova_bigdata_6325197",
+            "Owner": "owner",
+            "CreateTime": "2026-09-29T23:09:39-03:00",
+            "UpdateTime": "2026-09-29T23:09:39-03:00",
+            "LastAccessTime": "2026-09-29T23:09:39-03:00",
+            "Retention": 0,
+            "StorageDescriptor": {
+                "Columns": [
+                    {
+                        "Name": "cliente_id",
+                        "Type": "string"
+                    },
+                    {
+                        "Name": "cliente_nome",
+                        "Type": "string"
+                    },
+                    {
+                        "Name": "cliente_uf",
+                        "Type": "string"
+                    }
+                ],
+                "Location": "s3://prova-bigdata-gold-6325197-503064813318/dim_cliente/",
+                "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+                "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+                "Compressed": false,
+                "NumberOfBuckets": -1,
+                "SerdeInfo": {
+                    "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
+                    "Parameters": {
+                        "serialization.format": "1"
+                    }
+                },
+                "BucketColumns": [],
+                "SortColumns": [],
+                "Parameters": {
+                    "sizeKey": "1514",
+                    "objectCount": "1",
+                    "UPDATED_BY_CRAWLER": "crawler-gold-6325197",
+                    "CRAWL_RUN_ID": "70d1942a-11f6-4a57-9432-78059defd3fe",
+                    "recordCount": "21",
+                    "CrawlerSchemaSerializerVersion": "1.0",
+                    "averageRecordSize": "36",
+                    "compressionType": "none",
+                    "CrawlerSchemaDeserializerVersion": "1.0",
+                    "classification": "parquet",
+                    "typeOfData": "file"
+                },
+                "StoredAsSubDirectories": false
+            },
+            "PartitionKeys": [],
+            "TableType": "EXTERNAL_TABLE",
+            "Parameters": {
+                "sizeKey": "1514",
+                "objectCount": "1",
+                "UPDATED_BY_CRAWLER": "crawler-gold-6325197",
+                "CRAWL_RUN_ID": "70d1942a-11f6-4a57-9432-78059defd3fe",
+                "recordCount": "21",
+                "CrawlerSchemaSerializerVersion": "1.0",
+                "averageRecordSize": "36",
+                "compressionType": "none",
+                "CrawlerSchemaDeserializerVersion": "1.0",
+                "classification": "parquet",
+                "typeOfData": "file"
+            },
+            "CreatedBy": "arn:aws:sts::503064813318:assumed-role/LabRole/AWS-Crawler",
+            "IsRegisteredWithLakeFormation": false,
+            "CatalogId": "503064813318",
+            "VersionId": "0",
+            "IsMultiDialectView": false,
+            "IsMaterializedView": false
+        },
+        {
+            "Name": "dim_produto",
+            "DatabaseName": "prova_bigdata_6325197",
+            "Owner": "owner",
+            "CreateTime": "2026-09-29T23:09:40-03:00",
+            "UpdateTime": "2026-09-29T23:09:40-03:00",
+            "LastAccessTime": "2026-09-29T23:09:40-03:00",
+            "Retention": 0,
+            "StorageDescriptor": {
+                "Columns": [
+                    {
+                        "Name": "produto_id",
+                        "Type": "string"
+                    },
+                    {
+                        "Name": "produto_nome",
+                        "Type": "string"
+                    },
+                    {
+                        "Name": "categoria",
+                        "Type": "string"
+                    }
+                ],
+                "Location": "s3://prova-bigdata-gold-6325197-503064813318/dim_produto/",
+                "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+                "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+                "Compressed": false,
+                "NumberOfBuckets": -1,
+                "SerdeInfo": {
+                    "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
+                    "Parameters": {
+                        "serialization.format": "1"
+                    }
+                },
+                "BucketColumns": [],
+                "SortColumns": [],
+                "Parameters": {
+                    "sizeKey": "1327",
+                    "objectCount": "1",
+                    "UPDATED_BY_CRAWLER": "crawler-gold-6325197",
+                    "CRAWL_RUN_ID": "70d1942a-11f6-4a57-9432-78059defd3fe",
+                    "recordCount": "8",
+                    "CrawlerSchemaSerializerVersion": "1.0",
+                    "averageRecordSize": "56",
+                    "compressionType": "none",
+                    "CrawlerSchemaDeserializerVersion": "1.0",
+                    "classification": "parquet",
+                    "typeOfData": "file"
+                },
+                "StoredAsSubDirectories": false
+            },
+            "PartitionKeys": [],
+            "TableType": "EXTERNAL_TABLE",
+            "Parameters": {
+                "sizeKey": "1327",
+                "objectCount": "1",
+                "UPDATED_BY_CRAWLER": "crawler-gold-6325197",
+                "CRAWL_RUN_ID": "70d1942a-11f6-4a57-9432-78059defd3fe",
+                "recordCount": "8",
+                "CrawlerSchemaSerializerVersion": "1.0",
+                "averageRecordSize": "56",
+                "compressionType": "none",
+                "CrawlerSchemaDeserializerVersion": "1.0",
+                "classification": "parquet",
+                "typeOfData": "file"
+            },
+            "CreatedBy": "arn:aws:sts::503064813318:assumed-role/LabRole/AWS-Crawler",
+            "IsRegisteredWithLakeFormation": false,
+            "CatalogId": "503064813318",
+            "VersionId": "0",
+            "IsMultiDialectView": false,
+            "IsMaterializedView": false
+        },
+        {
+            "Name": "fato_pedidos",
+            "DatabaseName": "prova_bigdata_6325197",
+            "Owner": "owner",
+            "CreateTime": "2026-09-29T23:24:15-03:00",
+            "UpdateTime": "2026-09-29T23:24:15-03:00",
+            "LastAccessTime": "2026-09-29T23:24:15-03:00",
+            "Retention": 0,
+            "StorageDescriptor": {
+                "Columns": [
+                    {
+                        "Name": "pedido_id",
+                        "Type": "string"
+                    },
+                    {
+                        "Name": "cliente_id",
+                        "Type": "string"
+                    },
+                    {
+                        "Name": "produto_id",
+                        "Type": "string"
+                    },
+                    {
+                        "Name": "preco_unitario",
+                        "Type": "double"
+                    },
+                    {
+                        "Name": "quantidade",
+                        "Type": "int"
+                    },
+                    {
+                        "Name": "valor_total",
+                        "Type": "double"
+                    }
+                ],
+                "Location": "s3://prova-bigdata-gold-6325197-503064813318/fato_pedidos/",
+                "InputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat",
+                "OutputFormat": "org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat",
+                "Compressed": false,
+                "NumberOfBuckets": -1,
+                "SerdeInfo": {
+                    "SerializationLibrary": "org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe",
+                    "Parameters": {
+                        "serialization.format": "1"
+                    }
+                },
+                "BucketColumns": [],
+                "SortColumns": [],
+                "Parameters": {
+                    "sizeKey": "46930",
+                    "objectCount": "24",
+                    "UPDATED_BY_CRAWLER": "crawler-gold-6325197",
+                    "CRAWL_RUN_ID": "0ab83e93-cc5b-45f5-8289-55ad7dee6991",
+                    "recordCount": "103",
+                    "CrawlerSchemaSerializerVersion": "1.0",
+                    "averageRecordSize": "93",
+                    "partition_filtering.enabled": "true",
+                    "compressionType": "none",
+                    "CrawlerSchemaDeserializerVersion": "1.0",
+                    "classification": "parquet",
+                    "typeOfData": "file"
+                },
+                "StoredAsSubDirectories": false
+            },
+            "PartitionKeys": [
+                {
+                    "Name": "data_pedido",
+                    "Type": "string"
+                }
+            ],
+            "TableType": "EXTERNAL_TABLE",
+            "Parameters": {
+                "sizeKey": "46930",
+                "objectCount": "24",
+                "UPDATED_BY_CRAWLER": "crawler-gold-6325197",
+                "CRAWL_RUN_ID": "0ab83e93-cc5b-45f5-8289-55ad7dee6991",
+                "recordCount": "103",
+                "CrawlerSchemaSerializerVersion": "1.0",
+                "averageRecordSize": "93",
+                "partition_filtering.enabled": "true",
+                "compressionType": "none",
+                "CrawlerSchemaDeserializerVersion": "1.0",
+                "classification": "parquet",
+                "typeOfData": "file"
+            },
+            "CreatedBy": "arn:aws:sts::503064813318:assumed-role/LabRole/AWS-Crawler",
+            "IsRegisteredWithLakeFormation": false,
+            "CatalogId": "503064813318",
+            "VersionId": "1",
+            "IsMultiDialectView": false,
+            "IsMaterializedView": false
+        }
+    ]
+}

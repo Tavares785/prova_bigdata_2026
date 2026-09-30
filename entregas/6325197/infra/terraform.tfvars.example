@@ -1,0 +1,11 @@
+regiao = "us-east-1"
+
+bucket_raw_nome  = "prova-bigdata-raw-6325197-SEU_ACCOUNT_ID"
+bucket_gold_nome = "prova-bigdata-gold-6325197-SEU_ACCOUNT_ID"
+labrole_arn      = "arn:aws:iam::SEU_ACCOUNT_ID:role/LabRole"
+
+tags = {
+  Projeto    = "prova-bigdata-6325197"
+  Disciplina = "BigData"
+  Ambiente   = "LearnerLab"
+}
