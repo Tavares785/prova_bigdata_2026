@@ -3,10 +3,12 @@
 # ============================================================
 
 # --- Artefatos do Terraform (nunca versionar) ---
+# Terraform state
+*.tfstate
+*.tfstate.backup
+*.tfstate.*.backup
 .terraform/
 .terraform.lock.hcl
-*.tfstate
-*.tfstate.*
 crash.log
 crash.*.log
 override.tf

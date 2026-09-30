@@ -1,0 +1,95 @@
+{
+    "ResultSet": {
+        "Rows": [
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "cliente_nome"
+                    },
+                    {
+                        "VarCharValue": "gasto_total"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Carla Nunes"
+                    },
+                    {
+                        "VarCharValue": "6955.2"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Diego Alves"
+                    },
+                    {
+                        "VarCharValue": "6464.7"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Henrique Melo"
+                    },
+                    {
+                        "VarCharValue": "6114.4"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Ana Souza"
+                    },
+                    {
+                        "VarCharValue": "5793.3"
+                    }
+                ]
+            },
+            {
+                "Data": [
+                    {
+                        "VarCharValue": "Elaine Rocha"
+                    },
+                    {
+                        "VarCharValue": "5284.3"
+                    }
+                ]
+            }
+        ],
+        "ResultSetMetadata": {
+            "ColumnInfo": [
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "cliente_nome",
+                    "Label": "cliente_nome",
+                    "Type": "varchar",
+                    "Precision": 2147483647,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": true
+                },
+                {
+                    "CatalogName": "hive",
+                    "SchemaName": "",
+                    "TableName": "",
+                    "Name": "gasto_total",
+                    "Label": "gasto_total",
+                    "Type": "double",
+                    "Precision": 17,
+                    "Scale": 0,
+                    "Nullable": "UNKNOWN",
+                    "CaseSensitive": false
+                }
+            ]
+        }
+    },
+    "UpdateCount": 0
+}

@@ -15,4 +15,8 @@
 regiao = "us-east-1"
 
 # Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
-bucket_raw_nome = "prova-bigdata-raw-SEURA"
+bucket_raw_nome  = "prova-bigdata-raw-4023575"   
+bucket_gold_nome = "prova-bigdata-gold-4023575"  
+labrole_arn      = "arn:aws:iam::ACCOUNTID:role/LabRole"
+
+
