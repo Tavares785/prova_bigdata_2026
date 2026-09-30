@@ -1,0 +1,20 @@
+aws_glue_catalog_table.dim_produto: Creation complete after 1s [id=906975261211:prova_6325231:dim_produto]
+aws_glue_catalog_table.fato_pedidos: Creation complete after 1s [id=906975261211:prova_6325231:fato_pedidos]
+aws_athena_workgroup.prova: Creation complete after 1s [id=prova-6325231]
+aws_glue_catalog_table.dim_cliente: Creation complete after 1s [id=906975261211:prova_6325231:dim_cliente]
+terraform_data.script_glue (local-exec): Completed 6.2 KiB/6.2 KiB (9.6 KiB/s) with 1 file(s) remaining
+terraform_data.script_glue (local-exec): upload: ../glue-job/normaliza_pedidos.py to s3://prova-bigdata-gold-6325231-906975261211/scripts/normaliza_pedidos.py
+terraform_data.script_glue: Creation complete after 2s [id=d8bb702b-5557-542d-45ed-68cf08585a30]
+aws_dynamodb_table.execucoes: Still creating... [00m10s elapsed]
+aws_dynamodb_table.execucoes: Creation complete after 15s [id=prova-6325231-execucoes]
+aws_glue_job.normaliza: Creating...
+aws_glue_job.normaliza: Creation complete after 1s [id=normaliza-pedidos-6325231]
+
+Apply complete! Resources: 11 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+catalogo_nome = "prova_6325231"
+ddb_nome = "prova-6325231-execucoes"
+job_nome = "normaliza-pedidos-6325231"
+workgroup_nome = "prova-6325231"

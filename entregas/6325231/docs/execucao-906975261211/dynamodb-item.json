@@ -1,0 +1,22 @@
+[
+    {
+        "data_hora": {
+            "S": "2026-09-30T15:31:23+00:00"
+        },
+        "dataset": {
+            "S": "pedidos_desnormalizado"
+        },
+        "execution_id": {
+            "S": "normaliza-pedidos-6325231-15f447ac-d07e-4dcb-bb39-6365f84125ae"
+        },
+        "linhas_gravadas": {
+            "N": "103"
+        },
+        "linhas_lidas": {
+            "N": "110"
+        },
+        "status": {
+            "S": "SUCESSO"
+        }
+    }
+]

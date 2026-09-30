@@ -23,3 +23,7 @@ Verificação de versões S3: a primeira consulta CLI falhou porque length(null)
 ## P004 — Retomada
 
 Usuário pediu retomada. Evidências JSON e consultas foram salvas, commit b425082 criado. Plano de destruição revisado; prints reais ainda pendentes e recursos mantidos ativos.
+
+## P005 — Nova sessão do Learner Lab
+
+Usuário informou novas credenciais e saldo de US$ 50. STS confirmou conta 906975261211, diferente da primeira. LabRole e ausência de recursos preexistentes verificados. Criado workspace isolado; plano de 11 criações e apply concluídos. Glue e Athena repetidos nessa conta para permitir prints no console atual; IDs em evidencias.md. Estado antigo preservado; limpeza de ambas as contas pendente dos prints/acesso.

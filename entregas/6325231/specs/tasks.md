@@ -8,7 +8,7 @@
 - [x] Executar `terraform fmt -check`, `init`, `validate` e revisar plano.
 - [x] Confirmar sessão, conta, LabRole e saldo do Learner Lab.
 - [x] Aplicar infra, executar Glue, consultar Athena e DynamoDB.
-- [ ] Capturar prints reais antes da limpeza.
+- [ ] Capturar prints reais da conta 906975261211 antes da limpeza.
 - [x] Revisar plano de destruição: 11 recursos exclusivos, sem versões S3.
 - [ ] Destruir apenas recursos da prova e verificar resíduos.
 - [x] Revisar diff/segredos e criar commit b425082.
