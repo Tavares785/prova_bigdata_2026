@@ -59,58 +59,61 @@ except ImportError:  # ambiente local sem o SDK do Glue
 # Funções PURAS (lógica de normalização) — TESTÁVEIS localmente, sem AWS.
 # ---------------------------------------------------------------------------
 
+from datetime import datetime, timezone
+import boto3
+from pyspark.sql import functions as F
+
 def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
-    """Normaliza o DataFrame desnormalizado no Modelo_Dimensional_Alvo (esquema estrela).
+    """Normaliza o DataFrame desnormalizado no Modelo_Dimensional_Alvo (esquema estrela)."""
+    
+    # Req 6.7: Regra de descarte para a Fato (IDs válidos e quantidade > 0)
+    df_fato = df_raw.filter(
+        F.col("pedido_id").isNotNull() &
+        F.col("cliente_id").isNotNull() &
+        F.col("produto_id").isNotNull() &
+        F.col("quantidade").isNotNull() &
+        (F.col("quantidade") > 0)
+    ).select(
+        "pedido_id",
+        "cliente_id",
+        "produto_id",
+        "preco_unitario",
+        "quantidade",
+        "valor_total",
+        "data_pedido"
+    )
 
-    Deriva, a partir do `df_raw` (tabela ampla `pedidos_desnormalizado`), três DataFrames:
-      - ``dim_cliente``: uma linha por `cliente_id` (chave única), com `cliente_nome`, `cliente_uf`.
-      - ``dim_produto``: uma linha por `produto_id` (chave única), com `produto_nome`, `categoria`.
-      - ``fato_pedidos``: uma linha por `pedido_id`, com FKs `cliente_id`/`produto_id` e as medidas
-        `preco_unitario`, `quantidade`, `valor_total` e a coluna de partição `data_pedido`.
+    # Dimensão Cliente (substitui nulos de texto por 'DESCONHECIDO')
+    df_cliente = df_raw.select(
+        "cliente_id",
+        F.coalesce(F.col("cliente_nome"), F.lit("DESCONHECIDO")).alias("cliente_nome"),
+        F.coalesce(F.col("cliente_uf"), F.lit("DESCONHECIDO")).alias("cliente_uf")
+    ).filter(F.col("cliente_id").isNotNull()).dropDuplicates(["cliente_id"])
 
-    Regra de dados inválidos (Req 6.7):
-      - Descartar do fato as linhas sem `pedido_id`, `cliente_id` ou `produto_id`, ou com
-        `quantidade` ausente/`<= 0`.
-      - Nas dimensões, textos ausentes (`cliente_nome`, `cliente_uf`, `produto_nome`, `categoria`)
-        viram ``"DESCONHECIDO"`` (a linha da dimensão é mantida).
+    # Dimensão Produto (substitui nulos de texto por 'DESCONHECIDO')
+    df_produto = df_raw.select(
+        "produto_id",
+        F.coalesce(F.col("produto_nome"), F.lit("DESCONHECIDO")).alias("produto_nome"),
+        F.coalesce(F.col("categoria"), F.lit("DESCONHECIDO")).alias("categoria")
+    ).filter(F.col("produto_id").isNotNull()).dropDuplicates(["produto_id"])
 
-    Args:
-        df_raw: DataFrame desnormalizado lido do Bucket_Raw.
-
-    Returns:
-        dict com as chaves ``"fato_pedidos"``, ``"dim_cliente"`` e ``"dim_produto"``,
-        cada uma mapeando para o respectivo DataFrame normalizado.
-
-    Requirements: 6.1, 6.2, 6.7
-    """
-    # TODO(aluno): implementar a normalização (fato + 2 dimensões) usando DataFrames/Spark SQL.
-    # TODO(aluno): aplicar a regra de tratamento de dados inválidos (Req 6.7).
-    # TODO(aluno): retornar {"fato_pedidos": ..., "dim_cliente": ..., "dim_produto": ...}.
-    raise NotImplementedError("TODO(aluno): implementar normalizar()")
+    return {
+        "fato_pedidos": df_fato,
+        "dim_cliente": df_cliente,
+        "dim_produto": df_produto
+    }
 
 
 def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, status) -> dict:
-    """Monta o item de metadados de uma execução para gravar no DynamoDB.
-
-    O item segue o esquema do Requirement 8 (chave de partição `execution_id`):
-      ``execution_id``, ``data_hora`` (ISO-8601), ``dataset``, ``linhas_lidas`` (N),
-      ``linhas_gravadas`` (N) e ``status`` (``"SUCESSO"`` | ``"FALHA"``).
-
-    Args:
-        execution_id: ID único da execução (chave de partição).
-        dataset: nome do dataset processado (ex.: ``"pedidos_desnormalizado"``).
-        linhas_lidas: contagem de linhas lidas do Bucket_Raw.
-        linhas_gravadas: contagem de linhas gravadas no fato (Bucket_Gold).
-        status: status final da execução (``"SUCESSO"`` ou ``"FALHA"``).
-
-    Returns:
-        dict com os atributos do item de metadados de execução.
-
-    Requirements: 6.5, 8.5
-    """
-    # TODO(aluno): montar e retornar o dict de metadados com todos os campos preenchidos,
-    # TODO(aluno): incluindo data_hora em formato ISO-8601.
-    raise NotImplementedError("TODO(aluno): implementar montar_metadados()")
+    """Monta o item de metadados de uma execução para gravar no DynamoDB."""
+    return {
+        "execution_id": str(execution_id),
+        "data_hora": datetime.now(timezone.utc).isoformat(),
+        "dataset": str(dataset),
+        "linhas_lidas": int(linhas_lidas),
+        "linhas_gravadas": int(linhas_gravadas),
+        "status": str(status)
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -118,52 +121,39 @@ def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, statu
 # ---------------------------------------------------------------------------
 
 def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
-    """Lê o CSV desnormalizado do Bucket_Raw como DataFrame.
-
-    Args:
-        spark: SparkSession ativa.
-        raw_path: caminho do CSV no S3 (ex.: ``s3://<raw>/pedidos/``).
-
-    Returns:
-        DataFrame com o Dataset_Exemplo desnormalizado.
-
-    Requirements: 6.3
-    """
-    # TODO(aluno): ler o CSV do raw_path (header=True, inferSchema ou schema explícito).
-    raise NotImplementedError("TODO(aluno): implementar ler_raw()")
+    """Lê o CSV desnormalizado do Bucket_Raw como DataFrame."""
+    return spark.read \
+        .option("header", "true") \
+        .option("inferSchema", "true") \
+        .csv(raw_path)
 
 
 def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
-    """Grava as tabelas normalizadas em Parquet no Bucket_Gold.
+    """Grava as tabelas normalizadas em Parquet no Bucket_Gold."""
+    # Garante que o caminho termine com barra
+    path_base = gold_path if gold_path.endswith("/") else f"{gold_path}/"
 
-    Layout esperado (Req 6.6):
-      - ``fato_pedidos`` particionado por ``data_pedido``:
-        ``s3://<gold>/fato_pedidos/data_pedido=YYYY-MM-DD/part-*.parquet``.
-      - ``dim_cliente`` e ``dim_produto`` sem partição:
-        ``s3://<gold>/dim_cliente/`` e ``s3://<gold>/dim_produto/``.
+    # Fato particionada por data_pedido
+    tabelas["fato_pedidos"].write \
+        .mode("overwrite") \
+        .partitionBy("data_pedido") \
+        .parquet(f"{path_base}fato_pedidos/")
 
-    Args:
-        tabelas: dict retornado por :func:`normalizar`.
-        gold_path: prefixo do Bucket_Gold (ex.: ``s3://<gold>/``).
+    # Dimensões sem partição
+    tabelas["dim_cliente"].write \
+        .mode("overwrite") \
+        .parquet(f"{path_base}dim_cliente/")
 
-    Requirements: 6.4, 6.6
-    """
-    # TODO(aluno): gravar fato_pedidos em Parquet particionado por data_pedido.
-    # TODO(aluno): gravar dim_cliente e dim_produto em Parquet (sem partição).
-    raise NotImplementedError("TODO(aluno): implementar escrever_gold()")
+    tabelas["dim_produto"].write \
+        .mode("overwrite") \
+        .parquet(f"{path_base}dim_produto/")
 
 
 def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
-    """Grava o item de metadados da execução na tabela DynamoDB.
-
-    Args:
-        item: dict retornado por :func:`montar_metadados`.
-        ddb_table: nome da tabela DynamoDB de catálogo de execuções.
-
-    Requirements: 6.5, 8.5
-    """
-    # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
-    raise NotImplementedError("TODO(aluno): implementar gravar_metadados_dynamo()")
+    """Grava o item de metadados da execução na tabela DynamoDB."""
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+    table = dynamodb.Table(ddb_table)
+    table.put_item(Item=item)
 
 
 # ---------------------------------------------------------------------------

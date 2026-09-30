@@ -27,3 +27,31 @@ variable "bucket_raw_nome" {
     error_message = "O nome do bucket S3 deve ter entre 3 e 63 caracteres."
   }
 }
+variable "bucket_gold_nome" {
+  description = "Nome globalmente único do bucket S3 da camada gold."
+  type        = string
+
+  validation {
+    condition     = length(var.bucket_gold_nome) >= 3 && length(var.bucket_gold_nome) <= 63
+    error_message = "O nome do bucket S3 deve ter entre 3 e 63 caracteres."
+  }
+}
+
+variable "labrole_arn" {
+  description = "ARN da LabRole pré-provisionada pelo AWS Academy Learner Lab."
+  type        = string
+}
+
+variable "tags" {
+  description = "Tags de custo dos recursos da prova."
+  type        = map(string)
+
+  validation {
+    condition = alltrue([
+      contains(keys(var.tags), "Projeto"),
+      contains(keys(var.tags), "Disciplina"),
+      contains(keys(var.tags), "Ambiente")
+    ])
+    error_message = "As tags devem conter Projeto, Disciplina e Ambiente."
+  }
+}
