@@ -48,6 +48,23 @@ resource "terraform_data" "script_glue" {
   depends_on = [terraform_data.bucket_gold]
 }
 
+# Tags de custo no Bucket_Gold (via CLI, já que o bucket não é aws_s3_bucket).
+# Recurso separado: mudar var.tags só reaplica as tags, sem recriar (e apagar) o bucket.
+# Sem set -e: se o Learner Lab negar PutBucketTagging, só avisa e o apply continua.
+resource "terraform_data" "bucket_gold_tags" {
+  triggers_replace = [var.bucket_gold_nome, jsonencode(var.tags)]
+
+  provisioner "local-exec" {
+    command = <<-CMD
+      aws s3api put-bucket-tagging --bucket "${var.bucket_gold_nome}" \
+        --tagging "TagSet=[${join(",", [for k, v in var.tags : "{Key=${k},Value=${v}}"])}]" \
+        || echo "AVISO: nao foi possivel aplicar as tags no bucket gold (permissao do Learner Lab?)"
+    CMD
+  }
+
+  depends_on = [terraform_data.bucket_gold]
+}
+
 # Catálogo de metadados das execuções (NoSQL). Só a chave é declarada: os outros
 # atributos (data_hora, dataset, linhas_*, status) não precisam de esquema fixo.
 resource "aws_dynamodb_table" "execucoes" {
@@ -95,6 +112,8 @@ resource "aws_glue_job" "normaliza_pedidos" {
 # Glue Data Catalog: database onde ficam as tabelas do gold (sem hífen no nome).
 resource "aws_glue_catalog_database" "gold" {
   name = "prova_bigdata"
+
+  tags = var.tags
 }
 
 # Crawler: lê os Parquets do gold e cria/atualiza as 3 tabelas (inclusive as
