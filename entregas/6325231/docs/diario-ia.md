@@ -17,3 +17,9 @@ Usuário confirmou que o projeto aberto contém as fontes disponíveis; Learner 
 ## P003 — Ajuste de escopo
 
 Usuário pediu concisão, testes direcionados, sem agentes paralelos e restauração do README.md raiz. O arquivo foi restaurado. Prints e limpeza aguardam captura das telas reais.
+
+Verificação de versões S3: a primeira consulta CLI falhou porque length(null) é inválido; consulta corrigida tratando arrays ausentes como vazios. Raw: 1 objeto; gold: 39 objetos; zero versões numeradas e zero marcadores. Plano de destruição: 11 exclusões exclusivas da prova.
+
+## P004 — Retomada
+
+Usuário pediu retomada. Evidências JSON e consultas foram salvas, commit b425082 criado. Plano de destruição revisado; prints reais ainda pendentes e recursos mantidos ativos.

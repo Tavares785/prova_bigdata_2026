@@ -9,7 +9,9 @@
 - [x] Confirmar sessão, conta, LabRole e saldo do Learner Lab.
 - [x] Aplicar infra, executar Glue, consultar Athena e DynamoDB.
 - [ ] Capturar prints reais antes da limpeza.
+- [x] Revisar plano de destruição: 11 recursos exclusivos, sem versões S3.
 - [ ] Destruir apenas recursos da prova e verificar resíduos.
-- [ ] Revisar diff/segredos, commitar, fazer push e abrir PR para `master` do original.
+- [x] Revisar diff/segredos e criar commit b425082.
+- [ ] Fazer push e abrir PR para `master` do original.
 
 Retomada: leia `AGENTS.md`, este arquivo, `docs/diario-ia.md`, `docs/evidencias.md` e `git status` antes de repetir qualquer ação na AWS.

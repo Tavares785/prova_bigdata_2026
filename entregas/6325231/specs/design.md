@@ -7,3 +7,5 @@ O Job recebe `RAW_PATH`, `GOLD_PATH`, `DDB_TABLE`, `DATASET_NAME`; lê CSV com e
 Cada gravação usa `overwrite` apenas nos três prefixos da atividade. O Job registra metadados somente depois de todas as escritas; uma falha tenta gravar `FALHA` e propaga o erro original. Uma gravação parcial não é marcada como SUCESSO. A reexecução sobrescreve prefixos completos. A tabela do fato no catálogo usa projeção de partições por data para que Athena leia as datas sem crawler ou `MSCK REPAIR TABLE`. As dimensões usam tabelas externas sobre os prefixos fixos.
 
 Dependência de execução: AWS CLI e Terraform devem usar a mesma conta/região; o apply só ocorre após identidade, orçamento e plano conferidos. O bucket gold criado externamente pelo provisioner exige auditoria antes do destroy. Prints reais são necessários para apply, Athena e DynamoDB.
+
+A Q2 oficial agrupa pelo nome do cliente; clientes homônimos seriam agregados. A consulta oficial foi preservada.

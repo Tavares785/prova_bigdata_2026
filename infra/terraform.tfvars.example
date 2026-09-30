@@ -8,8 +8,7 @@
 #    variáveis de ambiente ou ~/.aws/credentials — nunca deste arquivo.
 #    terraform.tfvars está no .gitignore — não o commite.
 #
-# Este exemplo cobre apenas a camada raw (PRONTA). Ao construir a sua infra,
-# adicione aqui os valores das variáveis que VOCÊ declarar.
+# Este exemplo cobre a camada raw fornecida e as variáveis da camada gold desta entrega.
 
 # Região obrigatória do Learner Lab.
 regiao = "us-east-1"
