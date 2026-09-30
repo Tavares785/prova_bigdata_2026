@@ -1,0 +1,13 @@
+QUERY 4 - Pedidos órfãos
+
+SELECT COUNT(*) AS orfaos
+FROM fato_pedidos f
+LEFT JOIN dim_produto p ON f.produto_id = p.produto_id
+WHERE p.produto_id IS NULL;
+
+RESULTADO:
+orfaos
+0
+
+STATUS: SUCCEEDED
+QueryExecutionId: 4e2bc435-b360-414b-b1dd-9a2b8abd64ad
