@@ -38,6 +38,7 @@ IMPORTANTE (arquitetura de teste):
 Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 8.5
 """
 
+from datetime import datetime, timezone
 import sys
 
 from pyspark.context import SparkContext
@@ -83,11 +84,139 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
 
     Requirements: 6.1, 6.2, 6.7
     """
-    # TODO(aluno): implementar a normalização (fato + 2 dimensões) usando DataFrames/Spark SQL.
-    # TODO(aluno): aplicar a regra de tratamento de dados inválidos (Req 6.7).
-    # TODO(aluno): retornar {"fato_pedidos": ..., "dim_cliente": ..., "dim_produto": ...}.
-    raise NotImplementedError("TODO(aluno): implementar normalizar()")
+    from pyspark.sql import functions as F
 
+    # ============================================================
+    # 1. DIM_CLIENTE
+    # ============================================================
+
+    clientes = (
+        df_raw
+       .filter(
+    F.col("cliente_id").isNotNull()
+    & (F.trim(F.col("cliente_id")) != "")
+)
+        .groupBy("cliente_id")
+        .agg(
+            F.first(
+                F.when(
+                    F.trim(F.col("cliente_nome")) != "",
+                    F.trim(F.col("cliente_nome"))
+                ),
+                ignorenulls=True
+            ).alias("cliente_nome"),
+            F.first(
+                F.when(
+                    F.trim(F.col("cliente_uf")) != "",
+                    F.trim(F.col("cliente_uf"))
+                ),
+                ignorenulls=True
+            ).alias("cliente_uf")
+        )
+        .withColumn(
+            "cliente_nome",
+            F.coalesce(F.col("cliente_nome"), F.lit("DESCONHECIDO"))
+        )
+        .withColumn(
+            "cliente_uf",
+            F.coalesce(F.col("cliente_uf"), F.lit("DESCONHECIDO"))
+        )
+    )
+
+    # ============================================================
+    # 2. DIM_PRODUTO
+    # ============================================================
+
+    produtos = (
+        df_raw
+       .filter(
+    F.col("produto_id").isNotNull()
+    & (F.trim(F.col("produto_id")) != "")
+)
+        .groupBy("produto_id")
+        .agg(
+            F.first(
+                F.when(
+                    F.trim(F.col("produto_nome")) != "",
+                    F.trim(F.col("produto_nome"))
+                ),
+                ignorenulls=True
+            ).alias("produto_nome"),
+            F.first(
+                F.when(
+                    F.trim(F.col("categoria")) != "",
+                    F.trim(F.col("categoria"))
+                ),
+                ignorenulls=True
+            ).alias("categoria")
+        )
+        .withColumn(
+            "produto_nome",
+            F.coalesce(F.col("produto_nome"), F.lit("DESCONHECIDO"))
+        )
+        .withColumn(
+            "categoria",
+            F.coalesce(F.col("categoria"), F.lit("DESCONHECIDO"))
+        )
+    )
+
+    # ============================================================
+    # 3. FATO_PEDIDOS
+    # ============================================================
+
+    fato = (
+        df_raw
+        .withColumn(
+            "quantidade",
+            F.col("quantidade").cast("int")
+        )
+        .withColumn(
+            "preco_unitario",
+            F.col("preco_unitario").cast("double")
+        )
+        .withColumn(
+            "data_pedido",
+            F.to_date(F.col("data_pedido"))
+        )
+        .filter(
+    F.col("pedido_id").isNotNull()
+    & (F.trim(F.col("pedido_id")) != "")
+)
+        .filter(
+    F.col("cliente_id").isNotNull()
+    & (F.trim(F.col("cliente_id")) != "")
+)
+        .filter(
+    F.col("produto_id").isNotNull()
+    & (F.trim(F.col("produto_id")) != "")
+)
+        .filter(F.col("quantidade").isNotNull())
+        .filter(F.col("quantidade") > 0)
+        .withColumn(
+            "valor_total",
+            F.round(
+                F.col("preco_unitario") * F.col("quantidade"),
+                2
+            ).cast("double")
+        )
+        .select(
+            "pedido_id",
+            "cliente_id",
+            "produto_id",
+            "preco_unitario",
+            "quantidade",
+            "valor_total",
+            "data_pedido"
+        )
+        .dropDuplicates(["pedido_id"])
+    )
+
+    # 4. RETORNO
+    return {
+        "fato_pedidos": fato,
+        "dim_cliente": clientes,
+        "dim_produto": produtos,
+    }
 
 def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, status) -> dict:
     """Monta o item de metadados de uma execução para gravar no DynamoDB.
@@ -95,23 +224,18 @@ def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, statu
     O item segue o esquema do Requirement 8 (chave de partição `execution_id`):
       ``execution_id``, ``data_hora`` (ISO-8601), ``dataset``, ``linhas_lidas`` (N),
       ``linhas_gravadas`` (N) e ``status`` (``"SUCESSO"`` | ``"FALHA"``).
-
-    Args:
-        execution_id: ID único da execução (chave de partição).
-        dataset: nome do dataset processado (ex.: ``"pedidos_desnormalizado"``).
-        linhas_lidas: contagem de linhas lidas do Bucket_Raw.
-        linhas_gravadas: contagem de linhas gravadas no fato (Bucket_Gold).
-        status: status final da execução (``"SUCESSO"`` ou ``"FALHA"``).
-
-    Returns:
-        dict com os atributos do item de metadados de execução.
-
-    Requirements: 6.5, 8.5
     """
-    # TODO(aluno): montar e retornar o dict de metadados com todos os campos preenchidos,
-    # TODO(aluno): incluindo data_hora em formato ISO-8601.
-    raise NotImplementedError("TODO(aluno): implementar montar_metadados()")
 
+    data_hora = datetime.now(timezone.utc).isoformat()
+
+    return {
+        "execution_id": execution_id,
+        "data_hora": data_hora,
+        "dataset": dataset,
+        "linhas_lidas": linhas_lidas,
+        "linhas_gravadas": linhas_gravadas,
+        "status": status,
+    }    
 
 # ---------------------------------------------------------------------------
 # Funções de I/O (efeitos colaterais / AWS) — SEPARADAS da lógica pura.
@@ -129,8 +253,14 @@ def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
 
     Requirements: 6.3
     """
-    # TODO(aluno): ler o CSV do raw_path (header=True, inferSchema ou schema explícito).
-    raise NotImplementedError("TODO(aluno): implementar ler_raw()")
+    df = (
+        spark.read
+        .option("header", True)
+        .option("inferSchema", True)
+        .csv(raw_path)
+    )
+
+    return df
 
 
 def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
@@ -148,9 +278,22 @@ def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
 
     Requirements: 6.4, 6.6
     """
-    # TODO(aluno): gravar fato_pedidos em Parquet particionado por data_pedido.
-    # TODO(aluno): gravar dim_cliente e dim_produto em Parquet (sem partição).
-    raise NotImplementedError("TODO(aluno): implementar escrever_gold()")
+    fato = tabelas["fato_pedidos"]
+    dim_cliente = tabelas["dim_cliente"]
+    dim_produto = tabelas["dim_produto"]
+
+    fato.write \
+        .mode("overwrite") \
+        .partitionBy("data_pedido") \
+        .parquet(gold_path + "fato_pedidos")
+
+    dim_cliente.write \
+        .mode("overwrite") \
+        .parquet(gold_path + "dim_cliente")
+
+    dim_produto.write \
+        .mode("overwrite") \
+        .parquet(gold_path + "dim_produto")
 
 
 def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
@@ -162,8 +305,12 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
 
     Requirements: 6.5, 8.5
     """
-    # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
-    raise NotImplementedError("TODO(aluno): implementar gravar_metadados_dynamo()")
+    import boto3
+
+    dynamodb = boto3.resource("dynamodb")
+    tabela = dynamodb.Table(ddb_table)
+
+    tabela.put_item(Item=item)
 
 
 # ---------------------------------------------------------------------------
