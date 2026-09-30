@@ -1,0 +1,1 @@
+dim_cliente	dim_produto	fato_pedidos

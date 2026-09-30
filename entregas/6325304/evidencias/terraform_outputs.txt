@@ -1,0 +1,7 @@
+athena_workgroup = "wg-prova-bigdata"
+bucket_gold = "prova-bigdata-gold-6325304"
+bucket_raw = "prova-bigdata-raw-6325304"
+dynamodb_tabela = "catalogo-execucoes"
+glue_crawler = "crawler-gold-pedidos"
+glue_database = "prova_bigdata_gold"
+glue_job = "job-normaliza-pedidos"
