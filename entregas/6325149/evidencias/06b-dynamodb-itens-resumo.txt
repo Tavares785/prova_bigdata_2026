@@ -1,0 +1,2 @@
+{'data_hora': '2026-09-25T23:16:28+00:00', 'dataset': 'pedidos_desnormalizado', 'execution_id': '3f374893-bce4-4136-b000-69c3bef7a8e4', 'linhas_gravadas': '103', 'status': 'SUCESSO', 'linhas_lidas': '110'}
+{'data_hora': '2026-09-25T23:31:22+00:00', 'dataset': 'pedidos_desnormalizado', 'execution_id': '5f064b8e-b569-432f-b3f7-1ca3a975617a', 'linhas_gravadas': '103', 'status': 'SUCESSO', 'linhas_lidas': '110'}

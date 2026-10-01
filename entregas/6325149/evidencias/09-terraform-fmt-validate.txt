@@ -1,0 +1,3 @@
+fmt: OK
+Success! The configuration is valid.
+
