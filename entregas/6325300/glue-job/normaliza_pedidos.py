@@ -39,8 +39,7 @@ Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 8.5
 """
 
 import sys
-from datetime import datetime, timezone 
-
+from datetime import datetime, timezone
 
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame, SparkSession
@@ -97,38 +96,73 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
     def chave_valida(nome_coluna):
         return F.col(nome_coluna).isNotNull() & (F.trim(F.col(nome_coluna)) != "")
 
+    def texto_valido(nome_coluna):
+        return F.col(nome_coluna).isNotNull() & (F.trim(F.col(nome_coluna)) != "")
+
     def texto_ou_desconhecido(nome_coluna):
         texto_limpo = F.trim(F.col(nome_coluna))
         return F.when(
-            F.col(nome_coluna).isNull() | (texto_limpo   == ""),
+            F.col(nome_coluna).isNull() | (texto_limpo == ""),
             F.lit("DESCONHECIDO"),
         ).otherwise(texto_limpo)
 
+    df_limpo = df_raw.select(
+        F.trim(F.col("pedido_id")).alias("pedido_id"),
+        F.col("data_pedido"),
+        F.trim(F.col("cliente_id")).alias("cliente_id"),
+        F.col("cliente_nome"),
+        F.col("cliente_uf"),
+        F.trim(F.col("produto_id")).alias("produto_id"),
+        F.col("produto_nome"),
+        F.col("categoria"),
+        F.col("preco_unitario"),
+        F.col("quantidade"),
+        F.col("valor_total"),
+    )
+
     dim_cliente = (
-        df_raw
+        df_limpo
         .filter(chave_valida("cliente_id"))
-        .select("cliente_id", "cliente_nome", "cliente_uf")
+        .groupBy("cliente_id")
+        .agg(
+            F.first(
+                F.when(texto_valido("cliente_nome"), F.trim(F.col("cliente_nome"))),
+                ignorenulls=True,
+            ).alias("cliente_nome"),
+            F.first(
+                F.when(texto_valido("cliente_uf"), F.trim(F.col("cliente_uf"))),
+                ignorenulls=True,
+            ).alias("cliente_uf"),
+        )
         .withColumn("cliente_nome", texto_ou_desconhecido("cliente_nome"))
         .withColumn("cliente_uf", texto_ou_desconhecido("cliente_uf"))
-        .dropDuplicates(["cliente_id"])
     )
 
     dim_produto = (
-        df_raw
+        df_limpo
         .filter(chave_valida("produto_id"))
-        .select("produto_id", "produto_nome", "categoria")
+        .groupBy("produto_id")
+        .agg(
+            F.first(
+                F.when(texto_valido("produto_nome"), F.trim(F.col("produto_nome"))),
+                ignorenulls=True,
+            ).alias("produto_nome"),
+            F.first(
+                F.when(texto_valido("categoria"), F.trim(F.col("categoria"))),
+                ignorenulls=True,
+            ).alias("categoria"),
+        )
         .withColumn("produto_nome", texto_ou_desconhecido("produto_nome"))
         .withColumn("categoria", texto_ou_desconhecido("categoria"))
-        .dropDuplicates(["produto_id"])
     )
 
-    
     fato_pedidos = (
-        df_raw
+        df_limpo
         .filter(
             chave_valida("pedido_id")
             & chave_valida("cliente_id")
             & chave_valida("produto_id")
+            & F.col("data_pedido").isNotNull()
             & F.col("quantidade").isNotNull()
             & (F.col("quantidade") > 0)
         )
@@ -255,8 +289,6 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
 
     Requirements: 6.5, 8.5
     """
-def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
-    """..."""
     import boto3
 
     dynamodb = boto3.resource("dynamodb")
@@ -300,7 +332,6 @@ def main() -> None:
         # Passo 3 — Tratar nulos / linhas inválidas (Req 6.7).
         # A regra de descarte/DESCONHECIDO é aplicada dentro de normalizar() (função pura),
         # mantendo a lógica testável localmente.
-        # TODO(aluno): se preferir, tratar nulos aqui antes de normalizar.
 
         # Passo 4 — Normalizar em fato + dimensões.
         tabelas = normalizar(df_raw)
@@ -328,7 +359,13 @@ def main() -> None:
             linhas_gravadas=0,
             status="FALHA",
         )
-        gravar_metadados_dynamo(item, ddb_table)
+        try:
+            gravar_metadados_dynamo(item, ddb_table)
+        except Exception as metadata_error:
+            print(
+                f"Falha ao gravar metadados de falha no DynamoDB: {metadata_error}",
+                file=sys.stderr,
+            )
         raise
 
     job.commit()
