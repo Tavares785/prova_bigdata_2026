@@ -1,0 +1,92 @@
+EVIDÊNCIA 13.4 — ATHENA
+
+Database:
+prova_bigdata_gold
+
+WorkGroup:
+prova-bigdata-gold
+
+
+MSCK REPAIR TABLE fato_pedidos
+
+QueryExecutionId:
+f37ef977-d140-4dbe-912e-608e946576eb
+
+Resultado:
+SUCCEEDED
+
+
+CONSULTA 1 — FATURAMENTO POR CATEGORIA
+
+QueryExecutionId:
+5aa6be82-2339-481c-9959-38cb5b4531c4
+
+Resultado:
+
+categoria       faturamento
+Eletronicos     30334.1
+Moveis          13485.0
+Calcados        5698.1
+Eletrodomesticos 4921.0
+Livros          2876.8
+Acessorios      2338.2
+Vestuario       2145.7
+
+
+CONSULTA 2 — TOP 5 CLIENTES
+
+QueryExecutionId:
+40a0a2e2-a122-49d3-b693-0e8d5d2c8c85
+
+Resultado:
+
+cliente_nome    faturamento
+Carla Nunes     6955.2
+Diego Alves     6464.7
+Henrique Melo   6114.4
+Ana Souza       5793.3
+Elaine Rocha    5284.3
+
+
+CONSULTA 3 — PEDIDOS E FATURAMENTO POR DIA
+
+QueryExecutionId:
+89087248-47ac-4745-a7f7-33b17de244b4
+
+Resultado:
+
+data_pedido     pedidos faturamento
+2026-01-05      5       1499.0
+2026-01-06      4       948.1
+2026-01-07      4       1798.3
+2026-01-08      4       2947.7
+2026-01-09      4       1167.1
+2026-01-10      4       3106.7
+2026-01-11      4       2898.2
+2026-01-12      5       1218.2
+2026-01-13      4       5196.8
+2026-01-14      4       1476.6
+2026-01-15      4       1838.2
+2026-01-16      4       5446.4
+2026-01-17      4       937.4
+2026-01-18      5       3856.3
+2026-01-19      4       3318.2
+2026-01-20      4       2156.8
+2026-01-21      5       2947.5
+2026-01-22      5       2375.3
+2026-01-23      5       1448.3
+2026-01-24      6       6645.7
+2026-01-25      3       849.5
+2026-01-26      4       1866.5
+2026-01-27      4       2478.4
+2026-01-28      4       3377.7
+
+
+CONSULTA 4 — INTEGRIDADE REFERENCIAL
+
+QueryExecutionId:
+669dd774-150e-4e04-8fec-ab5baabcd7e8
+
+Resultado:
+
+orfaos  0
