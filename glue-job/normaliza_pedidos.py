@@ -86,7 +86,7 @@ def normalizar(df_raw: DataFrame) -> dict[str, DataFrame]:
     # TODO(aluno): implementar a normalização (fato + 2 dimensões) usando DataFrames/Spark SQL.
     # TODO(aluno): aplicar a regra de tratamento de dados inválidos (Req 6.7).
     # TODO(aluno): retornar {"fato_pedidos": ..., "dim_cliente": ..., "dim_produto": ...}.
-    raise NotImplementedError("TODO(aluno): implementar normalizar()")
+    
 
 
 def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, status) -> dict:
@@ -110,7 +110,7 @@ def montar_metadados(execution_id, dataset, linhas_lidas, linhas_gravadas, statu
     """
     # TODO(aluno): montar e retornar o dict de metadados com todos os campos preenchidos,
     # TODO(aluno): incluindo data_hora em formato ISO-8601.
-    raise NotImplementedError("TODO(aluno): implementar montar_metadados()")
+    
 
 
 # ---------------------------------------------------------------------------
@@ -130,7 +130,7 @@ def ler_raw(spark: SparkSession, raw_path: str) -> DataFrame:
     Requirements: 6.3
     """
     # TODO(aluno): ler o CSV do raw_path (header=True, inferSchema ou schema explícito).
-    raise NotImplementedError("TODO(aluno): implementar ler_raw()")
+    
 
 
 def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
@@ -150,7 +150,7 @@ def escrever_gold(tabelas: dict[str, DataFrame], gold_path: str) -> None:
     """
     # TODO(aluno): gravar fato_pedidos em Parquet particionado por data_pedido.
     # TODO(aluno): gravar dim_cliente e dim_produto em Parquet (sem partição).
-    raise NotImplementedError("TODO(aluno): implementar escrever_gold()")
+    
 
 
 def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
@@ -163,8 +163,7 @@ def gravar_metadados_dynamo(item: dict, ddb_table: str) -> None:
     Requirements: 6.5, 8.5
     """
     # TODO(aluno): usar boto3 para gravar o item na tabela DynamoDB (put_item).
-    raise NotImplementedError("TODO(aluno): implementar gravar_metadados_dynamo()")
-
+    
 
 # ---------------------------------------------------------------------------
 # main — orquestra o contrato de 6 passos (ver design.md, Components (c)).
