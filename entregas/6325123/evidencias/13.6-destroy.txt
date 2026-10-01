@@ -15,7 +15,7 @@ Ambiente   = "Learner Lab"
 
 Comando:
 aws s3api get-public-access-block \
-  --bucket prova-bigdata-raw-6325250 \
+  --bucket prova-bigdata-raw-6325123 \
   --region us-east-1
 
 Resultado:
@@ -33,7 +33,7 @@ Resultado:
 
 Comando:
 aws s3api get-public-access-block \
-  --bucket prova-bigdata-gold-6325250 \
+  --bucket prova-bigdata-gold-6325123 \
   --region us-east-1
 
 Resultado:
@@ -62,7 +62,7 @@ Comando:
 git status --short
 
 Resultado:
-?? entregas/6325250/evidencias/
+?? entregas/6325123/evidencias/
 
 Comando:
 find . -type f \( -name "credentials" -o -name "*.pem" -o -name "*.key" \) -not -path "./.git/*"

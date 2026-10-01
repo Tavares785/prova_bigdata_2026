@@ -15,10 +15,10 @@
 regiao = "us-east-1"
 
 # Nome GLOBALMENTE único do bucket raw (troque SEURA pelo seu RA).
-bucket_raw_nome = "prova-bigdata-raw-6325250"
+bucket_raw_nome = "prova-bigdata-raw-6325123"
 
 # Nome GLOBALMENTE único do bucket gold.
-bucket_gold_nome = "prova-bigdata-gold-6325250"
+bucket_gold_nome = "prova-bigdata-gold-6325123"
 
 # ARN da LabRole fornecida pelo AWS Academy Learner Lab.
 # Preencha com o ARN da sua LabRole quando iniciar o Lab.

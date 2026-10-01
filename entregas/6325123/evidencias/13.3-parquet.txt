@@ -1,7 +1,7 @@
 EVIDÊNCIA 13.3 — PARQUET PARTICIONADO
 
 Comando:
-aws s3 ls s3://prova-bigdata-gold-6325250/fato_pedidos/ --recursive --region us-east-1
+aws s3 ls s3://prova-bigdata-gold-6325123/fato_pedidos/ --recursive --region us-east-1
 
 Resultado:
 
@@ -32,7 +32,7 @@ Resultado:
 
 
 Comando:
-aws s3 ls s3://prova-bigdata-gold-6325250/fato_pedidos/ \
+aws s3 ls s3://prova-bigdata-gold-6325123/fato_pedidos/ \
   --region us-east-1 \
   | wc -l
 
