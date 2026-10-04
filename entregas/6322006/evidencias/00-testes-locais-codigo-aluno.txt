@@ -1,0 +1,21 @@
+﻿============================= test session starts ==============================
+platform linux -- Python 3.10.21, pytest-8.2.2, pluggy-1.6.0 -- /usr/local/bin/python3.10
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: /lab
+plugins: hypothesis-6.168.3
+collecting ... collected 11 items
+
+test_normalizacao.py::test_smoke_infra_normaliza PASSED                  [  9%]
+test_normalizacao.py::test_prop1_contagem_fato_igual_linhas_validas PASSED [ 18%]
+test_normalizacao.py::test_prop2_dimensoes_com_chaves_unicas PASSED      [ 27%]
+test_normalizacao.py::test_prop3_integridade_referencial PASSED          [ 36%]
+test_normalizacao.py::test_prop4_particoes_iguais_datas_distintas PASSED [ 45%]
+test_normalizacao.py::test_prop5_roundtrip_parquet_preserva_linhas PASSED [ 54%]
+test_normalizacao.py::test_prop6_metadados_consistentes PASSED           [ 63%]
+test_normalizacao.py::test_borda_cliente_id_ausente_descartada_do_fato PASSED [ 72%]
+test_normalizacao.py::test_borda_cliente_nome_ausente_vira_desconhecido PASSED [ 81%]
+test_normalizacao.py::test_borda_quantidade_invalida_descartada PASSED   [ 90%]
+test_normalizacao.py::test_borda_dataset_com_data_unica_gera_particao_unica PASSED [100%]
+
+======================== 11 passed in 281.65s (0:04:41) ========================
