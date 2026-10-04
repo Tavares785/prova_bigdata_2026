@@ -1,0 +1,201 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_athena_workgroup.gold[0m will be created
+[0m  [32m+[0m[0m resource "aws_athena_workgroup" "gold" {
+      [32m+[0m[0m arn           = (known after apply)
+      [32m+[0m[0m force_destroy = false
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m name          = "prova-bigdata-gold"
+      [32m+[0m[0m state         = "ENABLED"
+      [32m+[0m[0m tags          = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+      [32m+[0m[0m tags_all      = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+
+      [32m+[0m[0m configuration {
+          [32m+[0m[0m enforce_workgroup_configuration    = true
+          [32m+[0m[0m publish_cloudwatch_metrics_enabled = true
+          [32m+[0m[0m requester_pays_enabled             = false
+
+          [32m+[0m[0m result_configuration {
+              [32m+[0m[0m output_location = "s3://prova-bigdata-gold-6325192/athena-results/"
+            }
+        }
+    }
+
+[1m  # aws_dynamodb_table.execucoes[0m will be created
+[0m  [32m+[0m[0m resource "aws_dynamodb_table" "execucoes" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m billing_mode     = "PAY_PER_REQUEST"
+      [32m+[0m[0m hash_key         = "execution_id"
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m name             = "execucoes"
+      [32m+[0m[0m read_capacity    = (known after apply)
+      [32m+[0m[0m stream_arn       = (known after apply)
+      [32m+[0m[0m stream_label     = (known after apply)
+      [32m+[0m[0m stream_view_type = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+      [32m+[0m[0m write_capacity   = (known after apply)
+
+      [32m+[0m[0m attribute {
+          [32m+[0m[0m name = "execution_id"
+          [32m+[0m[0m type = "S"
+        }
+
+      [32m+[0m[0m point_in_time_recovery (known after apply)
+
+      [32m+[0m[0m server_side_encryption (known after apply)
+
+      [32m+[0m[0m ttl (known after apply)
+    }
+
+[1m  # aws_glue_catalog_database.gold[0m will be created
+[0m  [32m+[0m[0m resource "aws_glue_catalog_database" "gold" {
+      [32m+[0m[0m arn          = (known after apply)
+      [32m+[0m[0m catalog_id   = (known after apply)
+      [32m+[0m[0m id           = (known after apply)
+      [32m+[0m[0m location_uri = (known after apply)
+      [32m+[0m[0m name         = "prova_bigdata_gold"
+      [32m+[0m[0m tags_all     = (known after apply)
+
+      [32m+[0m[0m create_table_default_permission (known after apply)
+    }
+
+[1m  # aws_glue_crawler.gold[0m will be created
+[0m  [32m+[0m[0m resource "aws_glue_crawler" "gold" {
+      [32m+[0m[0m arn           = (known after apply)
+      [32m+[0m[0m database_name = "prova_bigdata_gold"
+      [32m+[0m[0m id            = (known after apply)
+      [32m+[0m[0m name          = "crawler-gold"
+      [32m+[0m[0m role          = "arn:aws:iam::767661591864:role/LabRole"
+      [32m+[0m[0m tags          = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+      [32m+[0m[0m tags_all      = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+
+      [32m+[0m[0m s3_target {
+          [32m+[0m[0m path = "s3://prova-bigdata-gold-6325192/fato_pedidos/"
+        }
+      [32m+[0m[0m s3_target {
+          [32m+[0m[0m path = "s3://prova-bigdata-gold-6325192/dim_cliente/"
+        }
+      [32m+[0m[0m s3_target {
+          [32m+[0m[0m path = "s3://prova-bigdata-gold-6325192/dim_produto/"
+        }
+    }
+
+[1m  # aws_glue_job.normaliza_pedidos[0m will be created
+[0m  [32m+[0m[0m resource "aws_glue_job" "normaliza_pedidos" {
+      [32m+[0m[0m arn               = (known after apply)
+      [32m+[0m[0m default_arguments = {
+          [32m+[0m[0m "--DATASET_NAME" = "pedidos_desnormalizado"
+          [32m+[0m[0m "--DDB_TABLE"    = "execucoes"
+          [32m+[0m[0m "--GOLD_PATH"    = "s3://prova-bigdata-gold-6325192/"
+          [32m+[0m[0m "--RAW_PATH"     = "s3://prova-bigdata-raw-6325192/pedidos/"
+        }
+      [32m+[0m[0m glue_version      = "4.0"
+      [32m+[0m[0m id                = (known after apply)
+      [32m+[0m[0m max_capacity      = (known after apply)
+      [32m+[0m[0m name              = "normaliza-pedidos"
+      [32m+[0m[0m number_of_workers = 2
+      [32m+[0m[0m role_arn          = "arn:aws:iam::767661591864:role/LabRole"
+      [32m+[0m[0m tags              = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+      [32m+[0m[0m tags_all          = {
+          [32m+[0m[0m "Ambiente"   = "prova"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+          [32m+[0m[0m "Projeto"    = "prova-bigdata"
+        }
+      [32m+[0m[0m timeout           = (known after apply)
+      [32m+[0m[0m worker_type       = "G.1X"
+
+      [32m+[0m[0m command {
+          [32m+[0m[0m name            = "glueetl"
+          [32m+[0m[0m python_version  = "3"
+          [32m+[0m[0m runtime         = (known after apply)
+          [32m+[0m[0m script_location = "s3://prova-bigdata-gold-6325192/scripts/normaliza_pedidos.py"
+        }
+
+      [32m+[0m[0m execution_property (known after apply)
+
+      [32m+[0m[0m notification_property (known after apply)
+    }
+
+[1m  # terraform_data.bucket_gold[0m will be created
+[0m  [32m+[0m[0m resource "terraform_data" "bucket_gold" {
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m input            = {
+          [32m+[0m[0m bucket = "prova-bigdata-gold-6325192"
+          [32m+[0m[0m regiao = "us-east-1"
+        }
+      [32m+[0m[0m output           = (known after apply)
+      [32m+[0m[0m triggers_replace = [
+          [32m+[0m[0m "prova-bigdata-gold-6325192",
+          [32m+[0m[0m "us-east-1",
+        ]
+    }
+
+[1m  # terraform_data.bucket_raw[0m will be created
+[0m  [32m+[0m[0m resource "terraform_data" "bucket_raw" {
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m input            = {
+          [32m+[0m[0m bucket = "prova-bigdata-raw-6325192"
+          [32m+[0m[0m regiao = "us-east-1"
+        }
+      [32m+[0m[0m output           = (known after apply)
+      [32m+[0m[0m triggers_replace = [
+          [32m+[0m[0m "prova-bigdata-raw-6325192",
+          [32m+[0m[0m "us-east-1",
+        ]
+    }
+
+[1m  # terraform_data.script_glue[0m will be created
+[0m  [32m+[0m[0m resource "terraform_data" "script_glue" {
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m input            = {
+          [32m+[0m[0m arquivo = "./../glue-job/normaliza_pedidos.py"
+          [32m+[0m[0m destino = "s3://prova-bigdata-gold-6325192/scripts/normaliza_pedidos.py"
+        }
+      [32m+[0m[0m output           = (known after apply)
+      [32m+[0m[0m triggers_replace = [
+          [32m+[0m[0m "e4a4a3e2a54819f734a2ab3723300d7242a4f6b292696496d8cd92b116ccbbd3",
+        ]
+    }
+
+[1mPlan:[0m [0m8 to add, 0 to change, 0 to destroy.
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Saved the plan to: prova.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "prova.tfplan"
