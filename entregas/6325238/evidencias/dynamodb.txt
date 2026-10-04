@@ -1,0 +1,18 @@
+DYNAMODB - METADADOS DA EXECUÇÃO
+
+Tabela: execucoes
+
+{
+  "dataset": "pedidos_desnormalizado",
+  "data_hora": "2026-09-30T04:38:21.835174+00:00",
+  "execution_id": "normaliza-pedidos-spark-application-1790743061095",
+  "linhas_gravadas": 103,
+  "linhas_lidas": 110,
+  "status": "SUCESSO"
+}
+
+Resultado:
+110 linhas lidas
+103 linhas gravadas
+7 linhas descartadas
+Status: SUCESSO

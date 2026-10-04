@@ -1,0 +1,18 @@
+QUERY 2 - Top 5 clientes por gasto
+
+SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total
+FROM fato_pedidos f
+JOIN dim_cliente c ON f.cliente_id = c.cliente_id
+GROUP BY c.cliente_nome
+ORDER BY gasto_total DESC
+LIMIT 5;
+
+RESULTADO:
+Carla Nunes      6955.2
+Diego Alves      6464.7
+Henrique Melo    6114.4
+Ana Souza        5793.3
+Elaine Rocha     5284.3
+
+STATUS: SUCCEEDED
+QueryExecutionId: 6acfd507-2c83-46ad-990f-122aee54f5b7
