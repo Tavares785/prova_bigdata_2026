@@ -44,3 +44,4 @@ venv/
 derby.log
 metastore_db/
 spark-warehouse/
+.agents/
