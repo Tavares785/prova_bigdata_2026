@@ -1,0 +1,5 @@
+SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento
+FROM fato_pedidos f
+JOIN dim_produto p ON f.produto_id = p.produto_id
+GROUP BY p.categoria
+ORDER BY faturamento DESC;

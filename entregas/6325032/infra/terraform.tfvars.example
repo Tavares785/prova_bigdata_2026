@@ -1,0 +1,14 @@
+regiao = "us-east-1"
+
+# Substitua SUA-CONTA pelo ID de 12 dígitos da conta do seu Learner Lab.
+# Use buckets novos, exclusivos desta prova: terraform destroy apaga seus objetos.
+bucket_raw_nome  = "prova-bigdata-raw-6325032-SUA-CONTA"
+bucket_gold_nome = "prova-bigdata-gold-6325032-SUA-CONTA"
+labrole_arn      = "arn:aws:iam::SUA-CONTA:role/LabRole"
+
+tags = {
+  Projeto    = "prova-bigdata-6325032"
+  Disciplina = "Big Data - UNIFAAT"
+  Ambiente   = "LearnerLab"
+  RA         = "6325032"
+}

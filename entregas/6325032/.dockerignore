@@ -1,0 +1,7 @@
+infra/
+evidencias/
+.git/
+**/__pycache__/
+**/.pytest_cache/
+**/.hypothesis/
+*.zip

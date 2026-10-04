@@ -1,0 +1,111 @@
+pedido_id,data_pedido,cliente_id,cliente_nome,cliente_uf,produto_id,produto_nome,categoria,preco_unitario,quantidade,valor_total
+PED0001,2026-01-05,CLI001,Ana Souza,SP,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,2,299.80
+PED0002,2026-01-05,CLI002,Bruno Lima,RJ,PRD021,Camiseta Basica,Vestuario,49.90,3,149.70
+PED0003,2026-01-05,CLI003,Carla Nunes,MG,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,1,149.90
+PED0004,2026-01-06,CLI001,Ana Souza,SP,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,1,259.00
+PED0005,2026-01-06,CLI004,Diego Alves,RS,PRD045,Livro de Big Data,Livros,89.90,2,179.80
+PED0006,2026-01-06,CLI005,Elaine Rocha,BA,PRD021,Camiseta Basica,Vestuario,49.90,5,249.50
+PED0007,2026-01-07,CLI002,Bruno Lima,RJ,PRD053,Tenis Esportivo,Calcados,299.90,1,299.90
+PED0008,2026-01-07,CLI006,Felipe Castro,PR,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,3,449.70
+PED0009,2026-01-07,CLI003,Carla Nunes,MG,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0010,2026-01-08,CLI007,Gabriela Dias,SC,PRD045,Livro de Big Data,Livros,89.90,1,89.90
+PED0011,2026-01-08,CLI001,Ana Souza,SP,PRD053,Tenis Esportivo,Calcados,299.90,2,599.80
+PED0012,2026-01-08,CLI008,Henrique Melo,SP,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0013,2026-01-09,CLI004,Diego Alves,RS,PRD021,Camiseta Basica,Vestuario,49.90,4,199.60
+PED0014,2026-01-09,CLI005,Elaine Rocha,BA,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,2,518.00
+PED0015,2026-01-09,CLI009,Isabela Faria,RJ,PRD045,Livro de Big Data,Livros,89.90,3,269.70
+PED0016,2026-01-10,CLI006,Felipe Castro,PR,PRD061,Cadeira Gamer,Moveis,899.00,2,1798.00
+PED0017,2026-01-10,CLI010,Joao Pereira,MG,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,1,149.90
+PED0018,2026-01-10,CLI002,Bruno Lima,RJ,PRD084,Mochila Escolar,Acessorios,129.90,2,259.80
+PED0019,2026-01-11,CLI003,Carla Nunes,MG,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0020,2026-01-11,CLI007,Gabriela Dias,SC,PRD053,Tenis Esportivo,Calcados,299.90,1,299.90
+PED0021,2026-01-11,CLI001,Ana Souza,SP,PRD021,Camiseta Basica,Vestuario,49.90,6,299.40
+PED0022,2026-01-12,CLI008,Henrique Melo,SP,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,1,259.00
+PED0023,2026-01-12,CLI004,Diego Alves,RS,PRD084,Mochila Escolar,Acessorios,129.90,3,389.70
+PED0024,2026-01-12,CLI011,Karina Lopes,CE,PRD045,Livro de Big Data,Livros,89.90,2,179.80
+PED0025,2026-01-13,CLI005,Elaine Rocha,BA,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,2,299.80
+PED0026,2026-01-13,CLI009,Isabela Faria,RJ,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0027,2026-01-13,CLI006,Felipe Castro,PR,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0028,2026-01-14,CLI010,Joao Pereira,MG,PRD053,Tenis Esportivo,Calcados,299.90,2,599.80
+PED0029,2026-01-14,CLI002,Bruno Lima,RJ,PRD021,Camiseta Basica,Vestuario,49.90,2,99.80
+PED0030,2026-01-14,CLI012,Larissa Gomes,GO,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,1,259.00
+PED0031,2026-01-15,CLI001,Ana Souza,SP,PRD045,Livro de Big Data,Livros,89.90,4,359.60
+PED0032,2026-01-15,CLI003,Carla Nunes,MG,PRD084,Mochila Escolar,Acessorios,129.90,1,129.90
+PED0033,2026-01-15,CLI007,Gabriela Dias,SC,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,3,449.70
+PED0034,2026-01-16,CLI008,Henrique Melo,SP,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0035,2026-01-16,CLI011,Karina Lopes,CE,PRD053,Tenis Esportivo,Calcados,299.90,1,299.90
+PED0036,2026-01-16,CLI004,Diego Alves,RS,PRD072,Smartphone X,Eletronicos,1999.00,2,3998.00
+PED0037,2026-01-17,CLI005,Elaine Rocha,BA,PRD021,Camiseta Basica,Vestuario,49.90,3,149.70
+PED0038,2026-01-17,CLI009,Isabela Faria,RJ,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,2,518.00
+PED0039,2026-01-17,CLI012,Larissa Gomes,GO,PRD045,Livro de Big Data,Livros,89.90,1,89.90
+PED0040,2026-01-18,CLI006,Felipe Castro,PR,PRD084,Mochila Escolar,Acessorios,129.90,2,259.80
+PED0041,2026-01-18,CLI010,Joao Pereira,MG,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0042,2026-01-18,CLI002,Bruno Lima,RJ,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,4,599.60
+PED0043,2026-01-19,CLI001,Ana Souza,SP,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0044,2026-01-19,CLI003,Carla Nunes,MG,PRD053,Tenis Esportivo,Calcados,299.90,2,599.80
+PED0045,2026-01-19,CLI008,Henrique Melo,SP,PRD045,Livro de Big Data,Livros,89.90,3,269.70
+PED0046,2026-01-20,CLI011,Karina Lopes,CE,PRD021,Camiseta Basica,Vestuario,49.90,2,99.80
+PED0047,2026-01-20,CLI004,Diego Alves,RS,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,1,259.00
+PED0048,2026-01-20,CLI007,Gabriela Dias,SC,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0049,2026-01-21,CLI005,Elaine Rocha,BA,PRD084,Mochila Escolar,Acessorios,129.90,3,389.70
+PED0050,2026-01-21,CLI009,Isabela Faria,RJ,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,1,149.90
+PED0051,2026-01-21,CLI012,Larissa Gomes,GO,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0052,2026-01-22,CLI002,Bruno Lima,RJ,PRD045,Livro de Big Data,Livros,89.90,2,179.80
+PED0053,2026-01-22,CLI010,Joao Pereira,MG,PRD053,Tenis Esportivo,Calcados,299.90,3,899.70
+PED0054,2026-01-22,CLI001,Ana Souza,SP,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,2,518.00
+PED0055,2026-01-23,CLI006,Felipe Castro,PR,PRD021,Camiseta Basica,Vestuario,49.90,4,199.60
+PED0056,2026-01-23,CLI008,Henrique Melo,SP,PRD084,Mochila Escolar,Acessorios,129.90,1,129.90
+PED0057,2026-01-23,CLI003,Carla Nunes,MG,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0058,2026-01-24,CLI011,Karina Lopes,CE,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,2,299.80
+PED0059,2026-01-24,CLI004,Diego Alves,RS,PRD045,Livro de Big Data,Livros,89.90,1,89.90
+PED0060,2026-01-24,CLI007,Gabriela Dias,SC,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0061,2026-01-05,CLI005,Elaine Rocha,BA,PRD053,Tenis Esportivo,Calcados,299.90,2,599.80
+PED0062,2026-01-06,CLI009,Isabela Faria,RJ,PRD084,Mochila Escolar,Acessorios,129.90,2,259.80
+PED0063,2026-01-07,CLI012,Larissa Gomes,GO,PRD021,Camiseta Basica,Vestuario,49.90,3,149.70
+PED0064,2026-01-08,CLI002,Bruno Lima,RJ,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,1,259.00
+PED0065,2026-01-09,CLI010,Joao Pereira,MG,PRD045,Livro de Big Data,Livros,89.90,2,179.80
+PED0066,2026-01-10,CLI001,Ana Souza,SP,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0067,2026-01-11,CLI006,Felipe Castro,PR,PRD053,Tenis Esportivo,Calcados,299.90,1,299.90
+PED0068,2026-01-12,CLI008,Henrique Melo,SP,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,2,299.80
+PED0069,2026-01-13,CLI003,Carla Nunes,MG,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0070,2026-01-14,CLI011,Karina Lopes,CE,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,2,518.00
+PED0071,2026-01-15,CLI004,Diego Alves,RS,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0072,2026-01-16,CLI007,Gabriela Dias,SC,PRD021,Camiseta Basica,Vestuario,49.90,5,249.50
+PED0073,2026-01-17,CLI005,Elaine Rocha,BA,PRD045,Livro de Big Data,Livros,89.90,2,179.80
+PED0074,2026-01-18,CLI009,Isabela Faria,RJ,PRD053,Tenis Esportivo,Calcados,299.90,1,299.90
+PED0075,2026-01-19,CLI012,Larissa Gomes,GO,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,3,449.70
+PED0076,2026-01-20,CLI002,Bruno Lima,RJ,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0077,2026-01-21,CLI010,Joao Pereira,MG,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,1,259.00
+PED0078,2026-01-22,CLI001,Ana Souza,SP,PRD084,Mochila Escolar,Acessorios,129.90,2,259.80
+PED0079,2026-01-23,CLI006,Felipe Castro,PR,PRD045,Livro de Big Data,Livros,89.90,1,89.90
+PED0080,2026-01-24,CLI008,Henrique Melo,SP,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0081,2026-01-25,CLI003,Carla Nunes,MG,PRD021,Camiseta Basica,Vestuario,49.90,2,99.80
+PED0082,2026-01-25,CLI011,Karina Lopes,CE,PRD053,Tenis Esportivo,Calcados,299.90,2,599.80
+PED0083,2026-01-25,CLI004,Diego Alves,RS,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,1,149.90
+PED0084,2026-01-26,CLI007,Gabriela Dias,SC,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,2,518.00
+PED0085,2026-01-26,CLI005,Elaine Rocha,BA,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0086,2026-01-26,CLI009,Isabela Faria,RJ,PRD045,Livro de Big Data,Livros,89.90,3,269.70
+PED0087,2026-01-27,CLI012,Larissa Gomes,GO,PRD084,Mochila Escolar,Acessorios,129.90,1,129.90
+PED0088,2026-01-27,CLI002,Bruno Lima,RJ,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0089,2026-01-27,CLI010,Joao Pereira,MG,PRD021,Camiseta Basica,Vestuario,49.90,4,199.60
+PED0090,2026-01-28,CLI001,Ana Souza,SP,PRD053,Tenis Esportivo,Calcados,299.90,1,299.90
+PED0091,2026-01-05,CLI004,Diego Alves,RS,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,2,299.80
+PED0092,2026-01-12,CLI007,Gabriela Dias,SC,PRD045,Livro de Big Data,Livros,89.90,1,89.90
+PED0093,2026-01-18,CLI011,Karina Lopes,CE,PRD061,Cadeira Gamer,Moveis,899.00,2,1798.00
+PED0094,2026-01-24,CLI008,Henrique Melo,SP,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,1,259.00
+PED0095,2026-01-28,CLI005,Elaine Rocha,BA,PRD072,Smartphone X,Eletronicos,1999.00,1,1999.00
+PED0096,2026-01-15,,Cliente Sem Id,SP,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,2,299.80
+PED0097,2026-01-16,CLI013,Marcos Vieira,PE,,Produto Sem Id,Eletronicos,149.90,1,149.90
+,2026-01-17,CLI014,Nadia Barros,DF,PRD021,Camiseta Basica,Vestuario,49.90,3,149.70
+PED0099,2026-01-18,CLI015,Otavio Ramos,ES,PRD045,Livro de Big Data,Livros,89.90,0,0.00
+PED0100,2026-01-19,CLI016,Paula Freitas,AM,PRD053,Tenis Esportivo,Calcados,299.90,,
+PED0101,2026-01-20,CLI017,Rafael Pinto,MT,PRD061,Cadeira Gamer,Moveis,899.00,-2,-1798.00
+PED0102,2026-01-21,CLI018,,MG,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,1,149.90
+PED0103,2026-01-22,CLI019,Tatiana Sousa,,PRD032,Cafeteira Eletrica,Eletrodomesticos,259.00,2,518.00
+PED0104,2026-01-23,CLI020,Ulisses Cardoso,SP,PRD084,,Acessorios,129.90,1,129.90
+PED0105,2026-01-24,CLI021,Vanessa Lima,RJ,PRD072,Smartphone X,,1999.00,1,1999.00
+PED0106,2026-01-25,,,,,,,149.90,3,449.70
+PED0107,2026-01-26,CLI003,Carla Nunes,MG,PRD045,Livro de Big Data,Livros,89.90,2,179.80
+PED0108,2026-01-27,CLI006,Felipe Castro,PR,PRD010,Fone de Ouvido Bluetooth,Eletronicos,149.90,1,149.90
+PED0109,2026-01-28,CLI009,Isabela Faria,RJ,PRD061,Cadeira Gamer,Moveis,899.00,1,899.00
+PED0110,2026-01-28,CLI012,Larissa Gomes,GO,PRD045,Livro de Big Data,Livros,89.90,2,179.80
