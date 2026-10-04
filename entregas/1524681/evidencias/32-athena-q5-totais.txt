@@ -1,0 +1,3 @@
+--- SQL: SELECT (SELECT COUNT(*) FROM prova_bigdata_gold_1524681.fato_pedidos) AS linhas_fato, (SELECT COUNT(DISTINCT cliente_id) FROM prova_bigdata_gold_1524681.dim_cliente) AS clientes, (SELECT COUNT(DISTINCT produto_id) FROM prova_bigdata_gold_1524681.dim_produto) AS produtos, (SELECT ROUND(SUM(valor_total),2) FROM prova_bigdata_gold_1524681.fato_pedidos) AS total_valor
+linhas_fato	clientes	produtos	total_valor
+103	21	8	61798.9

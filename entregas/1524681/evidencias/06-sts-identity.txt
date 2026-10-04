@@ -1,0 +1,5 @@
+{
+    "UserId": "AROAT76ZB6WYG4PH7JFE3:user5502447=David",
+    "Account": "274796246448",
+    "Arn": "arn:aws:sts::274796246448:assumed-role/voclabs/user5502447=David"
+}

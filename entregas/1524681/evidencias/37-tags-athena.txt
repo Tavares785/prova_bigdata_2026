@@ -1,0 +1,16 @@
+{
+    "Tags": [
+        {
+            "Key": "Ambiente",
+            "Value": "learner-lab"
+        },
+        {
+            "Key": "Disciplina",
+            "Value": "bigdata"
+        },
+        {
+            "Key": "Projeto",
+            "Value": "prova-bigdata"
+        }
+    ]
+}

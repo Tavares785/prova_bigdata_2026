@@ -1,0 +1,23 @@
+execution_id=normaliza-pedidos-spark-application-1790720269908
+{
+    "Item": {
+        "data_hora": {
+            "S": "2026-09-29T22:18:26Z"
+        },
+        "dataset": {
+            "S": "pedidos_desnormalizado"
+        },
+        "execution_id": {
+            "S": "normaliza-pedidos-spark-application-1790720269908"
+        },
+        "linhas_gravadas": {
+            "N": "103"
+        },
+        "linhas_lidas": {
+            "N": "110"
+        },
+        "status": {
+            "S": "SUCESSO"
+        }
+    }
+}

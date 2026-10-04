@@ -1,0 +1,7 @@
+--- SQL: SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total FROM prova_bigdata_gold_1524681.fato_pedidos f JOIN prova_bigdata_gold_1524681.dim_cliente c ON f.cliente_id = c.cliente_id GROUP BY c.cliente_nome ORDER BY gasto_total DESC LIMIT 5
+cliente_nome	gasto_total
+Carla Nunes	6955.2
+Diego Alves	6464.7
+Henrique Melo	6114.4
+Ana Souza	5793.3
+Elaine Rocha	5284.3

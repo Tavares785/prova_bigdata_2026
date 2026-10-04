@@ -1,0 +1,4 @@
+=== terraform validate ===
+Success! The configuration is valid.
+
+validate_exit=0
