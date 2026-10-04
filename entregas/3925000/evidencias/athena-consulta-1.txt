@@ -1,0 +1,11 @@
+Consulta 1 - Faturamento por categoria
+QueryExecutionId: 0dc4aa63-9517-419f-aa0f-9a7f5e8de26a
+Status: SUCCEEDED
+
+Eletronicos 30334.1
+Moveis 13485.0
+Calcados 5698.1
+Eletrodomesticos 4921.0
+Livros 2876.8
+Acessorios 2338.2
+Vestuario 2145.7

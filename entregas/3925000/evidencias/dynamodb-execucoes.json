@@ -1,0 +1,27 @@
+{
+    "Items": [
+        {
+            "data_hora": {
+                "S": "2026-09-29T13:49:46+00:00"
+            },
+            "dataset": {
+                "S": "pedidos_desnormalizado"
+            },
+            "execution_id": {
+                "S": "normaliza-pedidos-spark-application-1790689736536"
+            },
+            "linhas_gravadas": {
+                "N": "103"
+            },
+            "linhas_lidas": {
+                "N": "110"
+            },
+            "status": {
+                "S": "SUCESSO"
+            }
+        }
+    ],
+    "Count": 1,
+    "ScannedCount": 1,
+    "ConsumedCapacity": null
+}

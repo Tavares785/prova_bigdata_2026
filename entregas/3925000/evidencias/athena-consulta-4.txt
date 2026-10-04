@@ -1,0 +1,4 @@
+Consulta 4 - Integridade fato_pedidos x dim_produto
+QueryExecutionId: cee56761-adb8-4c72-add8-8916541dd408
+Status: SUCCEEDED
+orfaos: 0

@@ -1,0 +1,60 @@
+[0m[1mterraform_data.bucket_gold: Refreshing state... [id=e35b326d-71ac-cac6-783d-16a96bcfc2e8][0m
+[0m[1mterraform_data.bucket_raw: Refreshing state... [id=6a23bffd-68a0-8eed-57aa-a8fc3df817be][0m
+[0m[1mterraform_data.upload_script_glue: Refreshing state... [id=b0eac04c-3ccb-78db-e336-dda717d051ad][0m
+[0m[1maws_glue_catalog_database.gold: Refreshing state... [id=319184937445:prova_bigdata_gold][0m
+[0m[1maws_athena_workgroup.prova: Refreshing state... [id=prova-bigdata][0m
+[0m[1maws_dynamodb_table.execucoes: Refreshing state... [id=execucoes][0m
+[0m[1maws_glue_crawler.gold: Refreshing state... [id=crawler-gold][0m
+[0m[1maws_glue_job.normaliza_pedidos: Refreshing state... [id=normaliza-pedidos][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [33m~[0m update in-place[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_dynamodb_table.execucoes[0m will be updated in-place
+[0m  [33m~[0m[0m resource "aws_dynamodb_table" "execucoes" {
+        id                          = "execucoes"
+        name                        = "execucoes"
+      [33m~[0m[0m tags                        = {
+            "Ambiente"   = "lab"
+          [32m+[0m[0m "Disciplina" = "Big Data"
+            "Projeto"    = "prova-bigdata"
+        }
+      [33m~[0m[0m tags_all                    = {
+          [32m+[0m[0m "Disciplina" = "Big Data"
+            [90m# (2 unchanged elements hidden)[0m[0m
+        }
+        [90m# (11 unchanged attributes hidden)[0m[0m
+
+        [90m# (3 unchanged blocks hidden)[0m[0m
+    }
+
+[1m  # aws_glue_job.normaliza_pedidos[0m will be updated in-place
+[0m  [33m~[0m[0m resource "aws_glue_job" "normaliza_pedidos" {
+        id                        = "normaliza-pedidos"
+        name                      = "normaliza-pedidos"
+      [33m~[0m[0m tags                      = {
+            "Ambiente"    = "lab"
+          [32m+[0m[0m "Disciplina"  = "Big Data"
+            "Projeto"     = "prova-bigdata"
+          [31m-[0m[0m "Responsavel" = "3925000" [90m-> null[0m[0m
+        }
+      [33m~[0m[0m tags_all                  = {
+          [32m+[0m[0m "Disciplina"  = "Big Data"
+          [31m-[0m[0m "Responsavel" = "3925000" [90m-> null[0m[0m
+            [90m# (2 unchanged elements hidden)[0m[0m
+        }
+        [90m# (14 unchanged attributes hidden)[0m[0m
+
+        [90m# (2 unchanged blocks hidden)[0m[0m
+    }
+
+[1mPlan:[0m [0m0 to add, 2 to change, 0 to destroy.
+[0m[1maws_dynamodb_table.execucoes: Modifying... [id=execucoes][0m[0m
+[0m[1maws_dynamodb_table.execucoes: Modifications complete after 1s [id=execucoes][0m
+[0m[1maws_glue_job.normaliza_pedidos: Modifying... [id=normaliza-pedidos][0m[0m
+[0m[1maws_glue_job.normaliza_pedidos: Modifications complete after 1s [id=normaliza-pedidos][0m
+[0m[1m[32m
+Apply complete! Resources: 0 added, 2 changed, 0 destroyed.[0m
