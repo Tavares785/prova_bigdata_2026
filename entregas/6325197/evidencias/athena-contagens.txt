@@ -1,0 +1,1 @@
+tabela	linhas	dim_cliente	21	dim_produto	8	fato_pedidos	103

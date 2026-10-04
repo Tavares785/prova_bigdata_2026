@@ -1,0 +1,1 @@
+quantidade_pedidos	quantidade_datas	total_vendas	103	24	61798.9

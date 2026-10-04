@@ -1,0 +1,1 @@
+categoria	total_vendas	Eletronicos	30334.1	Moveis	13485.0	Calcados	5698.1	Eletrodomesticos	4921.0	Livros	2876.8	Acessorios	2338.2	Vestuario	2145.7

@@ -1,0 +1,47 @@
+{
+    "Items": [
+        {
+            "data_hora": {
+                "S": "2026-09-30T02:07:00.851928+00:00"
+            },
+            "dataset": {
+                "S": "pedidos_desnormalizado"
+            },
+            "linhas_gravadas": {
+                "N": "103"
+            },
+            "execution_id": {
+                "S": "normaliza-pedidos-6325197-spark-application-1790733928250"
+            },
+            "status": {
+                "S": "SUCESSO"
+            },
+            "linhas_lidas": {
+                "N": "110"
+            }
+        },
+        {
+            "dataset": {
+                "S": "pedidos_desnormalizado"
+            },
+            "data_hora": {
+                "S": "2026-09-30T02:22:08.832919+00:00"
+            },
+            "linhas_gravadas": {
+                "N": "103"
+            },
+            "execution_id": {
+                "S": "normaliza-pedidos-6325197-spark-application-1790734861720"
+            },
+            "linhas_lidas": {
+                "N": "110"
+            },
+            "status": {
+                "S": "SUCESSO"
+            }
+        }
+    ],
+    "Count": 2,
+    "ScannedCount": 2,
+    "ConsumedCapacity": null
+}
