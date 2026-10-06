@@ -4,7 +4,6 @@
 
 # --- Artefatos do Terraform (nunca versionar) ---
 .terraform/
-.terraform.lock.hcl
 *.tfstate
 *.tfstate.*
 crash.log
