@@ -44,3 +44,24 @@ venv/
 derby.log
 metastore_db/
 spark-warehouse/
+
+# --- Utilitarios locais do aluno (scripts de apoio, nao versionar) ---
+setup_creds.sh
+run_job.sh
+run_athena.sh
+wait_job.sh
+diag_athena.sh
+logs_job.sh
+del_item.sh
+gerar_evidencias.sh
+add_evidencia_infra.sh
+
+# --- Harness de teste local (nao faz parte da entrega) ---
+local-test/normaliza_pedidos_aluno.py
+local-test/test_aluno.py
+
+# --- Arquivos soltos acidentais ---
+/f
+/gold.tf
+/variables.tf
+pr_body.md

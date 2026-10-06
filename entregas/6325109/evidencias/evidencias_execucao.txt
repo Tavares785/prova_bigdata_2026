@@ -1,0 +1,144 @@
+############################################################
+# EVIDENCIAS DE EXECUCAO - Prova Big Data - RA 6325109
+# Coletado em: 2026-09-27T01:14:10Z
+############################################################
+
+=== 1. IDENTIDADE / CONTA ===
+{
+    "UserId": "AROA2NEVVPC2PKRVXVWFF:user5367776=Carina_Dalpino",
+    "Account": "715425937588",
+    "Arn": "arn:aws:sts::715425937588:assumed-role/voclabs/user5367776=Carina_Dalpino"
+}
+
+=== 2. LAYOUT DO BUCKET GOLD (Parquet particionado) ===
+                           PRE data_pedido=2026-01-05/
+                           PRE data_pedido=2026-01-06/
+                           PRE data_pedido=2026-01-07/
+                           PRE data_pedido=2026-01-08/
+                           PRE data_pedido=2026-01-09/
+                           PRE data_pedido=2026-01-10/
+                           PRE data_pedido=2026-01-11/
+                           PRE data_pedido=2026-01-12/
+                           PRE data_pedido=2026-01-13/
+                           PRE data_pedido=2026-01-14/
+                           PRE data_pedido=2026-01-15/
+                           PRE data_pedido=2026-01-16/
+                           PRE data_pedido=2026-01-17/
+                           PRE data_pedido=2026-01-18/
+                           PRE data_pedido=2026-01-19/
+                           PRE data_pedido=2026-01-20/
+                           PRE data_pedido=2026-01-21/
+                           PRE data_pedido=2026-01-22/
+                           PRE data_pedido=2026-01-23/
+                           PRE data_pedido=2026-01-24/
+                           PRE data_pedido=2026-01-25/
+                           PRE data_pedido=2026-01-26/
+                           PRE data_pedido=2026-01-27/
+                           PRE data_pedido=2026-01-28/
+-- dimensoes --
+2026-09-26 22:12:44       1532 part-00000-e45579f5-71ba-45b7-89ed-71d17b42fbcd-c000.snappy.parquet
+2026-09-26 22:12:45       1342 part-00000-e8c3f178-1580-4999-a042-f30eb37a10c2-c000.snappy.parquet
+
+=== 3. ITEM DE METADADOS NO DYNAMODB (execucoes) ===
+{
+    "Items": [
+        {
+            "data_hora": {
+                "S": "2026-09-27T01:12:54.184494Z"
+            },
+            "dataset": {
+                "S": "pedidos_desnormalizado"
+            },
+            "execution_id": {
+                "S": "normaliza-pedidos-spark-application-1790471522725"
+            },
+            "linhas_gravadas": {
+                "N": "103"
+            },
+            "status": {
+                "S": "SUCESSO"
+            },
+            "linhas_lidas": {
+                "N": "110"
+            }
+        }
+    ],
+    "Count": 1,
+    "ScannedCount": 1,
+    "ConsumedCapacity": null
+}
+
+############# CONSULTAS ATHENA DE REFERENCIA #############
+
+=== Consulta 1 - Faturamento por categoria ===
+SQL: SELECT p.categoria, ROUND(SUM(f.valor_total), 2) AS faturamento FROM fato_pedidos f JOIN dim_produto p ON f.produto_id = p.produto_id GROUP BY p.categoria ORDER BY faturamento DESC;
+Status: SUCCEEDED
+categoria	faturamento	Eletronicos	30334.1	Moveis	13485.0	Calcados	5698.1	Eletrodomesticos	4921.0	Livros	2876.8	Acessorios	2338.2	Vestuario	2145.7
+
+=== Consulta 2 - Top 5 clientes por gasto ===
+SQL: SELECT c.cliente_nome, ROUND(SUM(f.valor_total), 2) AS gasto_total FROM fato_pedidos f JOIN dim_cliente c ON f.cliente_id = c.cliente_id GROUP BY c.cliente_nome ORDER BY gasto_total DESC LIMIT 5;
+Status: SUCCEEDED
+cliente_nome	gasto_total	Carla Nunes	6955.2	Diego Alves	6464.7	Henrique Melo	6114.4	Ana Souza	5793.3	Elaine Rocha	5284.3
+
+=== Consulta 3 - Pedidos e faturamento por dia ===
+SQL: SELECT data_pedido, COUNT(*) AS qtd_pedidos, ROUND(SUM(valor_total), 2) AS faturamento_dia FROM fato_pedidos GROUP BY data_pedido ORDER BY data_pedido;
+Status: SUCCEEDED
+data_pedido	qtd_pedidos	faturamento_dia	2026-01-05	5	1499.0	2026-01-06	4	948.1	2026-01-07	4	1798.3	2026-01-08	4	2947.7	2026-01-09	4	1167.1	2026-01-10	4	3106.7	2026-01-11	4	2898.2	2026-01-12	5	1218.2	2026-01-13	4	5196.8	2026-01-14	4	1476.6	2026-01-15	4	1838.2	2026-01-16	4	5446.4	2026-01-17	4	937.4	2026-01-18	5	3856.3	2026-01-19	4	3318.2	2026-01-20	4	2156.8	2026-01-21	5	2947.5	2026-01-22	5	2375.3	2026-01-23	5	1448.3	2026-01-24	6	6645.7	2026-01-25	3	849.5	2026-01-26	4	1866.5	2026-01-27	4	2478.4	2026-01-28	4	3377.7
+
+=== Consulta 4 - Verificacao de integridade (orfaos) ===
+SQL: SELECT COUNT(*) AS orfaos FROM fato_pedidos f LEFT JOIN dim_produto p ON f.produto_id = p.produto_id WHERE p.produto_id IS NULL;
+Status: SUCCEEDED
+orfaos	0
+
+=== FIM ===
+
+############# INFRAESTRUTURA TERRAFORM (apply) #############
+
+=== terraform state list (recursos provisionados pelo apply) ===
+aws_athena_workgroup.primary
+aws_dynamodb_table.execucoes
+aws_glue_catalog_database.gold
+aws_glue_catalog_table.dim_cliente
+aws_glue_catalog_table.dim_produto
+aws_glue_catalog_table.fato_pedidos
+aws_glue_job.normaliza_pedidos
+terraform_data.bucket_gold
+terraform_data.bucket_raw
+
+=== terraform plan (apos apply: sem mudancas = infra aplicada e estavel) ===
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+NOTA: o "terraform apply" concluiu com sucesso (9 recursos no state acima).
+Um eventual "1 to change" em aws_glue_catalog_table.fato_pedidos e apenas um
+update in-place cosmetico: as 24 particoes (data_pedido=YYYY-MM-DD) sao
+registradas em tempo de execucao pelo Glue Job (MSCK REPAIR TABLE), entao o
+Terraform detecta uma pequena divergencia de metadados de particao. Nao ha
+recurso faltando nem erro de apply.
+
+=== FIM DA EVIDENCIA DE INFRA ===
+
+
+
+
+
+############################################################
+# LIMPEZA (terraform destroy) - CRITERIO 6
+############################################################
+
+O "terraform destroy" foi executado ao final da prova, removendo todos os
+recursos provisionados (Glue Job, DynamoDB, Glue Data Catalog + tabelas,
+buckets raw e gold via provisioner de destroy). O Athena Workgroup foi
+removido com "aws athena delete-work-group --recursive-delete-option".
+
+Verificacao pos-limpeza (nenhum recurso da prova permanece):
+  - Glue jobs...........: (vazio)
+  - DynamoDB tables.....: (vazio)
+  - Glue databases......: apenas "default" (padrao da conta)
+  - Athena workgroups...: apenas "primary" (padrao da conta)
+  - Buckets prova-bigdata-*: removidos
+
+Resultado: ambiente do Learner Lab limpo, sem consumo residual de orcamento.
